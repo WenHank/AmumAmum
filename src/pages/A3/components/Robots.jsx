@@ -5,7 +5,7 @@ const Robots = () => {
     <df-messenger
       intent="WELCOME"
       chat-title="阿姆阿姆"
-      agent-id="b6c4d629-c91b-4bdb-9db8-22789f79ef30"
+      agent-id={process.env.REACT_APP_AGENT_ID}
       language-code="zh-tw"
     ></df-messenger>
   );

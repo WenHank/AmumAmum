@@ -20,7 +20,6 @@ for (let i = 0; i < getRandom(5, 7); i++) {
   }
   arr.push(tmp);
   tmpArr = arr;
-  console.log("fuck");
 }
 
 const getItems = (count) =>

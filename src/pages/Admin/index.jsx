@@ -1,7 +1,6 @@
 import React from "react";
 import Signup from "./components/Signup";
 import MemberList from "./components/MemberList";
-import "./index.css";
 const Admit = () => {
   return (
     <div>

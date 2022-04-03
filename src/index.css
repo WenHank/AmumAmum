@@ -135,7 +135,7 @@ svg {
   display: flex;
   position: relative;
 }
-@media screen and (max-width:11000px) {
+@media screen and (max-width:1100px) {
   .home{
     width: 100%;
     left: 6%;
@@ -353,6 +353,7 @@ h2 span:nth-child(even) {
 
 .record .title {
   color: aqua;
+  margin-bottom: 10px;
 }
 
 .record .body {
@@ -367,7 +368,11 @@ h2 span:nth-child(even) {
   align-items: center;
   flex-direction: column;
 }
-
+.record .recordP{
+  border: 3px white solid;
+  padding: 5px;
+  border-radius: 10px;
+}
 .open {
   left: 80%;
   display: flex;
@@ -419,6 +424,9 @@ h2 span:nth-child(even) {
   justify-content: center;
   flex-direction: column;
   text-align: left;
+}
+.btn-check:checked+.btn-secondary{
+  background-color: #889fad ;
 }
 /****************************************************************/
 /*************************A3_BST*********************************/
@@ -488,4 +496,33 @@ h2 span:nth-child(even) {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+/****************************************************************/
+/*************************Admin**********************************/
+/* .container {
+  text-align: center;
+  margin: 0 auto;
+  padding: 2% 2% 2% 2%;
+  width: 70%;
+  border: 1px dashed black;
+} */
+
+.submit {
+  margin-top: 50px;
+}
+
+.Stand {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.memberTable_th {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.memberTable_td {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
 }

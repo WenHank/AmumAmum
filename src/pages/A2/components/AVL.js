@@ -481,12 +481,21 @@ function AVL() {
                 generateRandomTree(getRandom(5, 10));
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  "Random \n",
+                  <div>
+                    <p className="recordP">
+                      {"Random \n"}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -498,12 +507,21 @@ function AVL() {
                 clear();
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  "Clear \n",
+                  <div>
+                    <p className="recordP">
+                      {"Clear \n"}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -523,12 +541,21 @@ function AVL() {
                 search(avlsearchValue);
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Search  ${avlsearchValue} \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Search  ${avlsearchValue} \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -547,12 +574,21 @@ function AVL() {
                 search(avlinsertValue);
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Insert  ${avlinsertValue} \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Insert  ${avlinsertValue} \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -573,12 +609,21 @@ function AVL() {
                 }, 1200);
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Remove  ${avlremoveValue} \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Remove  ${avlremoveValue} \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -600,12 +645,21 @@ function AVL() {
                 setInorderValue(getData("inorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Inorder  \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Inorder  \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
                 let i = 0;
                 let Inordertraversal = setInterval(() => {
@@ -636,12 +690,21 @@ function AVL() {
                 setPreorderValue(getData("preorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Preorder  \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Preorder  \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
                 let i = 0;
                 let Preordertraversal = setInterval(() => {
@@ -672,12 +735,21 @@ function AVL() {
                 setPostorderValue(getData("postorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Postorder  \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Postorder  \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
                 let i = 0;
                 let Postordertraversal = setInterval(() => {
