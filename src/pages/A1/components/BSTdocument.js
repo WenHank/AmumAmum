@@ -23,7 +23,10 @@ function Showpdf() {
   }
   return (
     <div className="pdfcontainer">
-      <Document file="/AVL.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
+      <Document
+        file="/BinarySearchTree.pdf"
+        onLoadSuccess={onDoucumentLoadSuccess}
+      >
         <Page height="1000" pageNumber={pageNumber} />
       </Document>
       <p>
@@ -45,7 +48,7 @@ function Showpdf() {
   );
 }
 
-function AVLdoucument() {
+function BSTdocument() {
   return (
     <div className="A1">
       <A1_Header />
@@ -56,4 +59,4 @@ function AVLdoucument() {
   );
 }
 
-export default AVLdoucument;
+export default BSTdocument;
