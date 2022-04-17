@@ -3,11 +3,10 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import bcryptjs from "bcryptjs";
 
-const Login = ({ AccessToken }) => {
+const Login = ({ UserToken, User }) => {
   const Navigate = useNavigate();
-
+  const Admin = [process.env.REACT_APP_ADMIN_ONE];
   //////////////////帳號紀錄/////////////////////////
   const [Account, setAccount] = useState("");
   function AccountChange(e) {
@@ -18,32 +17,35 @@ const Login = ({ AccessToken }) => {
   function PasswordChange(e) {
     setPassword(e.target.value);
   }
+  //const [Test,setTest] = useState("")
   ////////////////////////////////////////////////
   const CheckLogin = () => {
-    axios
-      .post(process.env.REACT_APP_AXIOS_LOGIN, {
-        StudentId: Account,
-      })
-      .then((response) => {
-        console.log(response.data);
-        if (response.data[0] == null) {
-          alert("帳號密碼錯誤或不存在");
-        } else {
-          bcryptjs.compare(Password, response.data[0].Password).then((gate) => {
-            if (gate) {
-              AccessToken();
-              Navigate("/Profile");
-            } else {
-              alert("密碼錯誤");
-            }
-          });
-        }
-      });
+    axios({
+      method: "POST",
+      data: {
+        username: Account,
+        password: Password,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_LOGIN,
+    }).then((response) => {
+      //console.log(response)
+      if (response.data !== process.env.REACT_APP_LOGIN_FAIL) {
+        UserToken(() => {
+          return response;
+        });
+        User();
+        Navigate("/Profile");
+      } else {
+        alert("Login Failed");
+      }
+    });
   };
+
   return (
-    <div className="login">
-      <h1>Login Page</h1>
-      <h3>帳號</h3>
+    <div className="LoginMain">
+      <h1 className="Login_h1">D.S.V PORTAL</h1>
+      <h3 className="Login_h3">帳號</h3>
       <TextField
         id="account"
         name="account"
@@ -55,7 +57,7 @@ const Login = ({ AccessToken }) => {
         }}
         onChange={AccountChange}
       />
-      <h3>密碼</h3>
+      <h3 className="Login_h3">密碼</h3>
       <TextField
         id="password"
         name="password"
