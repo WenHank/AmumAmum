@@ -6,10 +6,13 @@ import { MDBContainer } from "mdbreact";
 import { Button, Modal } from "react-bootstrap";
 
 let clicknum = 0;
+let work = 0;
 let firstclick;
+let change = 1;
 let secondclick;
 let Cards;
 let arr = [];
+let grade = 0;
 for (let i = 0; i < 12; i++) {
   arr.push(i);
 }
@@ -21,58 +24,61 @@ let cardcontent = [
     title: "在A Tree中，insert 6的第一個 Inorder",
     bg: "#ab3b3b",
     ans: "6",
-    id: "1",
+    id: "0",
   },
   {
     title: "在A Tree中，remove 11的倒數第2個 Postorder",
     bg: "#e1861a",
     ans: "54",
-    id: "2",
+    id: "1",
   },
   {
     title: "在A Tree中，insert 80的第3個 Preorder",
     bg: "#46bd52",
     ans: "8",
-    id: "3",
+    id: "2",
   },
   {
     title: "若左子樹和右子樹皆為BST，則整棵樹必為BST",
     bg: "#33c9a3",
     ans: "F",
-    id: "4",
+    id: "3",
   },
-  { title: "BST的左子點皆大於右子點", bg: "#436eb5", ans: "T", id: "5" },
-  { title: "在A Tree中，search 78的步數", bg: "#e2d165", ans: "3", id: "6" },
-  { title: "在B Tree中，8的左子點", bg: "#ab3b3b", ans: "6", id: "7" },
+  { title: "BST的左子點皆大於右子點", bg: "#436eb5", ans: "T", id: "4" },
+  { title: "在A Tree中，search 78的步數", bg: "#e2d165", ans: "3", id: "5" },
+  { title: "在B Tree中，8的左子點", bg: "#ab3b3b", ans: "6", id: "6" },
   {
     title: "在B Tree中，insert 5的倒數第4個 Postorder",
     bg: "#e1861a",
     ans: "54",
-    id: "8",
+    id: "7",
   },
   {
     title: "在B Tree中，delete 54的第2個 Preorder",
     bg: "#46bd52",
     ans: "8",
-    id: "9",
+    id: "8",
   },
   {
     title: "BST的search time必為O(logn)",
     bg: "#33c9a3",
     ans: "F",
-    id: "10",
+    id: "9",
   },
   {
     title: "BST的insert和remove在平均情況下為 O(logn)",
     bg: "#436eb5",
     ans: "T",
-    id: "11",
+    id: "10",
   },
-  { title: "在B Tree中，search 6的步數", bg: "#e2d165", ans: "3", id: "12" },
+  { title: "在B Tree中，search 6的步數", bg: "#e2d165", ans: "3", id: "11" },
 ];
+let fliparr = [];
+for (let i = 0; i < 12; i++) {
+  fliparr[i] = 0;
+}
 function Card(props) {
   const [isFlipped, setIsFlipped] = useState(false);
-  //use array[id] + useefect
   return (
     <ReactCardFlip isFlipped={isFlipped}>
       <div
@@ -85,6 +91,7 @@ function Card(props) {
               }
               secondclick = props.id;
               clicknum++;
+              work = 1;
             } else {
               Cards = document.querySelectorAll(".CardFront");
               firstclick = props.id;
@@ -107,27 +114,62 @@ function Card(props) {
       </div>
       <div
         onMouseMove={() => {
-          if (
-            parseInt(firstclick) !== parseInt(secondclick) - 5 &&
-            clicknum === 2
-          ) {
-            let tmp1 = document.getElementById(`${firstclick}`);
-            let tmp2 = document.getElementById(`${secondclick}`);
-            setTimeout(() => {
-              tmp1.classList.add("answrong");
-              tmp2.classList.add("answrong");
-            }, 1000);
-            setTimeout(() => {
-              tmp1.classList.remove("answrong");
-              tmp2.classList.remove("answrong");
-              setIsFlipped((prev) => !prev);
-              for (let i = 0; i < Cards.length; i++) {
-                Cards[i].style.cursor = "pointer";
+          if (work) {
+            if (change) {
+              if (
+                Math.abs(parseInt(firstclick) - parseInt(secondclick)) != 6 &&
+                clicknum === 2
+              ) {
+                grade -= 5;
+                change = 0;
+              } else {
+                grade += 20;
+                console.log("here");
+                change = 0;
               }
-            }, 1800);
-            clicknum = 0;
-            firstclick = 0;
-            secondclick = 0;
+            }
+            if (
+              Math.abs(parseInt(firstclick) - parseInt(secondclick)) != 6 &&
+              clicknum === 2
+            ) {
+              let tmp1 = document.getElementById(`${firstclick}`);
+              let tmp2 = document.getElementById(`${secondclick}`);
+              setTimeout(() => {
+                tmp1.classList.add("answrong");
+                tmp2.classList.add("answrong");
+              }, 500);
+              setTimeout(() => {
+                tmp1.classList.remove("answrong");
+                tmp2.classList.remove("answrong");
+                firstclick = 0;
+                secondclick = 0;
+                clicknum = 0;
+                work = 0;
+                change = 1;
+                for (let i = 0; i < Cards.length; i++) {
+                  Cards[i].style.cursor = "pointer";
+                }
+              }, 900);
+            } else {
+              let tmp1 = document.getElementById(`${firstclick}`);
+              let tmp2 = document.getElementById(`${secondclick}`);
+              setTimeout(() => {
+                tmp1.classList.add("anscorrect");
+                tmp2.classList.add("anscorrect");
+              }, 500);
+              setTimeout(() => {
+                tmp1.classList.remove("anscorrect");
+                tmp2.classList.remove("anscorrect");
+                firstclick = 0;
+                secondclick = 0;
+                clicknum = 0;
+                work = 0;
+                change = 1;
+                for (let i = 0; i < Cards.length; i++) {
+                  Cards[i].style.cursor = "pointer";
+                }
+              }, 900);
+            }
           }
         }}
         className="CardBack"
@@ -235,12 +277,7 @@ const AllCards = () => {
 
 function MyVerticallyCenteredModal(props) {
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           Binary Search Tree Interactive
@@ -277,11 +314,28 @@ function MyVerticallyCenteredModal(props) {
 }
 function RBTInteractive() {
   const [modalShow, setModalShow] = React.useState(false);
-  const [record, setRecord] = useState([]);
+  const [record, setRecord] = useState("");
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
   const [open, setOpen] = useState("hide");
-  let tmp = [...record];
-
+  useEffect(() => {
+    setRecord(
+      <div>
+        <p className="recordP">
+          {grade + " point"}
+          <p style={{ fontSize: "10px", color: "wheat" }}>
+            {new Date().toLocaleTimeString() +
+              "\n" +
+              new Date().getFullYear() +
+              "年" +
+              (new Date().getMonth() + 1) +
+              "月" +
+              new Date().getDate() +
+              "日"}
+          </p>
+        </p>
+      </div>
+    );
+  }, [grade]);
   return (
     <div className="A3">
       <A3_Headr />
@@ -331,7 +385,7 @@ function RBTInteractive() {
               style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
             >
               <div className="title">Your Grade</div>
-              {tmp.reverse()}
+              {record}
             </div>
           </MDBContainer>
         </div>
