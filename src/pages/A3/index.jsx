@@ -1,7 +1,7 @@
 import React from "react";
 import Robots from "./components/Robots";
 import A3_Header from "./components/Header"
-import A3_Home from './components/Home'
+// import A3_Home from './components/Home'
 
 
 class A3 extends React.Component {
@@ -71,11 +71,8 @@ class A3 extends React.Component {
     return(
       <div className="A3">
         <A3_Header/>
-        <div className="container">
-        <A3_Home/>
+        <Robots/>
       </div>
-      <Robots/>
-   </div>
   )
   };
 };

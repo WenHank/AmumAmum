@@ -10,6 +10,7 @@ let work = 0;
 let firstclick;
 let change = 1;
 let secondclick;
+let finish = 0;
 let Cards;
 let arr = [];
 let grade = 0;
@@ -114,7 +115,12 @@ function Card(props) {
       </div>
       <div
         onMouseMove={() => {
+          console.log(finish);
           if (work) {
+            if (finish === 6) {
+              finish = 0;
+              grade = 0;
+            }
             if (change) {
               if (
                 Math.abs(parseInt(firstclick) - parseInt(secondclick)) != 6 &&
@@ -122,10 +128,11 @@ function Card(props) {
               ) {
                 grade -= 5;
                 change = 0;
+                finish++;
               } else {
                 grade += 20;
-                console.log("here");
                 change = 0;
+                finish++;
               }
             }
             if (
@@ -277,36 +284,39 @@ const AllCards = () => {
 
 function MyVerticallyCenteredModal(props) {
   return (
-    <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Binary Search Tree Interactive
+          Adelson Velsky Landis Tree Interactive
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h3>What can you do ?</h3>
+        <h3>How to play ?</h3>
         <p>
-          透過拖拉下方的方塊，將其排列成中序,前序,後序的
+          透過卡牌上的提示，搭配左邊的A圖和B圖
           <br />
-          並且按下Submit來知道你的答案是否正確
+          解出卡牌的答案為何
           <br />
-          假如你還想做更多測驗的話
+          在卡牌中，有兩個答案是相同的
           <br />
-          你可以按下Random之後，會有更多的題目讓你練習
-        </p>
-        <h3>About function</h3>
-        <p>
-          Random: 可隨機生成一棵樹
+          若點選兩個答案相同的卡牌
           <br />
-          Change: 更改拖曳欄位
+          則答對並且計分在右邊的計分表中
           <br />
-          Submit: 送出答案
+          若點選兩個答案不同的卡牌
+          <br />
+          則答錯並且扣分在右邊的計分表中
           <br />
         </p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={props.onHide}>
-          Try it!
+          Let's play!
         </Button>
       </Modal.Footer>
     </Modal>
@@ -338,14 +348,16 @@ function RBTInteractive() {
   }, [grade]);
   return (
     <div className="A3">
-      <A3_Headr />
       <div className="RBTInteractive">
         <div className="hintContainer">
           <div className="loader"></div>
           <img
             className="hint"
             src="/Img/hint.gif"
-            onClick={() => setModalShow(true)}
+            onClick={() => {
+              setModalShow(true);
+              console.log("fuck");
+            }}
           />
         </div>
         <h1>RBT Interactive</h1>
@@ -364,36 +376,36 @@ function RBTInteractive() {
           />
           <AllCards />
         </div>
-      </div>
-      <div className={`record ${open === "show" && "open"} `}>
-        <div className="recordContainer">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              if (open === "hide") {
-                setOpen("show");
-              } else {
-                setOpen("hide");
-              }
-            }}
-          >
-            {open}
-          </Button>
-          <MDBContainer>
-            <div
-              className="scrollbar body mx-auto"
-              style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+        <div className={`record ${open === "show" && "open"} `}>
+          <div className="recordContainer">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (open === "hide") {
+                  setOpen("show");
+                } else {
+                  setOpen("hide");
+                }
+              }}
             >
-              <div className="title">Your Grade</div>
-              {record}
-            </div>
-          </MDBContainer>
+              {open}
+            </Button>
+            <MDBContainer>
+              <div
+                className="scrollbar body mx-auto"
+                style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+              >
+                <div className="title">Your Grade</div>
+                {record}
+              </div>
+            </MDBContainer>
+          </div>
         </div>
+        <MyVerticallyCenteredModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
       </div>
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
     </div>
   );
 }
