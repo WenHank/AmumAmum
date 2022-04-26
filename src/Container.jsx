@@ -17,7 +17,6 @@ import A2_Tree from "./pages/A2/components/Treedocument";
 import A2_BST from "./pages/A2/components/BST";
 import A2_AVL from "./pages/A2/components/AVL";
 import A2_RBT from "./pages/A2/components/RBT";
-import A2_Test from "./pages/A2/components/Test";
 import A3 from "./pages/A3";
 import A3_Tree from './pages/A3/components/Treedocument';
 import A3_BST from "./pages/A3/components/BSTInteractive";
@@ -144,7 +143,6 @@ const Container = () => {
             <Route path="/A2/BST" element={<A2_BST />} />
             <Route path="/A2/AVL" element={<A2_AVL />} />
             <Route path="/A2/RBT" element={<A2_RBT />} />
-            <Route path="/A2/Test" element={<A2_Test />} />
             <Route path="/A3" element={<A3 />} />
             <Route path="/A3/Tree" element={<A3_Tree />} />
             <Route path="/A3/BST" element={<A3_BST />} />
@@ -157,10 +155,10 @@ const Container = () => {
           </>
         )}
         {admin && <Route path="/Admin" element={<Admin />} />}
-        <Route
+        {/* <Route
           path="*"
           element={<Navigate to={user ? "/Profile" : "/Login"} />}
-        />
+        /> */}
       </Routes>
     </Router>
   );

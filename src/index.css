@@ -170,7 +170,7 @@ svg {
 /*************************A2_Home********************************/
 .home{
   width: 100%;
-  left: 28%;
+  left: 20%;
   display: flex;
   position: relative;
 }
@@ -476,10 +476,10 @@ h2 span:nth-child(even) {
   flex-direction: column;
 }
 .AnsInput{
+  background-color: white;
   margin-top: 30px;
-  width: 50%;
-  border: white 5px solid;
-  color: white;
+  width: 70%;
+  border: rgb(0, 0, 0) 5px solid;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -649,101 +649,150 @@ h2 span:nth-child(even) {
 }
 /****************************************************************/
 /*************************Profile*********************************/
-.ProfileTitle{
-  font-size:5em;
-  width:4em;
+.ProfileTitle {
+  font-size: 5em;
+  width: 4em;
   white-space: nowrap;
-  color:white;
-  margin:0 auto;
+  color: white;
+  margin: 0 auto;
   border-right: 2px solid transparent;
   overflow: hidden;
-  animation: typingProfile 1s steps(100,end), blink-caret 0.75s steps(15,end) infinite;
+  animation: typingProfile 1s steps(100, end),
+    blink-caret 0.75s steps(15, end) infinite;
 }
-.SelfProfile{
+.SelfProfile {
   width: 80%;
-  height:600px;
-  overflow:hidden;
-  margin:0 auto;
-  border:1px #292929 solid;
+  height: 600px;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 1px #292929 solid;
   border-radius: 20px 20px;
-  background-color:whitesmoke;
-  animation: sildeProfile 0.7s steps(300,end), fadeIn 0.5s steps(400,end);
+  background-color: whitesmoke;
+  animation: sildeProfile 0.7s steps(300, end), fadeIn 0.5s steps(400, end);
 }
-.SelfProfile_Title{
-  font-size:3em;
-  margin:30px 100px 0 0;
-  color:#292929;
+.SelfProfile_Title {
+  font-size: 3em;
+  margin: 30px 100px 0 0;
+  color: #292929;
 }
-.SelfProfile_subTitle{
-  color:#292929;
+.SelfProfile_subTitle {
+  color: #292929;
   margin-top: 70px;
 }
-.SelfProfile_Text{
-  margin:15px 0 0 30px;
-  color:#2559bb;
+.SelfProfile_Text {
+  margin: 15px 0 0 30px;
+  color: #2559bb;
 }
-.SelfProfile_Stand{
+.SelfProfile_Stand {
   justify-content: space-around;
   display: flex;
 }
-.SelfProfile_Self{
+.SelfProfile_Self {
   display: flex;
-  margin-left:30px;
+  margin-left: 30px;
 }
-.Block{
-  visibility:hidden;
-  position:absolute;
+.Block {
+  visibility: hidden;
+  position: absolute;
   z-index: 100;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color:#424141;
+  background-color: #424141;
   opacity: 0.5;
 }
-.PasswordChange{
-  visibility:hidden;
-  position:absolute;
-  z-index:101;
-  top:10%;
-  left:33%;
-  width:500px;
-  height:500px;
+.PasswordChange, .EmailChange {
+  visibility: hidden;
+  position: absolute;
+  z-index: 101;
+  top: 10%;
+  left: 33%;
+  width: 500px;
+  height: 500px;
   background-color: whitesmoke;
-  border:1px solid #424141;
-  border-radius:20px 20px;
+  border: 1px solid #424141;
+  border-radius: 20px 20px;
 }
-.PasswordChange_Title{
-  text-align:center;
-  color:#292929;
-  font-size:2.5em;
-  margin-top:20px;
+.PasswordChange_Title, .EmailChange_Title {
+  text-align: center;
+  color: #292929;
+  font-size: 2.5em;
+  margin-top: 20px;
 }
-.PasswordLine{
+.PasswordLine, .EmailLine {
   display: flex;
-  justify-content:space-between;
-  margin:30px 100px 10px 100px;
+  justify-content: space-between;
+  margin: 30px 100px 10px 100px;
   border-bottom: 1px dashed #2559bb;
   padding-bottom: 8px;
 }
-.PasswordLine_Title{
-  margin-top:15px;
+.PasswordLine_Title, .EmailLine_Title {
+  margin-top: 15px;
 }
-.PasswordBtn{
-  margin-top:70px;
-  text-align:center;
+.PasswordBtn, .EmailBtn {
+  margin-top: 70px;
+  text-align: center;
 }
-#submitPassword{
+#submitPassword, #submitEmail {
   margin-right: 50px;
 }
-@keyframes typingProfile {
-  25% { width: 0; }
-  50%{}
-  to { width: 4em; }
+.Classroom{
+  display: flex;
+  justify-content:space-around;
+  margin: 50px 150px 10px 150px;
+}
+.GoStudy, .GoCheck{
+  transition-duration: .5s;
+  background-image: url(../public/Img/amumamum.PNG);
+  opacity: 0.5;
+  background-size:50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-size: 2em;
+  color:black;
+  width:300px;
+  height:300px;
+  text-align: center;
+  line-height:500px;
+  border:1px solid black;
+  border-radius: 20px 20px;
 }
 
-@keyframes sildeProfile{
-  0%{height: 0;}
-  10%{height:200px;}
-  60%{height:500px;}
-  100%{height:600px;}
+.GoStudy:hover, .GoCheck:hover{
+  transition-duration: .5s;
+  opacity: 1;
+  width:350px;
+  margin-left: -20px;
+  height:350px;
+  line-height:600px;
+  border:1px dashed black;
+}
+
+#GoStudy_Title, #GoCheck_Title{
+
+}
+@keyframes typingProfile {
+  25% {
+    width: 0;
+  }
+  50% {
+  }
+  to {
+    width: 4em;
+  }
+}
+
+@keyframes sildeProfile {
+  0% {
+    height: 0;
+  }
+  10% {
+    height: 200px;
+  }
+  60% {
+    height: 500px;
+  }
+  100% {
+    height: 600px;
+  }
 }

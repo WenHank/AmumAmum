@@ -85,10 +85,9 @@ function Header() {
               >
                 Red Black Tree
               </div>
-              <div
-                onClick={() => {
-                  setContainer(<Test />);
-                }}
+              <a
+                href="https://forms.gle/oEpPk7MJ95rYgBF89"
+                target="_blank"
                 style={{
                   textDecoration: "none",
                   color: "white",
@@ -96,7 +95,7 @@ function Header() {
                 }}
               >
                 Test
-              </div>
+              </a>
             </Nav>
           </Navbar.Collapse>
           <Nav className="logSystem">
