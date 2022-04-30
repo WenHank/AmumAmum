@@ -34,12 +34,12 @@ function Showpdf() {
       </p>
       <div style={{ display: "flex", flexDirection: "row" }}>
         {pageNumber > 1 && (
-          <Button variant="secondary" onClick={changePageBack}>
+          <Button variant="outline-dark" onClick={changePageBack}>
             Previous Page
           </Button>
         )}
         {pageNumber < numPages && (
-          <Button variant="secondary" onClick={changePageNext}>
+          <Button variant="outline-dark" onClick={changePageNext}>
             Next Page
           </Button>
         )}

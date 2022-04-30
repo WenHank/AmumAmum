@@ -60,7 +60,7 @@ function MyVerticallyCenteredModal(props) {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Try it!
         </Button>
       </Modal.Footer>
@@ -97,43 +97,51 @@ function InorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
+            <img src="/Img/traversal.png" />
           </div>
-          <div>
-            <h3>Inorder Algo</h3>
-            <p>
-              <img src="/Img/Inorder.png" />
-            </p>
-          </div>
-        </div>
-        <div className="traversalbox">
-          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
-            L(Node 4 有左子樹) D(Node 4 印出4)
+            L(Node 4 有左子樹)
             <br />
-            L(Node 5 有左子樹) R(Node 4 有右子樹)
+            L(Node 5 有左子樹)
             <br />
-            L(Node 2 沒左子樹) L(Node 3 沒左子樹)
+            L(Node 2 沒左子樹)
             <br />
-            D(Node 2 印出2) &nbsp;&nbsp;&nbsp;&nbsp; D(Node 3 印出3)
+            D(Node 2 印出2)
             <br />
-            R(Node 2 沒右子樹) R(Node 3 有右子樹)
+            R(Node 2 沒右子樹)
             <br />
-            D(Node 5 印出5) &nbsp;&nbsp;&nbsp;&nbsp; L(Node 6 沒左子樹)
+            D(Node 5 印出5)
             <br />
-            R(Node 5 有右子樹) D(Node 6 印出6)
+            R(Node 5 有右子樹)
             <br />
-            L(Node 1 沒左子樹) R(Node 3 沒右子樹)
+            L(Node 1 沒左子樹)
             <br />
             D(Node 1 印出1)
             <br />
             R(Node 1 沒右子樹)
+            <br />
+            D(Node 4 印出4)
+            <br />
+            R(Node 4 有右子樹)
+            <br />
+            L(Node 3 沒左子樹)
+            <br />
+            D(Node 3 印出3)
+            <br />
+            R(Node 3 有右子樹)
+            <br />
+            L(Node 6 沒左子樹)
+            <br />
+            D(Node 6 印出6)
+            <br />
+            R(Node 3 沒右子樹)
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Close
         </Button>
       </Modal.Footer>
@@ -170,43 +178,51 @@ function PreorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
+            <img src="/Img/traversal.png" />
           </div>
-          <div>
-            <h3>Preorder Algo</h3>
-            <p>
-              <img src="/Img/Preorder.png" />
-            </p>
-          </div>
-        </div>
-        <div className="traversalbox">
-          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
-            D(Node 4 印出4)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R(Node 1 沒右子樹)
+            D(Node 4 印出4)
             <br />
-            L(Node 4 有左子樹) R(Node 4 有右子樹)
+            L(Node 4 有左子樹)
             <br />
-            D(Node 5 印出5)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D(Node 3 印出3)
+            D(Node 5 印出5)
             <br />
-            L(Node 5 有左子樹) L(Node 3 沒左子樹)
+            L(Node 5 有左子樹)
             <br />
-            D(Node 2 印出2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R(Node 3 有右子樹)
+            D(Node 2 印出2)
             <br />
-            L(Node 2 沒左子樹) D(Node 6 印出6)
+            L(Node 2 沒左子樹)
             <br />
-            R(Node 2 沒右子樹) L(Node 6 沒左子樹)
+            R(Node 2 沒右子樹)
             <br />
-            R(Node 5 有右子樹) R(Node 6 沒右子樹)
+            R(Node 5 有右子樹)
             <br />
             D(Node 1 印出1)
             <br />
             L(Node 1 沒左子樹)
+            <br />
+            R(Node 1 沒右子樹)
+            <br />
+            R(Node 4 有右子樹)
+            <br />
+            D(Node 3 印出3)
+            <br />
+            L(Node 3 沒左子樹)
+            <br />
+            R(Node 3 有右子樹)
+            <br />
+            D(Node 6 印出6)
+            <br />
+            L(Node 6 沒左子樹)
+            <br />
+            R(Node 6 沒右子樹)
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Close
         </Button>
       </Modal.Footer>
@@ -243,43 +259,50 @@ function PostorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
+            <img src="/Img/traversal.png" />
           </div>
-          <div>
-            <h3>Inorder Algo</h3>
-            <p>
-              <img src="/Img/Postorder.png" />
-            </p>
-          </div>
-        </div>
-        <div className="traversalbox">
-          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
-            L(Node 4 有左子樹) L(Node 3 沒左子樹)
+            L(Node 4 有左子樹)
             <br />
-            L(Node 5 有左子樹) R(Node 3 有右子樹)
+            L(Node 5 有左子樹)
             <br />
-            L(Node 2 沒左子樹) L(Node 6 沒左子樹)
+            L(Node 2 沒左子樹)
             <br />
-            R(Node 2 沒右子樹) R(Node 6 有右子樹)
+            R(Node 2 沒右子樹)
             <br />
-            D(Node 2 印出2) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D(Node 6 印出6)
+            D(Node 2 印出2)
             <br />
-            R(Node 5 有右子樹) D(Node 3 印出3)
+            R(Node 5 有右子樹)
             <br />
-            L(Node 1 沒左子樹)&nbsp; D(Node 4 印出4)
+            L(Node 1 沒左子樹)
             <br />
             R(Node 1 沒右子樹)
             <br />
             D(Node 1 印出1)
             <br />
             R(Node 4 有右子樹)
+            <br />
+            L(Node 3 沒左子樹)
+            <br />
+            R(Node 3 有右子樹)
+            <br />
+            L(Node 6 沒左子樹)
+            <br />
+            R(Node 6 有右子樹)
+            <br />
+            D(Node 6 印出6)
+            <br />
+            D(Node 3 印出3)
+            <br />
+            D(Node 4 印出4)
+            <br />
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Close
         </Button>
       </Modal.Footer>
@@ -327,7 +350,7 @@ function BST() {
         <div className="Input">
           <div className="InputGroup">
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 generateRandomTree(getRandom(5, 10));
                 setRecord((prevArray) => [
@@ -335,7 +358,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {"Random \n"}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -353,7 +376,7 @@ function BST() {
               Random
             </Button>
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 clear();
                 setRecord((prevArray) => [
@@ -361,7 +384,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {"Clear \n"}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -387,7 +410,7 @@ function BST() {
               }
             />
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 search(bstsearchValue);
                 setRecord((prevArray) => [
@@ -395,7 +418,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Search  ${bstsearchValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -419,7 +442,7 @@ function BST() {
               }
             />
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 insert(bstinsertValue);
                 search(bstinsertValue);
@@ -428,7 +451,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Insert  ${bstinsertValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -452,7 +475,7 @@ function BST() {
               }
             />
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 search(bstremoveValue);
                 setTimeout(() => {
@@ -463,7 +486,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Remove  ${bstremoveValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -490,7 +513,7 @@ function BST() {
               />
             </div>
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 let orderValue = getData("inorder");
                 setInorderValue(getData("inorder"));
@@ -499,7 +522,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Inorder \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -535,7 +558,7 @@ function BST() {
               />
             </div>
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 let orderValue = getData("preorder");
                 setPreorderValue(getData("preorder"));
@@ -544,7 +567,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Preorder \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -580,7 +603,7 @@ function BST() {
               />
             </div>
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 let orderValue = getData("postorder");
                 setPostorderValue(getData("postorder"));
@@ -589,7 +612,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Postorder \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -620,7 +643,7 @@ function BST() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {
                   setOpen("show");

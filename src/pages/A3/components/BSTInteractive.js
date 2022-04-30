@@ -45,7 +45,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 ${grid}px 0 0 `,
-  background: isDragging ? "#6cb593" : "#889fad",
+  background: isDragging ? "rgb(155, 155, 155)" : "#fff",
   ...draggableStyle,
 });
 
@@ -86,7 +86,7 @@ class InReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          variant="secondary"
+          variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
           onClick={() => {
@@ -167,7 +167,7 @@ class PreReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          variant="secondary"
+          variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
           onClick={() => {
@@ -248,7 +248,7 @@ class PostReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          variant="secondary"
+          variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
           onClick={() => {
@@ -334,7 +334,7 @@ function MyVerticallyCenteredModal(props) {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Try it!
         </Button>
       </Modal.Footer>
@@ -365,7 +365,7 @@ function BSTInteractive() {
           <div className="bsttreecontainer">
             <BinarySearchTree data={arr} ref={ref} />
             <Button
-              variant="secondary"
+              variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
                 async function newTree(params) {
@@ -391,7 +391,12 @@ function BSTInteractive() {
                   <div>
                     <p className="recordP">
                       {"Random \n"}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          color: "rgb(155, 155, 155)",
+                        }}
+                      >
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -414,7 +419,7 @@ function BSTInteractive() {
             <PreReactBeautifulDndHorizontal arr={tmpArr} />
             <PostReactBeautifulDndHorizontal arr={tmpArr} />
             <Button
-              variant="secondary"
+              variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
                 let inorderValue = getData("inorder");
@@ -478,7 +483,12 @@ function BSTInteractive() {
                   <div>
                     <p className="recordP">
                       {tmp}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          color: "rgb(155, 155, 155)",
+                        }}
+                      >
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -500,7 +510,7 @@ function BSTInteractive() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {
                   setOpen("show");

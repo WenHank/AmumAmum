@@ -83,7 +83,7 @@ const TaskColumnStyles = styled.div`
 `;
 
 const Title = styled.span`
-  background: #889fad;
+  background: rgb(155, 155, 155);
   padding: 2px 10px;
   border-radius: 5px;
   align-self: flex-start;
@@ -138,7 +138,7 @@ function MyVerticallyCenteredModal(props) {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Try it!
         </Button>
       </Modal.Footer>
@@ -243,7 +243,7 @@ function AVLinteractive() {
             <Kanban />
             <div className="avlinteractiveButtons">
               {/* <Button
-                variant="secondary"
+                variant="outline-dark"
                 style={{ marginTop: "220px", position: "static" }}
                 onClick={() => {
                   // let old;
@@ -285,7 +285,7 @@ function AVLinteractive() {
                 Random
               </Button> */}
               <Button
-                variant="secondary"
+                variant="outline-dark"
                 style={{
                   marginLeft: "50px",
                   marginTop: "220px",
@@ -343,7 +343,12 @@ function AVLinteractive() {
                       <div>
                         <p className="recordP">
                           {"Correct \n"}
-                          <span style={{ fontSize: "10px", color: "wheat" }}>
+                          <span
+                            style={{
+                              fontSize: "10px",
+                              color: "rgb(155, 155, 155)",
+                            }}
+                          >
                             {new Date().toLocaleTimeString() +
                               "\n" +
                               new Date().getFullYear() +
@@ -362,7 +367,12 @@ function AVLinteractive() {
                       <div>
                         <p className="recordP">
                           {"Wrong \n"}
-                          <span style={{ fontSize: "10px", color: "wheat" }}>
+                          <span
+                            style={{
+                              fontSize: "10px",
+                              color: "rgb(155, 155, 155)",
+                            }}
+                          >
                             {new Date().toLocaleTimeString() +
                               "\n" +
                               new Date().getFullYear() +
@@ -400,7 +410,7 @@ function AVLinteractive() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {
                   setOpen("show");

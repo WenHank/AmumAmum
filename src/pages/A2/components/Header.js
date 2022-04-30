@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Navbar, Container } from "react-bootstrap";
+import { Nav, Navbar, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Home from "./Home";
@@ -24,7 +24,6 @@ function Header() {
               textDecoration: "none",
               marginRight: "20px",
               fontSize: "30px",
-              color: "white",
               cursor: "pointer",
             }}
           >
@@ -33,69 +32,64 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <div
+              <Button
                 onClick={() => {
                   setContainer(<Tree />);
                 }}
+                variant="outline-dark"
                 style={{
                   textDecoration: "none",
                   marginRight: "20px",
-                  color: "white",
-                  cursor: "pointer",
                 }}
               >
                 Introduction
-              </div>
-              <div
+              </Button>
+              <Button
                 onClick={() => {
                   setContainer(<BST />);
                 }}
+                variant="outline-dark"
                 style={{
                   textDecoration: "none",
                   marginRight: "20px",
-                  color: "white",
-                  cursor: "pointer",
                 }}
               >
                 Binary Search Tree
-              </div>
-              <div
+              </Button>
+              <Button
                 onClick={() => {
                   setContainer(<AVL />);
                 }}
+                variant="outline-dark"
                 style={{
                   textDecoration: "none",
                   marginRight: "20px",
-                  color: "white",
-                  cursor: "pointer",
                 }}
               >
                 Adelson Velsky Landis Tree
-              </div>
-              <div
+              </Button>
+              <Button
                 onClick={() => {
                   setContainer(<RBT />);
                 }}
+                variant="outline-dark"
                 style={{
                   textDecoration: "none",
                   marginRight: "20px",
-                  color: "white",
-                  cursor: "pointer",
                 }}
               >
                 Red Black Tree
-              </div>
-              <a
-                href="https://forms.gle/oEpPk7MJ95rYgBF89"
+              </Button>
+              <Button
+                variant="outline-dark"
+                href="https://forms.gle/SQc3WPkFbmaEtG9KA"
                 target="_blank"
                 style={{
                   textDecoration: "none",
-                  color: "white",
-                  cursor: "pointer",
                 }}
               >
                 Test
-              </a>
+              </Button>
             </Nav>
           </Navbar.Collapse>
           <Nav className="logSystem">
