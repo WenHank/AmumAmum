@@ -43,7 +43,7 @@ function Header() {
               cursor: "pointer",
             }}
           >
-            D.S.V
+            <img className="headerlogo" src="/Img/amumamum.PNG" />
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

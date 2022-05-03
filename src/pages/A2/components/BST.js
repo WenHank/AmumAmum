@@ -3,7 +3,7 @@ import { BinarySearchTree, useBinarySearchTree } from "react-tree-vis";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
-import A2_Header from "./Header";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -18,6 +18,50 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   }
   arr.push(tmp);
 }
+function Showpdf() {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDoucumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
+  function changePage(offset) {
+    setPageNumber((prePageNumber) => prePageNumber + offset);
+  }
+  function changePageBack() {
+    changePage(-1);
+  }
+  function changePageNext() {
+    changePage(+1);
+  }
+  return (
+    <div className="pdfcontainer">
+      <Document
+        file="/BinarySearchTree.pdf"
+        onLoadSuccess={onDoucumentLoadSuccess}
+      >
+        <Page height="1000" pageNumber={pageNumber} />
+      </Document>
+      <p>
+        Page {pageNumber} of {numPages}
+      </p>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {pageNumber > 1 && (
+          <Button variant="outline-dark" onClick={changePageBack}>
+            Previous Page
+          </Button>
+        )}
+        {pageNumber < numPages && (
+          <Button variant="outline-dark" onClick={changePageNext}>
+            Next Page
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -32,32 +76,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h3>What is Binary Search Tree ?</h3>
-        <p>
-          簡單來說就是，任一個節點的
-          <span style={{ color: "#4874b1" }}>左子樹都比父節點小</span> ，
-          <span style={{ color: "#4874b1" }}>右子樹都比父節點大</span>
-          ，
-          <br />
-          且每一個節點的值都不重複。所以當我們要查找資料的時候，就可以從根節點開始，
-          <br />
-          比根節點<span style={{ color: "#4874b1" }}>小的就從左子樹</span>
-          開始找，比較<span style={{ color: "#4874b1" }}>大的就從右子樹</span>
-          開始找。
-          <br />
-          相對於其他資料結構而言，尋找、插入的時間複雜度較低，為Ｏ(logN)。
-        </p>
-        <h3>How can we use Binary Search Tree ?</h3>
-        <p>我們可以把資料建立成Binary Search Tree，以降低我們搜尋的時間</p>
-        <h3>About function</h3>
-        <p>
-          Random: 可隨機新增一顆樹
-          <br />
-          Clear: 刪除整棵樹
-          <br />
-          Hide: 叫出記錄表()
-          <br />
-        </p>
+        <Showpdf />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>

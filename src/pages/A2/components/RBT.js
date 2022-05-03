@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Button, Modal, Carousel } from "react-bootstrap";
 import { RedBlackTree, useRedBlackTree } from "react-tree-vis";
 import { MDBContainer } from "mdbreact";
-import A2_Header from "./Header";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -17,62 +18,47 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   }
   arr.push(tmp);
 }
-function ControlledCarousel() {
+
+function Showpdf() {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDoucumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
+  function changePage(offset) {
+    setPageNumber((prePageNumber) => prePageNumber + offset);
+  }
+  function changePageBack() {
+    changePage(-1);
+  }
+  function changePageNext() {
+    changePage(+1);
+  }
   return (
-    <Carousel variant="dark">
-      <Carousel.Item interval={3600}>
-        <img
-          className="d-block w-100  showrbimg"
-          src="/Img/rb4.png"
-          alt="First slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item interval={3000}>
-        <img
-          className="d-block w-100 showrbimg"
-          src="/Img/rb5.png"
-          alt="Second slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item interval={2400}>
-        <img
-          className="d-block w-100 showrbimg"
-          src="/Img/rb6.png"
-          alt="Third slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item interval={1800}>
-        <img
-          className="d-block w-100 showrbimg"
-          src="/Img/rb7.png"
-          alt="Fourth slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item interval={1200}>
-        <img
-          className="d-block w-100 showrbimg"
-          src="/Img/rb8.png"
-          alt="Fifth slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item interval={600}>
-        <img
-          className="d-block w-100 showrbimg"
-          src="/Img/rb9.png"
-          alt="sixth slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100 showrbimg"
-          src="/Img/rb10.png"
-          alt="seventh slide"
-        />
-      </Carousel.Item>
-    </Carousel>
+    <div className="pdfcontainer">
+      <Document file="/RedBlackTree.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
+        <Page height="1000" pageNumber={pageNumber} />
+      </Document>
+      <p>
+        Page {pageNumber} of {numPages}
+      </p>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {pageNumber > 1 && (
+          <Button variant="outline-dark" onClick={changePageBack}>
+            Previous Page
+          </Button>
+        )}
+        {pageNumber < numPages && (
+          <Button variant="outline-dark" onClick={changePageNext}>
+            Next Page
+          </Button>
+        )}
+      </div>
+    </div>
   );
 }
-
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -87,130 +73,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h3>What is Red Black Tree ?</h3>
-        <p>
-          簡單來說就是，他是
-          <span style={{ color: "#4874b1" }}>BST和AVL的中間值</span>
-          <br />
-          為什麼會這樣說，是因為BST可能會有最壞的情況發生，變成斜曲的二元樹
-          <br />
-          而AVL是為了避免這種情況的發生，嚴格執行平衡的動做，
-          但相對付出的時間也就很多
-          <br />
-          而RedBlackTree 則是不那麼要求平衡
-          <br />
-          你可以想成說他犧牲一點平衡去換來時間跟效率
-        </p>
-        <h3>How to make a Red Black Tree ?</h3>
-        <p>
-          在實作之前，請先記住五大原則
-          <br />
-          1.<span style={{ color: "#4874b1" }}>Node 必為黑色或紅色</span>
-          <br />
-          2.<span style={{ color: "#4874b1" }}>root(跟節點)必為黑色</span>
-          <br />
-          3.<span style={{ color: "#4874b1" }}>null(空節點)必為黑色</span>
-          <br />
-          4.<span style={{ color: "#4874b1" }}>不會有連續兩個紅色節點</span>
-          <br />
-          5.
-          <span style={{ color: "#4874b1" }}>
-            每條路徑上的黑色節點數是一樣的
-          </span>
-          <br />
-          你可能不太了解第4點與第5點是什麼意思，請看下圖
-          <br />
-          左圖中Node 6和 Node 7皆為紅色的，他違反第４點，需要調整成完整的Red
-          Black Tree
-          <br />
-          右圖中，從root出發到每個節點的最短路徑，所經的黑色節點數是一樣的，遵守第５點
-          <br />
-          <img className="rbimg" src="/Img/rb1.png" />
-          <img className="rbimg" src="/Img/rb2.png" />
-          <br />
-          接下拉就是要時做出一顆Red Black Tree了，他和AVL 一樣也有旋轉，
-          <br />
-          只是加上顏色的變化
-          <br />
-          <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>
-            LL RR LR RL
-          </span>
-          <br />
-          旋轉方式都一樣，只是加上{" "}
-          <span style={{ color: "#4874b1" }}>
-            中減值向上提標黑色， 小的放左大的放右標紅色
-          </span>
-          <br />
-          了解上述規則後，我們要來談Insert
-          <br />
-          <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>
-            Insert X
-          </span>
-          <br />
-          Insert X有５個步驟：
-          <br />
-          第一步：先Serch for X，以便找出適當的插入位址
-          <br />
-          第二步：在Search for X的過程中，
-          <span style={{ color: "#4874b1" }}>
-            若發現某個Node 兩個子點是紅色Node
-          </span>
-          的話，
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;則做color
-          change，請看下圖所示
-          <br />
-          <img src="/Img/rb3.png" />
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color
-          change 完後，須檢查有無連續的紅色Node，若有，則需做旋轉
-          <br />
-          第三步：此時才插入X
-          <span style={{ color: "#4874b1" }}>且標記為紅色</span>
-          <br />
-          第四步：
-          <span style={{ color: "#4874b1" }}>
-            檢查有無連續紅色Node ，若有，則需做旋轉調整
-          </span>
-          <br />
-          第五步：root一律改為黑色(if needed)
-          <br />
-          <span style={{ color: "#edb91e" }}>
-            Note:Insert X 在第二步及第四步中，頂多發生一次旋轉
-          </span>
-          <br />
-          看到這裡，你可能還不是很懂，請看下方的演示過程
-          <br />
-          有一筆資料為[8,4,6,9,3]要建成Red Black Tree
-          <br />
-          <ControlledCarousel />
-        </p>
-        <h3>How can we use Red Black Tree ?</h3>
-        <p>
-          我們可以把資料建立成 Red Black Tree，比起BST，Red Black
-          Tree更能有效的降低時間
-          <br />
-          因為BST可能會有上述的情況，進而影響到時間
-          <br />
-          你可能會想說Red Black Tree 跟 AVL哪一個比較好
-          <br />
-          這就要是你的資料情況了，
-          <br />
-          若你常常需要新增刪除，Red Black Tree 可能會比較好
-          <br />
-          若你只是做查詢的動作，AVL可能比較好
-        </p>
-        <h3>About function</h3>
-        <p>
-          圖中紅色的代表紅節點，而灰色的則代表黑節點
-          <br />
-          Random: 可隨機新增一顆樹
-          <br />
-          Clear: 刪除整棵樹
-          <br />
-          Hide: 叫出記錄表(記錄你動作)
-          <br />
-        </p>
+        <Showpdf />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>

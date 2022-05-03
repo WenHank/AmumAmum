@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import A3_Headre from "./Header";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }

@@ -160,6 +160,15 @@ svg {
 .btn-outline-dark{
   border: none;
 }
+.headerlogo{
+  width: 70px;
+}
+#basic-nav-dropdown{
+  font-size: 1rem;
+}
+.navbar-light .navbar-nav .nav-link{
+  color: black;
+}
 /****************************************************************/
 /*************************A2_Home********************************/
 .home{
@@ -420,7 +429,7 @@ h2 span:nth-child(even) {
   width: 200px;
   height: 500px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgb(153, 153, 153), 0 0 20px rgb(153, 153, 153);
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;;
   display: flex;
   padding: 10px;
   align-items: center;
@@ -484,7 +493,7 @@ h2 span:nth-child(even) {
   text-align: left;
 }
 /****************************************************************/
-/*************************A3_BST*********************************/
+/*************************A2_BST interactive*********************************/
 .BSTInteractive{
   display: flex;
   justify-content: center;
@@ -529,7 +538,7 @@ h2 span:nth-child(even) {
   align-items: center;
 }
 /****************************************************************/
-/*************************A3_AVL*********************************/
+/*************************A2_AVL Interactive*********************************/
 .AVlInteractive{
   display: flex;
   justify-content: center;
@@ -610,6 +619,78 @@ h2 span:nth-child(even) {
   30%,70%{transform: translate3d(0,-8px,0);}
   40%,60%{transform: translate3d(0,+8px,0);}
   50%{transform: translate3d(0,-8px,0);}
+}
+/****************************************************************/
+/*************************A3 BST game**********************************/
+.BSTgame{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+/****************************************************************/
+/*************************A3 AVL game**********************************/
+.AVLgame{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.interactiveInterface{
+  display: flex;
+  flex-direction: row;
+}
+.playercontainer{
+  width: 400px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 100px;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  padding: 10px;
+  border-radius: 10px;
+}
+.AIcontainer{
+  width: 400px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 100px;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  padding: 10px;
+  border-radius: 10px;
+}
+.namegrade{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid;
+  margin-bottom: 10px;
+}
+.options{
+  display: flex;
+  flex-direction: row;
+}
+.thegrade{
+  margin-right: 100px;
+}
+.timer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  width:100px;
+  border-radius: 50%;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+}
+.gamerule{
+  width: 20px;
 }
 /****************************************************************/
 /*************************Admin**********************************/

@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Home from "./Home";
 import Tree from "./Treedocument";
-import BST from "./BSTInteractive";
-import AVL from "./AVLInteractive";
-import RBT from "./RBTInteractive";
-import Test from "../../A2/components/Test";
+import BST from "./BSTGame";
+import AVL from "./AVLGame";
+import RBT from "./RBTGame";
 
 function Header() {
   const [container, setContainer] = useState(<Home />);
@@ -27,7 +26,7 @@ function Header() {
               cursor: "pointer",
             }}
           >
-            D.S.V
+            <img className="headerlogo" src="./Img/amumamum.PNG" />
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

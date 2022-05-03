@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Navbar, Container, Button } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Home from "./Home";
@@ -7,13 +7,15 @@ import Tree from "./Treedocument";
 import BST from "./BST";
 import AVL from "./AVL";
 import RBT from "./RBT";
+import BSTInteractive from "./BSTInteractive";
+import AVLinteractive from "./AVLInteractive";
 import Test from "../../A2/components/Test";
 
 function Header() {
   const [container, setContainer] = useState(<Home />);
   return (
     <div>
-      <Navbar expand="lg" variant="dark" sticky="top" className="Header">
+      <Navbar expand="lg" variant="light" sticky="top" className="Header">
         <Container>
           <div
             onClick={() => {
@@ -27,7 +29,7 @@ function Header() {
               cursor: "pointer",
             }}
           >
-            D.S.V
+            <img className="headerlogo" src="./Img/amumamum.PNG" />
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -44,30 +46,65 @@ function Header() {
               >
                 Introduction
               </Button>
-              <Button
-                onClick={() => {
-                  setContainer(<BST />);
-                }}
-                variant="outline-dark"
-                style={{
-                  textDecoration: "none",
-                  marginRight: "20px",
-                }}
+              <NavDropdown title="Binary Search Tree" id="basic-nav-dropdown">
+                <Button
+                  onClick={() => {
+                    setContainer(<BST />);
+                  }}
+                  variant="light"
+                  style={{
+                    textDecoration: "none",
+                    marginRight: "20px",
+                    width: "100%",
+                  }}
+                >
+                  demonstrate
+                </Button>
+                <Button
+                  onClick={() => {
+                    setContainer(<BSTInteractive />);
+                  }}
+                  variant="light"
+                  style={{
+                    textDecoration: "none",
+                    marginRight: "20px",
+                    width: "100%",
+                  }}
+                >
+                  Interactive
+                </Button>
+              </NavDropdown>
+              <NavDropdown
+                title=" Adelson Velsky Landis Tree"
+                id="basic-nav-dropdown"
               >
-                Binary Search Tree
-              </Button>
-              <Button
-                onClick={() => {
-                  setContainer(<AVL />);
-                }}
-                variant="outline-dark"
-                style={{
-                  textDecoration: "none",
-                  marginRight: "20px",
-                }}
-              >
-                Adelson Velsky Landis Tree
-              </Button>
+                <Button
+                  onClick={() => {
+                    setContainer(<AVL />);
+                  }}
+                  variant="outline-dark"
+                  style={{
+                    textDecoration: "none",
+                    marginRight: "20px",
+                    width: "100%",
+                  }}
+                >
+                  demonstrate
+                </Button>
+                <Button
+                  onClick={() => {
+                    setContainer(<AVLinteractive />);
+                  }}
+                  variant="light"
+                  style={{
+                    textDecoration: "none",
+                    marginRight: "20px",
+                    width: "100%",
+                  }}
+                >
+                  Interactive
+                </Button>
+              </NavDropdown>
               <Button
                 onClick={() => {
                   setContainer(<RBT />);
