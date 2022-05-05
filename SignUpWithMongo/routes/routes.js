@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const bcryptjs = require("bcryptjs");
+const bcryptjs = require("bcrypt");
 //引入Schema
 const SignUpTemplateCopy = require("../models/SignUpModels");
 const MarkUserTemplateCopy = require("../models/MarkUserModels");
@@ -70,7 +70,11 @@ router.post(process.env.ROUTER_DIALOGFLOW, (req, res, next) => {
 router.post(process.env.ROUTER_CHECKUSER, async (req, res) => {
   SignUpTemplateCopy.findOne({ _id: req.body._id }, (err, result) => {
     if (err) throw err;
-    res.send(true);
+    if (result == null) {
+      res.send(false);
+    } else {
+      res.send(true);
+    }
   });
 });
 /////////////取得使用者（除密碼）/////////////////////////
@@ -78,18 +82,21 @@ router.post(process.env.ROUTER_USERINFO, async (req, res) => {
   SignUpTemplateCopy.findOne({ _id: req.body._id }, (err, result) => {
     if (err) throw err;
     const SendResponse = {
+      _id: result._id,
       Name: result.Name,
       StudentId: result.StudentId,
       Email: result.Email,
       Access: result.Access,
+      ////////////////////////////////////////////////////////////////
     };
     res.send(SendResponse);
   });
 });
-////////////////////檢查舊密碼////////////////////
-router.post(process.env.ROUTER_CHECKPASSWORD, async (req, res) => {
+////////////////////修改密碼////////////////////
+router.post(process.env.ROUTER_CHANGEPASSWORD, async (req, res) => {
   SignUpTemplateCopy.findOne({ _id: req.body._id }, (err, result) => {
     if (err) throw err;
+    console.log(result);
     bcryptjs.compare(req.body.OldPassword, result.Password, (err, result) => {
       if (result === true) {
         SignUpTemplateCopy.updateOne(
@@ -106,4 +113,16 @@ router.post(process.env.ROUTER_CHECKPASSWORD, async (req, res) => {
     });
   });
 });
+////////////////////修改郵件////////////////////
+router.post(process.env.ROUTER_CHANGEEMAIL, async (req, res) => {
+  SignUpTemplateCopy.updateOne(
+    { _id: req.body._id },
+    { Email: req.body.Email },
+    (err, result) => {
+      if (err) throw err;
+      res.send("success");
+    }
+  );
+});
+
 module.exports = router;

@@ -82,7 +82,7 @@ function Header() {
                   onClick={() => {
                     setContainer(<AVL />);
                   }}
-                  variant="outline-dark"
+                  variant="light"
                   style={{
                     textDecoration: "none",
                     marginRight: "20px",

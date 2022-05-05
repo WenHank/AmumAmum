@@ -3,6 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { MDBContainer } from "mdbreact";
 import { RedBlackTree, useRedBlackTree } from "react-tree-vis";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,6 +17,46 @@ for (let i = 0; i < getRandom(5, 10); i++) {
     }
   }
   arr.push(tmp);
+}
+function Showpdf() {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDoucumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
+  function changePage(offset) {
+    setPageNumber((prePageNumber) => prePageNumber + offset);
+  }
+  function changePageBack() {
+    changePage(-1);
+  }
+  function changePageNext() {
+    changePage(+1);
+  }
+  return (
+    <div className="pdfcontainer">
+      <Document file="/RedBlackTree.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
+        <Page height="1000" pageNumber={pageNumber} />
+      </Document>
+      <p>
+        Page {pageNumber} of {numPages}
+      </p>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {pageNumber > 1 && (
+          <Button variant="outline-dark" onClick={changePageBack}>
+            Previous Page
+          </Button>
+        )}
+        {pageNumber < numPages && (
+          <Button variant="outline-dark" onClick={changePageNext}>
+            Next Page
+          </Button>
+        )}
+      </div>
+    </div>
+  );
 }
 function MyVerticallyCenteredModal(props) {
   return (
@@ -31,29 +72,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h3>What can you do ?</h3>
-        <p>
-          透過右邊的拖拉方塊，拖曳到左邊適合的位址
-          <br />
-          依照拖曳方塊的順序
-          <br />
-          將其組合成一顆完整的AVL Tree
-          <br />
-          並且按下Submit來知道你的答案是否正確
-          <br />
-          假如你還想做更多測驗的話
-          <br />
-          你可以按下Random之後，會有更多的題目讓你練習
-        </p>
-        <h3>About function</h3>
-        <p>
-          Random: 可隨機生成一棵樹
-          <br />
-          Change: 更改拖曳欄位
-          <br />
-          Submit: 送出答案
-          <br />
-        </p>
+        <Showpdf />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -74,7 +93,7 @@ function GameMyVerticallyCenteredModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Adelson Velsky Landis Tree Interactive
+          Red Black Tree
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -114,7 +133,7 @@ function RBTGame() {
   return (
     <div className="A3">
       <div className="AVLgame">
-        <div className="hintContainer" style={{ top: "150px", left: "5%" }}>
+        <div className="gamehintContainer" style={{ marginLeft: "250px" }}>
           <div className="loader"></div>
           <img
             className="gamerule"
@@ -122,7 +141,7 @@ function RBTGame() {
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAACUElEQVRoge2av04bQRDGfzoJYUVujBSUBJyGUFJZ4g3SJqGJ6IBXoCKv4LT0KYIipaBKlwKSUCXQ0URI/CmQsS0jKJyEAskpdiyfImNm9tbni3yftNrV+fb7Zry3s6udhR6eAltAC+ikXK6Bb8AqEJEA80BjBA70K1+BKR8nIuBASHaBGR8So96+6O2IXgk3GjV5fgAUrMRL0vkcKAYy1lfvCXAkv1etxB+l40ZCA0PpVYBb4A/w0EJ8KsSVJNYF1tuWd9YtxDfSqeRtmg0avWV555OWNJIOaUKj913qBS1pBFxIe85qkSc0eg2p1XMkAn5I+7mHUT7Q6P2W+oGF+BXphl+tXneBVCO+IH4BZj0NtOh1F8RBemZHAJ4Bde7fPgyrBHMEoAy8ZzSbxqCO3IXghMPQTbRlzhJyR7KG3JGsYewdKQJn9ELk3h3PtWWPhAg1IknXmVTWqXxBTBO5I1lDHrX+QR61QumO/RzJHMbekTxqDam/WiSPWp6YjLX7fYot3NFV2UI6ihGZQDe36rjDRRWy+GnN4vKdHdxxr+rL6keYRtS67w8s4g7CO8DL/zlqtYFNaS9rOvwSIVOuIgDaCt2KvHOsGZFLqacTGmZFU6F7IvVjjSOHUi96m+SHnxZdjSM7Ur/2MscfnxW63TxkTUM4jUve35JeLh7gES6XOEj3DW6OfNCSVqXDEe6aRVp4O0A3Hn5faAkL9PKMNWANzxs8RhTo5RvjuvEFcR/jVmsKdwXJutgNs1xg2KLEEQEruEtiVyN0oAm8I5YR/guUqaZe1GPGYQAAAABJRU5ErkJggg=="
           />
         </div>
-        <div className="hintContainer" style={{ top: "300px" }}>
+        <div className="gamehintContainer" style={{ marginRight: "250px" }}>
           <div className="loader"></div>
           <img
             className="hint"
@@ -130,6 +149,7 @@ function RBTGame() {
             onClick={() => setModalShow(true)}
           />
         </div>
+        <h1>RBT</h1>
         <div className="interactiveInterface">
           <div className="playercontainer">
             <div className="namegrade">

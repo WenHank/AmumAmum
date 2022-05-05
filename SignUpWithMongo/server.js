@@ -1,16 +1,21 @@
 const express = require("express");
 const app = express();
+
+const host = "127.0.0.1";
+const port = process.env.PORT || 4000;
+
 const mongoose = require("mongoose");
 
 const dotenv = require("dotenv");
 dotenv.config();
+
+// const path = require("path");
 
 //跨來源資源共用（Cross-Origin Resource Sharing，簡稱 CORS）機制提供了網頁伺服器跨網域的存取控制，增加跨網域資料傳輸的安全性
 const cors = require("cors");
 const passport = require("passport");
 const passportLocal = require("passport-local").Strategy;
 const cookieParser = require("cookie-parser");
-const bcryptjs = require("bcryptjs");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 
@@ -19,6 +24,10 @@ const RoutesUrls = require("./routes/routes");
 // const io = require("socket.io")(server);
 // const io = require("socket.io")
 // io = socket(server)
+//view setting
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "jade");
+
 mongoose.connect(
   process.env.MONGODB_ACCESS_TOKEN,
   {
@@ -47,6 +56,12 @@ app.use(
     credentials: true,
   })
 );
+// app.use(
+//   cors({
+//     origin: "https://548a-36-224-72-109.ngrok.io",
+//     credentials: true,
+//   })
+// );
 //Middleware----------------------------------------------------------------
 //引入body-parser(用於解析json, row, txt, URL-encoded格式)
 app.use(bodyParser.json());
@@ -54,7 +69,7 @@ app.use(bodyParser.urlencoded({ extends: true }));
 
 /** For session key
  * @param {Object} [options]
- * @param {Object} [options.cookiel] Options for cookie
+ * @param {Object} [options.cookie] Options for cookie
  * @param {Function} [options.genid]
  * @param {String} [options.name=connect.sid] Session ID cookie name
  * @param {Boolean} [options.proxy]
@@ -84,6 +99,9 @@ app.use(cookieParser("secretcode"));
 app.use(passport.initialize());
 app.use(passport.session());
 require("./passportConfig")(passport); //取得passportConfig的passport
+// app.get("/", (req, res, next) => {
+//   res.render("test");
+// });
 //----------------------------------------------------------------
 app.post("/app/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
@@ -102,4 +120,4 @@ app.post("/app/login", (req, res, next) => {
 
 app.use(process.env.ROUTER_MAIN, RoutesUrls);
 
-app.listen(4000, () => console.log("Server is running at port 4000"));
+app.listen(port, () => console.log("Server is running at" + host + ":" + port));

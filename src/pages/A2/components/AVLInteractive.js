@@ -6,7 +6,6 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
 import TaskCard from "../../A3/components/TaskCard";
-import A3_Headr from "../../A3/components/Header";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }

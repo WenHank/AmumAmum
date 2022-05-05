@@ -107,9 +107,34 @@ function MyVerticallyCenteredModal(props) {
     </Modal>
   );
 }
+function GameMyVerticallyCenteredModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Adelson Velsky Landis Tree Interactive
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h3>How to play?</h3>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="outline-dark" onClick={props.onHide}>
+          Go play!
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 function BSTGame() {
   const { ref, getData, generateRandomTree } = useBinarySearchTree();
   const [modalShow, setModalShow] = React.useState(false);
+  const [gamemodalShow, setgameModalShow] = React.useState(true);
   const [record, setRecord] = useState([]);
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
   const [open, setOpen] = useState("hide");
@@ -131,14 +156,23 @@ function BSTGame() {
   return (
     <div className="A3">
       <div className="BSTgame">
-        {/* <div className="hintContainer">
+        <div className="gamehintContainer" style={{ marginLeft: "250px" }}>
+          <div className="loader"></div>
+          <img
+            className="gamerule"
+            onClick={() => setgameModalShow(true)}
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAACUElEQVRoge2av04bQRDGfzoJYUVujBSUBJyGUFJZ4g3SJqGJ6IBXoCKv4LT0KYIipaBKlwKSUCXQ0URI/CmQsS0jKJyEAskpdiyfImNm9tbni3yftNrV+fb7Zry3s6udhR6eAltAC+ikXK6Bb8AqEJEA80BjBA70K1+BKR8nIuBASHaBGR8So96+6O2IXgk3GjV5fgAUrMRL0vkcKAYy1lfvCXAkv1etxB+l40ZCA0PpVYBb4A/w0EJ8KsSVJNYF1tuWd9YtxDfSqeRtmg0avWV555OWNJIOaUKj913qBS1pBFxIe85qkSc0eg2p1XMkAn5I+7mHUT7Q6P2W+oGF+BXphl+tXneBVCO+IH4BZj0NtOh1F8RBemZHAJ4Bde7fPgyrBHMEoAy8ZzSbxqCO3IXghMPQTbRlzhJyR7KG3JGsYewdKQJn9ELk3h3PtWWPhAg1IknXmVTWqXxBTBO5I1lDHrX+QR61QumO/RzJHMbekTxqDam/WiSPWp6YjLX7fYot3NFV2UI6ihGZQDe36rjDRRWy+GnN4vKdHdxxr+rL6keYRtS67w8s4g7CO8DL/zlqtYFNaS9rOvwSIVOuIgDaCt2KvHOsGZFLqacTGmZFU6F7IvVjjSOHUi96m+SHnxZdjSM7Ur/2MscfnxW63TxkTUM4jUve35JeLh7gES6XOEj3DW6OfNCSVqXDEe6aRVp4O0A3Hn5faAkL9PKMNWANzxs8RhTo5RvjuvEFcR/jVmsKdwXJutgNs1xg2KLEEQEruEtiVyN0oAm8I5YR/guUqaZe1GPGYQAAAABJRU5ErkJggg=="
+          />
+        </div>
+        <div className="gamehintContainer" style={{ marginRight: "250px" }}>
           <div className="loader"></div>
           <img
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setModalShow(true)}
           />
-        </div> */}
+        </div>
+        <h1>BST</h1>
         <div className="interactiveInterface">
           <div className="playercontainer">
             <div className="namegrade">
@@ -182,6 +216,10 @@ function BSTGame() {
         <MyVerticallyCenteredModal
           show={modalShow}
           onHide={() => setModalShow(false)}
+        />
+        <GameMyVerticallyCenteredModal
+          show={gamemodalShow}
+          onHide={() => setgameModalShow(false)}
         />
       </div>
     </div>

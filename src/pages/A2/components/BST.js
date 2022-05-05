@@ -354,6 +354,12 @@ function BST() {
   const [open, setOpen] = useState("hide");
 
   let tmp = [...record];
+
+  const [numVal, setNumVal] = useState("");
+  const handleChange = (val) => {
+    val = val.replace(/[^0-9,]+/g, "");
+    setNumVal(val);
+  };
   return (
     <div className="A2">
       <div className="bst">
@@ -524,6 +530,51 @@ function BST() {
             </Button>
           </div>
           <div className="InputGroup">
+            <input
+              style={{ width: "300px" }}
+              type="text"
+              value={numVal}
+              onChange={(e) => handleChange(e.target.value)}
+            />
+            <Button
+              variant="outline-dark"
+              onClick={() => {
+                clear();
+                let tmparr = numVal.split(",");
+                setRecord((prevArray) => [
+                  ...record,
+                  <div>
+                    <p className="recordP">
+                      {`Creat \n`}
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
+                ]);
+                let i = 0;
+                let CreatTree = setInterval(() => {
+                  if (i === tmparr.length) {
+                    clearInterval(CreatTree);
+                  } else {
+                    insert(parseInt(tmparr[i]));
+                    search(parseInt(tmparr[i]));
+                    i++;
+                  }
+                }, 800);
+              }}
+            >
+              Create
+            </Button>
+          </div>
+          <div className="InputGroup">
             <div className="Inorder">
               <img
                 className="hint"
@@ -532,8 +583,15 @@ function BST() {
               />
             </div>
             <Button
+              className="inbtn"
               variant="outline-dark"
               onClick={() => {
+                let inbtn = document.querySelector(".inbtn");
+                let prebtn = document.querySelector(".prebtn");
+                let postbtn = document.querySelector(".postbtn");
+                inbtn.disabled = true;
+                prebtn.disabled = true;
+                postbtn.disabled = true;
                 let orderValue = getData("inorder");
                 setInorderValue(getData("inorder"));
                 setRecord((prevArray) => [
@@ -557,10 +615,25 @@ function BST() {
                 let i = 0;
                 let Inordertraversal = setInterval(() => {
                   if (i > orderValue.length) {
+                    inbtn.disabled = false;
+                    prebtn.disabled = false;
+                    postbtn.disabled = false;
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
                     clearInterval(Inordertraversal);
+                  } else {
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
+                    search(parseInt(orderValue[i]));
+                    let thenode = document.querySelector(".highlight");
+                    thenode.style.textShadow =
+                      "rgb(255 255 255) 0px 0px 5px, rgb(255 255 255) 0px 0px 10px, rgb(255 0 0) 0px 0px 15px, #dc3545 0px 0px 20px, #dc3545 0px 0px 25px, #dc3545 0px 0px 30px, #dc3545 0px 0px 35px";
+                    i++;
                   }
-                  search(parseInt(orderValue[i]));
-                  i++;
                 }, 800);
               }}
             >
@@ -577,8 +650,15 @@ function BST() {
               />
             </div>
             <Button
+              className="prebtn"
               variant="outline-dark"
               onClick={() => {
+                let inbtn = document.querySelector(".inbtn");
+                let prebtn = document.querySelector(".prebtn");
+                let postbtn = document.querySelector(".postbtn");
+                inbtn.disabled = true;
+                prebtn.disabled = true;
+                postbtn.disabled = true;
                 let orderValue = getData("preorder");
                 setPreorderValue(getData("preorder"));
                 setRecord((prevArray) => [
@@ -602,10 +682,25 @@ function BST() {
                 let i = 0;
                 let Preordertraversal = setInterval(() => {
                   if (i > orderValue.length) {
+                    inbtn.disabled = false;
+                    prebtn.disabled = false;
+                    postbtn.disabled = false;
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
                     clearInterval(Preordertraversal);
+                  } else {
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
+                    search(parseInt(orderValue[i]));
+                    let thenode = document.querySelector(".highlight");
+                    thenode.style.textShadow =
+                      "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ccff, 0 0 20px #00ccff, 0 0 25px #00ccff, 0 0 30px #00ccff, 0 0 35px #00ccff";
+                    i++;
                   }
-                  search(parseInt(orderValue[i]));
-                  i++;
                 }, 800);
               }}
             >
@@ -623,7 +718,14 @@ function BST() {
             </div>
             <Button
               variant="outline-dark"
+              className="postbtn"
               onClick={() => {
+                let inbtn = document.querySelector(".inbtn");
+                let prebtn = document.querySelector(".prebtn");
+                let postbtn = document.querySelector(".postbtn");
+                inbtn.disabled = true;
+                prebtn.disabled = true;
+                postbtn.disabled = true;
                 let orderValue = getData("postorder");
                 setPostorderValue(getData("postorder"));
                 setRecord((prevArray) => [
@@ -647,10 +749,25 @@ function BST() {
                 let i = 0;
                 let Postordertraversal = setInterval(() => {
                   if (i > orderValue.length) {
+                    inbtn.disabled = false;
+                    prebtn.disabled = false;
+                    postbtn.disabled = false;
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
                     clearInterval(Postordertraversal);
+                  } else {
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
+                    search(parseInt(orderValue[i]));
+                    let thenode = document.querySelector(".highlight");
+                    thenode.style.textShadow =
+                      "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffc107, 0 0 20px #ffc107, 0 0 25px #ffc107, 0 0 30px #ffc107, 0 0 35px #ffc107";
+                    i++;
                   }
-                  search(parseInt(orderValue[i]));
-                  i++;
                 }, 800);
               }}
             >
