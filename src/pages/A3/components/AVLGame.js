@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Modal } from "react-bootstrap";
-import { useState } from "react";
+import { Button, Modal, Form } from "react-bootstrap";
+import { useState, useEffect, useRef } from "react";
 import { MDBContainer } from "mdbreact";
 import { AVLTree, useAVLTree } from "react-tree-vis";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
-import Title from "react-vanilla-tilt";
+import VanillaTilt from "vanilla-tilt";
+
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -109,32 +110,97 @@ function GameMyVerticallyCenteredModal(props) {
   );
 }
 
+function Tilt(props) {
+  const { options, ...rest } = props;
+  const tilt = useRef(null);
+
+  useEffect(() => {
+    VanillaTilt.init(tilt.current, options);
+  }, [options]);
+
+  return <div ref={tilt} {...rest} />;
+}
+var opArr = [];
+let change = 1;
 function AVLGame() {
-  const { ref, insert, remove, getData, search, clear, generateRandomTree } =
+  const { ref, insert, remove, search, getData, clear, generateRandomTree } =
     useAVLTree();
   const [modalShow, setModalShow] = React.useState(false);
-  const [gamemodalShow, setgameModalShow] = React.useState(true);
+  const [gamemodalShow, setgameModalShow] = React.useState(false);
+  const [diffcultymodalShow, setdiffcultyModalShow] = React.useState(true);
   const [record, setRecord] = useState([]);
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
   const [open, setOpen] = useState("hide");
   const [playergrade, setPlayergrade] = useState(0);
   const [aigrade, setAigrade] = useState(0);
   let tmp = [...record];
+  const [type, setType] = useState(4);
+  const [round, setRound] = useState(1);
 
   function start() {
     var timer = document.querySelector(".timer");
     var number = 10;
     setInterval(function () {
       number--;
-      if (number <= 0) number = 0;
+      if (number <= 0) {
+        number = 0;
+      }
       timer.innerText = number + 0;
     }, 1000);
   }
   const options = {
-    scale: 2,
-    max: 30,
-    speed: 1200,
+    scale: 1,
+    max: 15,
+    speed: 250,
   };
+
+  function DifficultyMyVerticallyCenteredModal(props) {
+    return (
+      <Modal
+        {...props}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <h2>Start to play!!</h2>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              accentColor: "center",
+            }}
+          >
+            <div style={{ marginRight: "10px" }}>Difficulty </div>
+            <Form.Select
+              aria-label="Default select example"
+              style={{ width: "200px" }}
+              value={type}
+              onChange={(e) => {
+                setType(e.target.value);
+              }}
+            >
+              <option value="4">Easy</option>
+              <option value="6">Medium</option>
+              <option value="8">Hard</option>
+            </Form.Select>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-dark" onClick={props.onHide}>
+            Go play!
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  if (change) {
+    for (let i = 0; i < type * 4; i++) {
+      opArr[i] = getRandom(5, 21);
+    }
+    change = 0;
+  }
+
   return (
     <div className="A3">
       <div className="AVLgame">
@@ -156,37 +222,93 @@ function AVLGame() {
         </div>
         <h1>AVL</h1>
         <div className="interactiveInterface">
-          <Title className="gametitle" options={options}>
+          <Tilt className="gametitle" options={options}>
             <div className="playercontainer">
               <div className="namegrade">
                 <div className="thegrade">{playergrade}</div>
                 <h3>player</h3>
               </div>
               <div className="options">
-                <Button variant="outline-dark" style={{ marginLeft: "10px" }}>
-                  insert 5
+                <Button
+                  variant="outline-dark"
+                  onClick={() => {
+                    insert(opArr[round]);
+                    search(opArr[round]);
+                    setPlayergrade(playergrade + 5);
+                  }}
+                >
+                  Insert {opArr[round]}
                 </Button>
-                <Button variant="outline-dark">remove 2</Button>
-                <Button variant="outline-dark">insert 25</Button>
+                <Button
+                  variant="outline-dark"
+                  onClick={() => {
+                    let orderValue = getData("inorder");
+                    let tmp = 0;
+                    orderValue.forEach((e) => {
+                      if (e === opArr[round + 1]) {
+                        tmp = 1;
+                      }
+                    });
+                    if (tmp) {
+                      search(opArr[round + 1]);
+                      remove(opArr[round + 1]);
+                    } else {
+                      setPlayergrade(playergrade - 3);
+                    }
+                  }}
+                >
+                  Remove {opArr[round + 1]}
+                </Button>
+                <Button
+                  variant="outline-dark"
+                  onClick={() => {
+                    insert(opArr[round + 2]);
+                    search(opArr[round + 2]);
+                  }}
+                >
+                  Insert {opArr[round + 2]}
+                </Button>
               </div>
             </div>
-          </Title>
+          </Tilt>
           <div className="timer">10</div>
-          <Title className="gametitle" options={options}>
+          <Tilt className="gametitle" options={options}>
             <div className="AIcontainer">
               <div className="namegrade">
                 <div className="thegrade">{aigrade}</div>
                 <h3>AI</h3>
               </div>
               <div className="options">
-                <Button variant="outline-dark" style={{ marginLeft: "10px" }}>
-                  remove 31
+                <Button
+                  variant="outline-dark"
+                  onClick={() => {
+                    insert(opArr[round + 3]);
+                    search(opArr[round + 3]);
+                  }}
+                >
+                  Insert {opArr[round + 3]}
                 </Button>
-                <Button variant="outline-dark">insert 15</Button>
-                <Button variant="outline-dark">remove 12</Button>
+                <Button
+                  variant="outline-dark"
+                  onClick={() => {
+                    search(opArr[round + 4]);
+                    remove(opArr[round + 4]);
+                  }}
+                >
+                  Remove {opArr[round + 4]}
+                </Button>
+                <Button
+                  variant="outline-dark"
+                  onClick={() => {
+                    insert(opArr[round + 5]);
+                    search(opArr[round + 5]);
+                  }}
+                >
+                  Insert {opArr[round + 5]}
+                </Button>
               </div>
             </div>
-          </Title>
+          </Tilt>
         </div>
         <div>
           <Button
@@ -198,7 +320,11 @@ function AVLGame() {
           >
             Start
           </Button>
-          <Button variant="outline-dark" style={{ marginTop: "20px" }}>
+          <Button
+            variant="outline-dark"
+            style={{ marginTop: "20px" }}
+            onClick={() => setdiffcultyModalShow(true)}
+          >
             Restart
           </Button>
         </div>
@@ -210,6 +336,10 @@ function AVLGame() {
         <GameMyVerticallyCenteredModal
           show={gamemodalShow}
           onHide={() => setgameModalShow(false)}
+        />
+        <DifficultyMyVerticallyCenteredModal
+          show={diffcultymodalShow}
+          onHide={() => setdiffcultyModalShow(false)}
         />
       </div>
     </div>

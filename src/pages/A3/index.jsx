@@ -6,7 +6,6 @@ import Tree from "./components/Treedocument";
 import BST from "./components/BSTGame";
 import AVL from "./components/AVLGame";
 import RBT from "./components/RBTGame";
-import Test from "../A2/components/Test";
 import Robots from "./components/Robots";
 import axios from "axios";
 
@@ -473,10 +472,9 @@ class A3 extends React.Component {
                   </Button>
                   <Button
                     variant="outline-dark"
-                    onClick={() => {
-                      this.handle(<Test />);
-                    }}
-                    style={{
+                    href="https://forms.gle/SQc3WPkFbmaEtG9KA"
+                    target="_blank"
+                     style={{
                       textDecoration: "none",
                       cursor: "pointer",
                     }}
