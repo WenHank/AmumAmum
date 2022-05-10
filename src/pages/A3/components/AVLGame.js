@@ -139,13 +139,44 @@ function AVLGame() {
   let tmp = [...record];
   const [type, setType] = useState(4);
   const [round, setRound] = useState(1);
+  const [playerbtn1, setPlaybtn1] = useState(1);
+  const [playerbtn2, setPlaybtn2] = useState(1);
+  const [playerbtn3, setPlaybtn3] = useState(1);
   let starttimer;
+  let fuck = 0;
+  function firstStart(params) {
+    console.log("firstStart");
+    let number = 3;
+    var timer = document.querySelector(".timer");
+    timer.innerText = number;
+    firstStart = setInterval(() => {
+      number--;
+      console.log(number);
+      if (number === 0) {
+        console.log("fuck");
+        timer.innerText = "Start";
+      } else if (number === -1) {
+        setPlaybtn1(0);
+        setPlaybtn2(0);
+        setPlaybtn3(0);
+        start();
+        clearInterval(firstStart);
+      } else {
+        timer.innerText = number;
+      }
+    }, 1000);
+  }
+
   function start() {
+    console.log("timer start");
     let number = 10;
     let count = 0;
     var timer = document.querySelector(".timer");
     timer.innerText = number;
+    fuck++;
+    clearInterval(starttimer);
     starttimer = setInterval(() => {
+      console.log("timer" + fuck);
       number--;
       if (number <= 0) {
         number = 10;
@@ -157,6 +188,7 @@ function AVLGame() {
       }
       timer.innerText = number;
     }, 1000);
+    console.log("------------------------");
   }
   const options = {
     scale: 1,
@@ -297,47 +329,12 @@ function AVLGame() {
                 <Button
                   className="playerbtn1"
                   variant="outline-dark"
+                  disabled={playerbtn1}
                   onClick={() => {
-                    clearInterval(starttimer);
                     start();
-                    let playerbtn1 = document.querySelector(".playerbtn1");
-                    let playerbtn2 = document.querySelector(".playerbtn2");
-                    let playerbtn3 = document.querySelector(".playerbtn3");
-                    playerbtn1.disabled = "true";
-                    playerbtn2.disabled = "true";
-                    playerbtn3.disabled = "true";
-                    for (let i = 0; i < 3; i++) {
-                      if (AIOP[opArr[round - 1] + i].do === 1) {
-                        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
-                          let executionOP = setInterval(() => {
-                            console.log("insert");
-                            insert(AIOP[opArr[round - 1] + i].number);
-                            search(AIOP[opArr[round - 1] + i].number);
-                            clearInterval(starttimer);
-                            start();
-                            playerbtn1.disabled = "false";
-                            playerbtn2.disabled = "false";
-                            playerbtn3.disabled = "false";
-                            setRound(round + 1);
-                            clearInterval(executionOP);
-                          }, AIOP[opArr[round - 1] + i].time);
-                        } else {
-                          let executionOP = setInterval(() => {
-                            console.log("Remove");
-                            search(AIOP[opArr[round - 1] + i].number);
-                            remove(AIOP[opArr[round - 1] + i].number);
-                            clearInterval(starttimer);
-                            start();
-                            playerbtn1.disabled = "false";
-                            playerbtn2.disabled = "false";
-                            playerbtn3.disabled = "false";
-                            setRound(round + 1);
-                            clearInterval(executionOP);
-                          }, AIOP[opArr[round - 1] + i].time);
-                        }
-                        break;
-                      }
-                    }
+                    setPlaybtn1(1);
+                    setPlaybtn2(1);
+                    setPlaybtn3(1);
                     if (playerOP[opArr[round - 1]].IR === "Insert") {
                       insert(playerOP[opArr[round - 1]].number);
                       search(playerOP[opArr[round - 1]].number);
@@ -353,8 +350,58 @@ function AVLGame() {
                       if (tmp) {
                         search(playerOP[opArr[round - 1]].number);
                         remove(playerOP[opArr[round - 1]].number);
+                        setPlayergrade(playergrade + 5);
                       } else {
                         setPlayergrade(playergrade - 3);
+                      }
+                    }
+                    for (let i = 0; i < 3; i++) {
+                      if (AIOP[opArr[round - 1] + i].do === 1) {
+                        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
+                          let executionOP = setInterval(() => {
+                            console.log("insert");
+                            insert(AIOP[opArr[round - 1] + i].number);
+                            search(AIOP[opArr[round - 1] + i].number);
+                            start();
+                            setPlaybtn1(0);
+                            setPlaybtn2(0);
+                            setPlaybtn3(0);
+                            setAigrade(aigrade + 5);
+                            setRound(round + 1);
+                            clearInterval(executionOP);
+                          }, AIOP[opArr[round - 1] + i].time);
+                        } else {
+                          console.log("Remove");
+                          let executionOP = setInterval(() => {
+                            let orderValue = getData("inorder");
+                            let tmp = 0;
+                            orderValue.forEach((e) => {
+                              if (e === AIOP[opArr[round - 1] + i].number) {
+                                tmp = 1;
+                              }
+                            });
+                            if (tmp) {
+                              search(AIOP[opArr[round - 1] + i].number);
+                              remove(AIOP[opArr[round - 1] + i].number);
+                              setAigrade(aigrade + 5);
+                              clearInterval(executionOP);
+                              start();
+                              setPlaybtn1(0);
+                              setPlaybtn2(0);
+                              setPlaybtn3(0);
+                              setRound(round + 1);
+                            } else {
+                              setAigrade(aigrade - 3);
+                              clearInterval(executionOP);
+                              start();
+                              setPlaybtn1(0);
+                              setPlaybtn2(0);
+                              setPlaybtn3(0);
+                              setRound(round + 1);
+                            }
+                          }, AIOP[opArr[round - 1] + i].time);
+                        }
+                        break;
                       }
                     }
                   }}
@@ -365,13 +412,12 @@ function AVLGame() {
                 <Button
                   className="playerbtn2"
                   variant="outline-dark"
+                  disabled={playerbtn2}
                   onClick={() => {
-                    let playerbtn1 = document.querySelector(".playerbtn1");
-                    let playerbtn2 = document.querySelector(".playerbtn2");
-                    let playerbtn3 = document.querySelector(".playerbtn3");
-                    playerbtn1.disabled = "true";
-                    playerbtn2.disabled = "true";
-                    playerbtn3.disabled = "true";
+                    start();
+                    setPlaybtn1(1);
+                    setPlaybtn2(1);
+                    setPlaybtn3(1);
                     for (let i = 0; i < 3; i++) {
                       if (AIOP[opArr[round - 1] + i].do === 1) {
                         if (AIOP[opArr[round - 1] + i].IR === "Insert") {
@@ -379,14 +425,43 @@ function AVLGame() {
                             console.log("insert");
                             insert(AIOP[opArr[round - 1] + i].number);
                             search(AIOP[opArr[round - 1] + i].number);
+                            start();
+                            setPlaybtn1(0);
+                            setPlaybtn2(0);
+                            setPlaybtn3(0);
+                            setAigrade(aigrade + 5);
+                            setRound(round + 1);
                             clearInterval(executionOP);
                           }, AIOP[opArr[round - 1] + i].time);
                         } else {
+                          console.log("Remove");
                           let executionOP = setInterval(() => {
-                            console.log("Remove");
-                            search(AIOP[opArr[round - 1] + i].number);
-                            remove(AIOP[opArr[round - 1] + i].number);
-                            clearInterval(executionOP);
+                            let orderValue = getData("inorder");
+                            let tmp = 0;
+                            orderValue.forEach((e) => {
+                              if (e === AIOP[opArr[round - 1] + i].number) {
+                                tmp = 1;
+                              }
+                            });
+                            if (tmp) {
+                              search(AIOP[opArr[round - 1] + i].number);
+                              remove(AIOP[opArr[round - 1] + i].number);
+                              setAigrade(aigrade + 5);
+                              clearInterval(executionOP);
+                              start();
+                              setPlaybtn1(0);
+                              setPlaybtn2(0);
+                              setPlaybtn3(0);
+                              setRound(round + 1);
+                            } else {
+                              setAigrade(aigrade - 3);
+                              clearInterval(executionOP);
+                              start();
+                              setPlaybtn1(0);
+                              setPlaybtn2(0);
+                              setPlaybtn3(0);
+                              setRound(round + 1);
+                            }
                           }, AIOP[opArr[round - 1] + i].time);
                         }
                         break;
@@ -407,6 +482,7 @@ function AVLGame() {
                       if (tmp) {
                         search(playerOP[opArr[round - 1] + 1].number);
                         remove(playerOP[opArr[round - 1] + 1].number);
+                        setPlayergrade(playergrade + 5);
                       } else {
                         setPlayergrade(playergrade - 3);
                       }
@@ -419,28 +495,56 @@ function AVLGame() {
                 <Button
                   className="playerbtn3"
                   variant="outline-dark"
+                  disabled={playerbtn3}
                   onClick={() => {
-                    let playerbtn1 = document.querySelector(".playerbtn1");
-                    let playerbtn2 = document.querySelector(".playerbtn2");
-                    let playerbtn3 = document.querySelector(".playerbtn3");
-                    playerbtn1.disabled = "true";
-                    playerbtn2.disabled = "true";
-                    playerbtn3.disabled = "true";
+                    start();
+                    setPlaybtn1(1);
+                    setPlaybtn2(1);
+                    setPlaybtn3(1);
                     for (let i = 0; i < 3; i++) {
                       if (AIOP[opArr[round - 1] + i].do === 1) {
-                        if (AIOP[opArr[round - 1] + i].IR === "insert") {
+                        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
                           let executionOP = setInterval(() => {
                             console.log("insert");
                             insert(AIOP[opArr[round - 1] + i].number);
                             search(AIOP[opArr[round - 1] + i].number);
+                            start();
+                            setPlaybtn1(0);
+                            setPlaybtn2(0);
+                            setPlaybtn3(0);
+                            setAigrade(aigrade + 5);
+                            setRound(round + 1);
                             clearInterval(executionOP);
                           }, AIOP[opArr[round - 1] + i].time);
                         } else {
+                          console.log("Remove");
                           let executionOP = setInterval(() => {
-                            console.log("remove");
-                            search(AIOP[opArr[round - 1] + i].number);
-                            remove(AIOP[opArr[round - 1] + i].number);
-                            clearInterval(executionOP);
+                            let orderValue = getData("inorder");
+                            let tmp = 0;
+                            orderValue.forEach((e) => {
+                              if (e === AIOP[opArr[round - 1] + i].number) {
+                                tmp = 1;
+                              }
+                            });
+                            if (tmp) {
+                              search(AIOP[opArr[round - 1] + i].number);
+                              remove(AIOP[opArr[round - 1] + i].number);
+                              setAigrade(aigrade + 5);
+                              clearInterval(executionOP);
+                              start();
+                              setPlaybtn1(0);
+                              setPlaybtn2(0);
+                              setPlaybtn3(0);
+                              setRound(round + 1);
+                            } else {
+                              setAigrade(aigrade - 3);
+                              clearInterval(executionOP);
+                              start();
+                              setPlaybtn1(0);
+                              setPlaybtn2(0);
+                              setPlaybtn3(0);
+                              setRound(round + 1);
+                            }
                           }, AIOP[opArr[round - 1] + i].time);
                         }
                         break;
@@ -461,6 +565,7 @@ function AVLGame() {
                       if (tmp) {
                         search(playerOP[opArr[round - 1] + 2].number);
                         remove(playerOP[opArr[round - 1] + 2].number);
+                        setPlayergrade(playergrade + 5);
                       } else {
                         setPlayergrade(playergrade - 3);
                       }
@@ -473,7 +578,7 @@ function AVLGame() {
               </div>
             </div>
           </Tilt>
-          <div className="timer">10</div>
+          <div className="timer">3</div>
           <Tilt className="gametitle" options={options}>
             <div className="AIcontainer">
               <div className="namegrade">
@@ -514,9 +619,9 @@ function AVLGame() {
             variant="outline-dark"
             style={{ marginTop: "20px" }}
             onClick={() => {
-              start();
+              firstStart();
               let btn = document.querySelector(".startbtn");
-              btn.disabled = "true";
+              btn.disabled = 1;
             }}
           >
             Start
