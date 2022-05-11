@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
-import { MDBContainer } from "mdbreact";
 import { AVLTree, useAVLTree } from "react-tree-vis";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import VanillaTilt from "vanilla-tilt";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -60,7 +60,7 @@ function Showpdf() {
   );
 }
 
-function MyVerticallyCenteredModal(props) {
+function PDFDocument(props) {
   return (
     <Modal
       {...props}
@@ -85,7 +85,7 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
-function GameMyVerticallyCenteredModal(props) {
+function Gamerule(props) {
   return (
     <Modal
       {...props}
@@ -123,80 +123,47 @@ function Tilt(props) {
 var AIOP = {};
 let change = 1;
 let playerOP = {};
-let opArr = [0, 3, 6, 9, 12, 15, 18, 21];
+let opArr = [0, 3, 6, 9, 12, 15, 18, 21, 24];
 
 function AVLGame() {
   const { ref, insert, remove, search, getData, clear, generateRandomTree } =
     useAVLTree();
-  const [modalShow, setModalShow] = React.useState(false);
+  const [documentmodalShow, setdocumentModalShow] = React.useState(false);
   const [gamemodalShow, setgameModalShow] = React.useState(false);
   const [diffcultymodalShow, setdiffcultyModalShow] = React.useState(true);
-  const [record, setRecord] = useState([]);
-  const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
-  const [open, setOpen] = useState("hide");
+  const [gameovermodalShow, setGameovermodalShow] = React.useState(false);
   const [playergrade, setPlayergrade] = useState(0);
   const [aigrade, setAigrade] = useState(0);
-  let tmp = [...record];
   const [type, setType] = useState(4);
   const [round, setRound] = useState(1);
   const [playerbtn1, setPlaybtn1] = useState(1);
   const [playerbtn2, setPlaybtn2] = useState(1);
   const [playerbtn3, setPlaybtn3] = useState(1);
-  let starttimer;
-  let fuck = 0;
-  function firstStart(params) {
-    console.log("firstStart");
-    let number = 3;
-    var timer = document.querySelector(".timer");
-    timer.innerText = number;
-    firstStart = setInterval(() => {
-      number--;
-      console.log(number);
-      if (number === 0) {
-        console.log("fuck");
-        timer.innerText = "Start";
-      } else if (number === -1) {
-        setPlaybtn1(0);
-        setPlaybtn2(0);
-        setPlaybtn3(0);
-        start();
-        clearInterval(firstStart);
-      } else {
-        timer.innerText = number;
-      }
-    }, 1000);
-  }
+  const [timerPlay, setTimerPlay] = useState(false);
+  const [reset, setReset] = useState(0);
+  let whowin = playergrade > aigrade ? "You win" : "You lose";
 
-  function start() {
-    console.log("timer start");
-    let number = 10;
-    let count = 0;
-    var timer = document.querySelector(".timer");
-    timer.innerText = number;
-    fuck++;
-    clearInterval(starttimer);
-    starttimer = setInterval(() => {
-      console.log("timer" + fuck);
-      number--;
-      if (number <= 0) {
-        number = 10;
-        count++;
-        if (count === 1) {
-          number = 1;
-          clearInterval(starttimer);
-        }
-      }
-      timer.innerText = number;
-    }, 1000);
-    console.log("------------------------");
-  }
   const options = {
     scale: 1,
     max: 15,
     speed: 250,
   };
 
-  function DifficultyMyVerticallyCenteredModal(props) {
+  const renderTime = ({ remainingTime }) => {
+    if (remainingTime === 0) {
+      return <div className="timer">Too late...</div>;
+    }
+
+    return (
+      <div className="timer">
+        <div className="text">Remaining</div>
+        <div className="value">{remainingTime}</div>
+        <div className="text">seconds</div>
+      </div>
+    );
+  };
+
+  function Difficulty(props) {
     return (
       <Modal
         {...props}
@@ -218,7 +185,7 @@ function AVLGame() {
               style={{ width: "200px" }}
               value={type}
               onChange={(e) => {
-                setType(e.target.value);
+                setType(parseInt(e.target.value));
               }}
             >
               <option value="4">Easy</option>
@@ -235,11 +202,44 @@ function AVLGame() {
       </Modal>
     );
   }
-
+  function Gameover(props) {
+    return (
+      <Modal
+        {...props}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <h2>Game Over</h2>
+          <p> Your grade: {playergrade}</p>
+          <p> AI grade: {aigrade}</p>
+          <p>{whowin}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              setGameovermodalShow(false);
+              setAigrade(0);
+              setPlayergrade(0);
+              setPlaybtn1(1);
+              setPlaybtn2(1);
+              setPlaybtn3(1);
+              setTimerPlay(false);
+            }}
+          >
+            Restart!
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
   let count = 0;
+  let tmptype = 4;
   let aicount = 0;
-  if (change) {
-    for (let i = 0; i < type; i++) {
+  if (change || tmptype !== type) {
+    tmptype = type;
+    for (let i = 0; i < type + 1; i++) {
       let iN = 0;
       let rN = 0;
       let aiN = 0;
@@ -263,14 +263,14 @@ function AVLGame() {
             IR: "Remove",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(1, 9) * 1000,
+            time: getRandom(3, 8) * 1000,
           };
         } else if (arN === 2) {
           AIOP[aicount++] = {
             IR: "Insert",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(1, 9) * 1000,
+            time: getRandom(3, 8) * 1000,
           };
         } else {
           let title = tmp2 === 1 ? "Insert" : "Remove";
@@ -278,13 +278,13 @@ function AVLGame() {
             IR: title,
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(1, 9) * 1000,
+            time: getRandom(3, 8) * 1000,
           };
         }
       }
     }
     aicount = 0;
-    for (let i = 0; i < type; i++) {
+    for (let i = 0; i < type + 1; i++) {
       let doArr = [1, 0, 0];
       doArr.sort(function () {
         return 0.5 - Math.random();
@@ -295,8 +295,20 @@ function AVLGame() {
     }
     change = 0;
   }
-
+  let playercontainer = document.querySelector(".playtitle");
+  let aicontainer = document.querySelector(".aititle");
   console.log(AIOP);
+  if (round > type) {
+    setPlaybtn1(1);
+    setPlaybtn2(1);
+    setPlaybtn3(1);
+    setRound(1);
+    setGameovermodalShow(true);
+    setTimerPlay(false);
+    playercontainer.classList.remove("myturn");
+    aicontainer.classList.remove("myturn");
+  }
+
   return (
     <div className="A3">
       <div className="AVLgame">
@@ -313,13 +325,13 @@ function AVLGame() {
           <img
             className="hint"
             src="/Img/hint.gif"
-            onClick={() => setModalShow(true)}
+            onClick={() => setdocumentModalShow(true)}
           />
         </div>
         <h1>AVL</h1>
         <h2>Round {round}</h2>
         <div className="interactiveInterface">
-          <Tilt className="gametitle" options={options}>
+          <Tilt className="gametitle playtitle" options={options}>
             <div className="playercontainer">
               <div className="namegrade">
                 <div className="thegrade">{playergrade}</div>
@@ -331,7 +343,8 @@ function AVLGame() {
                   variant="outline-dark"
                   disabled={playerbtn1}
                   onClick={() => {
-                    start();
+                    playercontainer.classList.remove("myturn");
+                    aicontainer.classList.add("myturn");
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
@@ -355,24 +368,39 @@ function AVLGame() {
                         setPlayergrade(playergrade - 3);
                       }
                     }
+                    console.log("reset1");
+                    setReset(!reset);
+                    console.log("AI");
                     for (let i = 0; i < 3; i++) {
                       if (AIOP[opArr[round - 1] + i].do === 1) {
                         if (AIOP[opArr[round - 1] + i].IR === "Insert") {
-                          let executionOP = setInterval(() => {
+                          setTimeout(() => {
                             console.log("insert");
                             insert(AIOP[opArr[round - 1] + i].number);
                             search(AIOP[opArr[round - 1] + i].number);
-                            start();
                             setPlaybtn1(0);
                             setPlaybtn2(0);
                             setPlaybtn3(0);
+                            playercontainer.classList.add("myturn");
+                            aicontainer.classList.remove("myturn");
                             setAigrade(aigrade + 5);
-                            setRound(round + 1);
-                            clearInterval(executionOP);
+                            if (round > type) {
+                              setRound(1);
+                              setGameovermodalShow(true);
+                            } else {
+                              setRound(round + 1);
+                            }
+                            if (reset) {
+                              setReset(0);
+                              console.log("reset2");
+                            } else {
+                              setReset(1);
+                              console.log("reset2");
+                            }
                           }, AIOP[opArr[round - 1] + i].time);
                         } else {
-                          console.log("Remove");
-                          let executionOP = setInterval(() => {
+                          setTimeout(() => {
+                            console.log("Remove");
                             let orderValue = getData("inorder");
                             let tmp = 0;
                             orderValue.forEach((e) => {
@@ -384,20 +412,44 @@ function AVLGame() {
                               search(AIOP[opArr[round - 1] + i].number);
                               remove(AIOP[opArr[round - 1] + i].number);
                               setAigrade(aigrade + 5);
-                              clearInterval(executionOP);
-                              start();
                               setPlaybtn1(0);
                               setPlaybtn2(0);
                               setPlaybtn3(0);
-                              setRound(round + 1);
+                              playercontainer.classList.add("myturn");
+                              aicontainer.classList.remove("myturn");
+                              if (round > type) {
+                                setRound(1);
+                                setGameovermodalShow(true);
+                              } else {
+                                setRound(round + 1);
+                              }
+                              if (reset) {
+                                setReset(0);
+                                console.log("reset2");
+                              } else {
+                                setReset(1);
+                                console.log("reset2");
+                              }
                             } else {
                               setAigrade(aigrade - 3);
-                              clearInterval(executionOP);
-                              start();
+                              if (reset) {
+                                setReset(0);
+                                console.log("reset2");
+                              } else {
+                                setReset(1);
+                                console.log("reset2");
+                              }
                               setPlaybtn1(0);
                               setPlaybtn2(0);
                               setPlaybtn3(0);
-                              setRound(round + 1);
+                              playercontainer.classList.add("myturn");
+                              aicontainer.classList.remove("myturn");
+                              if (round > type) {
+                                setRound(1);
+                                setGameovermodalShow(true);
+                              } else {
+                                setRound(round + 1);
+                              }
                             }
                           }, AIOP[opArr[round - 1] + i].time);
                         }
@@ -414,59 +466,11 @@ function AVLGame() {
                   variant="outline-dark"
                   disabled={playerbtn2}
                   onClick={() => {
-                    start();
+                    playercontainer.classList.remove("myturn");
+                    aicontainer.classList.add("myturn");
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
-                    for (let i = 0; i < 3; i++) {
-                      if (AIOP[opArr[round - 1] + i].do === 1) {
-                        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
-                          let executionOP = setInterval(() => {
-                            console.log("insert");
-                            insert(AIOP[opArr[round - 1] + i].number);
-                            search(AIOP[opArr[round - 1] + i].number);
-                            start();
-                            setPlaybtn1(0);
-                            setPlaybtn2(0);
-                            setPlaybtn3(0);
-                            setAigrade(aigrade + 5);
-                            setRound(round + 1);
-                            clearInterval(executionOP);
-                          }, AIOP[opArr[round - 1] + i].time);
-                        } else {
-                          console.log("Remove");
-                          let executionOP = setInterval(() => {
-                            let orderValue = getData("inorder");
-                            let tmp = 0;
-                            orderValue.forEach((e) => {
-                              if (e === AIOP[opArr[round - 1] + i].number) {
-                                tmp = 1;
-                              }
-                            });
-                            if (tmp) {
-                              search(AIOP[opArr[round - 1] + i].number);
-                              remove(AIOP[opArr[round - 1] + i].number);
-                              setAigrade(aigrade + 5);
-                              clearInterval(executionOP);
-                              start();
-                              setPlaybtn1(0);
-                              setPlaybtn2(0);
-                              setPlaybtn3(0);
-                              setRound(round + 1);
-                            } else {
-                              setAigrade(aigrade - 3);
-                              clearInterval(executionOP);
-                              start();
-                              setPlaybtn1(0);
-                              setPlaybtn2(0);
-                              setPlaybtn3(0);
-                              setRound(round + 1);
-                            }
-                          }, AIOP[opArr[round - 1] + i].time);
-                        }
-                        break;
-                      }
-                    }
                     if (playerOP[opArr[round - 1] + 1].IR === "Insert") {
                       insert(playerOP[opArr[round - 1] + 1].number);
                       search(playerOP[opArr[round - 1] + 1].number);
@@ -487,38 +491,39 @@ function AVLGame() {
                         setPlayergrade(playergrade - 3);
                       }
                     }
-                  }}
-                >
-                  {playerOP[opArr[round - 1] + 1].IR}
-                  {playerOP[opArr[round - 1] + 1].number}
-                </Button>
-                <Button
-                  className="playerbtn3"
-                  variant="outline-dark"
-                  disabled={playerbtn3}
-                  onClick={() => {
-                    start();
-                    setPlaybtn1(1);
-                    setPlaybtn2(1);
-                    setPlaybtn3(1);
+                    console.log("reset1");
+                    setReset(!reset);
+                    console.log("AI");
                     for (let i = 0; i < 3; i++) {
                       if (AIOP[opArr[round - 1] + i].do === 1) {
                         if (AIOP[opArr[round - 1] + i].IR === "Insert") {
-                          let executionOP = setInterval(() => {
+                          setTimeout(() => {
                             console.log("insert");
                             insert(AIOP[opArr[round - 1] + i].number);
                             search(AIOP[opArr[round - 1] + i].number);
-                            start();
                             setPlaybtn1(0);
                             setPlaybtn2(0);
                             setPlaybtn3(0);
+                            playercontainer.classList.add("myturn");
+                            aicontainer.classList.remove("myturn");
                             setAigrade(aigrade + 5);
-                            setRound(round + 1);
-                            clearInterval(executionOP);
+                            if (round > type) {
+                              setRound(1);
+                              setGameovermodalShow(true);
+                            } else {
+                              setRound(round + 1);
+                            }
+                            if (reset) {
+                              setReset(0);
+                              console.log("reset2");
+                            } else {
+                              setReset(1);
+                              console.log("reset2");
+                            }
                           }, AIOP[opArr[round - 1] + i].time);
                         } else {
-                          console.log("Remove");
-                          let executionOP = setInterval(() => {
+                          setTimeout(() => {
+                            console.log("Remove");
                             let orderValue = getData("inorder");
                             let tmp = 0;
                             orderValue.forEach((e) => {
@@ -530,26 +535,65 @@ function AVLGame() {
                               search(AIOP[opArr[round - 1] + i].number);
                               remove(AIOP[opArr[round - 1] + i].number);
                               setAigrade(aigrade + 5);
-                              clearInterval(executionOP);
-                              start();
                               setPlaybtn1(0);
                               setPlaybtn2(0);
                               setPlaybtn3(0);
-                              setRound(round + 1);
+                              playercontainer.classList.add("myturn");
+                              aicontainer.classList.remove("myturn");
+                              if (round > type) {
+                                setRound(1);
+                                setGameovermodalShow(true);
+                              } else {
+                                setRound(round + 1);
+                              }
+                              if (reset) {
+                                setReset(0);
+                                console.log("reset2");
+                              } else {
+                                setReset(1);
+                                console.log("reset2");
+                              }
                             } else {
                               setAigrade(aigrade - 3);
-                              clearInterval(executionOP);
-                              start();
+                              if (reset) {
+                                setReset(0);
+                                console.log("reset2");
+                              } else {
+                                setReset(1);
+                                console.log("reset2");
+                              }
                               setPlaybtn1(0);
                               setPlaybtn2(0);
                               setPlaybtn3(0);
-                              setRound(round + 1);
+                              playercontainer.classList.add("myturn");
+                              aicontainer.classList.remove("myturn");
+                              if (round > type) {
+                                setRound(1);
+                                setGameovermodalShow(true);
+                              } else {
+                                setRound(round + 1);
+                              }
                             }
                           }, AIOP[opArr[round - 1] + i].time);
                         }
                         break;
                       }
                     }
+                  }}
+                >
+                  {playerOP[opArr[round - 1] + 1].IR}
+                  {playerOP[opArr[round - 1] + 1].number}
+                </Button>
+                <Button
+                  className="playerbtn3"
+                  variant="outline-dark"
+                  disabled={playerbtn3}
+                  onClick={() => {
+                    playercontainer.classList.remove("myturn");
+                    aicontainer.classList.add("myturn");
+                    setPlaybtn1(1);
+                    setPlaybtn2(1);
+                    setPlaybtn3(1);
                     if (playerOP[opArr[round - 1] + 2].IR === "Insert") {
                       insert(playerOP[opArr[round - 1] + 2].number);
                       search(playerOP[opArr[round - 1] + 2].number);
@@ -570,6 +614,94 @@ function AVLGame() {
                         setPlayergrade(playergrade - 3);
                       }
                     }
+                    console.log("reset1");
+                    setReset(!reset);
+                    console.log("AI");
+                    for (let i = 0; i < 3; i++) {
+                      if (AIOP[opArr[round - 1] + i].do === 1) {
+                        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
+                          setTimeout(() => {
+                            console.log("insert");
+                            insert(AIOP[opArr[round - 1] + i].number);
+                            search(AIOP[opArr[round - 1] + i].number);
+                            setPlaybtn1(0);
+                            setPlaybtn2(0);
+                            setPlaybtn3(0);
+                            playercontainer.classList.add("myturn");
+                            aicontainer.classList.remove("myturn");
+                            setAigrade(aigrade + 5);
+                            if (round > type) {
+                              setRound(1);
+                              setGameovermodalShow(true);
+                            } else {
+                              setRound(round + 1);
+                            }
+                            if (reset) {
+                              setReset(0);
+                              console.log("reset2");
+                            } else {
+                              setReset(1);
+                              console.log("reset2");
+                            }
+                          }, AIOP[opArr[round - 1] + i].time);
+                        } else {
+                          setTimeout(() => {
+                            console.log("Remove");
+                            let orderValue = getData("inorder");
+                            let tmp = 0;
+                            orderValue.forEach((e) => {
+                              if (e === AIOP[opArr[round - 1] + i].number) {
+                                tmp = 1;
+                              }
+                            });
+                            if (tmp) {
+                              search(AIOP[opArr[round - 1] + i].number);
+                              remove(AIOP[opArr[round - 1] + i].number);
+                              setAigrade(aigrade + 5);
+                              setPlaybtn1(0);
+                              setPlaybtn2(0);
+                              setPlaybtn3(0);
+                              playercontainer.classList.add("myturn");
+                              aicontainer.classList.remove("myturn");
+                              if (round > type) {
+                                setRound(1);
+                                setGameovermodalShow(true);
+                              } else {
+                                setRound(round + 1);
+                              }
+                              if (reset) {
+                                setReset(0);
+                                console.log("reset2");
+                              } else {
+                                setReset(1);
+                                console.log("reset2");
+                              }
+                            } else {
+                              setAigrade(aigrade - 3);
+                              if (reset) {
+                                setReset(0);
+                                console.log("reset2");
+                              } else {
+                                setReset(1);
+                                console.log("reset2");
+                              }
+                              setPlaybtn1(0);
+                              setPlaybtn2(0);
+                              setPlaybtn3(0);
+                              playercontainer.classList.add("myturn");
+                              aicontainer.classList.remove("myturn");
+                              if (round > type) {
+                                setRound(1);
+                                setGameovermodalShow(true);
+                              } else {
+                                setRound(round + 1);
+                              }
+                            }
+                          }, AIOP[opArr[round - 1] + i].time);
+                        }
+                        break;
+                      }
+                    }
                   }}
                 >
                   {playerOP[opArr[round - 1] + 2].IR}
@@ -578,8 +710,19 @@ function AVLGame() {
               </div>
             </div>
           </Tilt>
-          <div className="timer">3</div>
-          <Tilt className="gametitle" options={options}>
+          <div className="timer-wrapper">
+            <CountdownCircleTimer
+              key={reset}
+              isPlaying={timerPlay}
+              duration={10}
+              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+              colorsTime={[10, 6, 3, 0]}
+              onComplete={() => ({ shouldRepeat: true, delay: 5 })}
+            >
+              {renderTime}
+            </CountdownCircleTimer>
+          </div>
+          <Tilt className="gametitle aititle" options={options}>
             <div className="AIcontainer">
               <div className="namegrade">
                 <div className="thegrade">{aigrade}</div>
@@ -619,9 +762,14 @@ function AVLGame() {
             variant="outline-dark"
             style={{ marginTop: "20px" }}
             onClick={() => {
-              firstStart();
+              setTimerPlay(true);
               let btn = document.querySelector(".startbtn");
               btn.disabled = 1;
+              setPlaybtn1(0);
+              setPlaybtn2(0);
+              setPlaybtn3(0);
+              let playercontainer = document.querySelector(".playtitle");
+              playercontainer.classList.add("myturn");
             }}
           >
             Start
@@ -635,17 +783,18 @@ function AVLGame() {
           </Button>
         </div>
         <AVLTree data={arr} ref={ref} />
-        <MyVerticallyCenteredModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
+        <PDFDocument
+          show={documentmodalShow}
+          onHide={() => setdocumentModalShow(false)}
         />
-        <GameMyVerticallyCenteredModal
-          show={gamemodalShow}
-          onHide={() => setgameModalShow(false)}
-        />
-        <DifficultyMyVerticallyCenteredModal
+        <Gamerule show={gamemodalShow} onHide={() => setgameModalShow(false)} />
+        <Difficulty
           show={diffcultymodalShow}
           onHide={() => setdiffcultyModalShow(false)}
+        />
+        <Gameover
+          show={gameovermodalShow}
+          onHide={() => setGameovermodalShow(false)}
         />
       </div>
     </div>

@@ -705,13 +705,9 @@ h2 span:nth-child(even) {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
-  margin-left: 50px;
-  margin-right: 50px;
   width:100px;
   height: 100px;
   border-radius: 50%;
-  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
 }
 .gamerule{
   width: 20px;
@@ -727,6 +723,36 @@ h2 span:nth-child(even) {
   position: absolute;
   top: 150px;
   cursor: pointer;
+}
+.timer-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.timer {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text {
+  color: #aaa;
+}
+
+.value {
+  font-size: 40px;
+}
+
+.info {
+  max-width: 360px;
+  text-align: center;
+  font-size: 16px;
+}
+.myturn{
+  box-shadow: -5px -5px 20px #0dcaf0, 5px 5px 20px #ff0081;
 }
 /****************************************************************/
 /*************************Admin**********************************/
