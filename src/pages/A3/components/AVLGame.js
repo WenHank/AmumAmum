@@ -100,6 +100,14 @@ function Gamerule(props) {
       </Modal.Header>
       <Modal.Body>
         <h3>How to play?</h3>
+        <p>Step 1 選擇難度</p>
+        <p>Step 2 按下Go play</p>
+        <p>Step 3 按下Start 即可開始玩</p>
+        <p>若想重新開始則按下Restart 即可</p>
+        <h3>How to win?</h3>
+        <p>新增或刪除節點來達到該樹的平衡</p>
+        <p>在時間內，答對的速度愈快分數愈高，答錯則會扣３分</p>
+        <p>若超時則不扣分，並換對方答題</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -124,9 +132,11 @@ var AIOP = {};
 let change = 1;
 let playerOP = {};
 let opArr = [0, 3, 6, 9, 12, 15, 18, 21, 24];
+let timeai = 0;
+let doing = 0;
 
 function AVLGame() {
-  const { ref, insert, remove, search, getData, clear, generateRandomTree } =
+  const { ref, insert, remove, search, getData, generateRandomTree } =
     useAVLTree();
   const [documentmodalShow, setdocumentModalShow] = React.useState(false);
   const [gamemodalShow, setgameModalShow] = React.useState(false);
@@ -142,7 +152,14 @@ function AVLGame() {
   const [timerPlay, setTimerPlay] = useState(false);
   const [reset, setReset] = useState(0);
   let whowin = playergrade > aigrade ? "You win" : "You lose";
-
+  let second = 10;
+  if (type === 4) {
+    second = 10;
+  } else if (type === 6) {
+    second = 8;
+  } else {
+    second = 6;
+  }
   const options = {
     scale: 1,
     max: 15,
@@ -150,10 +167,21 @@ function AVLGame() {
   };
 
   const renderTime = ({ remainingTime }) => {
-    if (remainingTime === 0) {
+    if (remainingTime === 0 && round <= type) {
+      setPlaybtn1(1);
+      setPlaybtn2(1);
+      setPlaybtn3(1);
+      if (!doing) {
+        doing = 1;
+        setTimeout(() => {
+          playercontainer.classList.remove("myturn");
+          aicontainer.classList.add("myturn");
+          console.log(timeai++);
+          AIplay();
+        }, 3000);
+      }
       return <div className="timer">Too late...</div>;
     }
-
     return (
       <div className="timer">
         <div className="text">Remaining</div>
@@ -169,6 +197,7 @@ function AVLGame() {
         {...props}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        backdrop="static"
       >
         <Modal.Body>
           <h2>Start to play!!</h2>
@@ -195,7 +224,13 @@ function AVLGame() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-dark" onClick={props.onHide}>
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              setdiffcultyModalShow(false);
+              generateRandomTree(getRandom(5, 10));
+            }}
+          >
             Go play!
           </Button>
         </Modal.Footer>
@@ -225,7 +260,6 @@ function AVLGame() {
               setPlaybtn1(1);
               setPlaybtn2(1);
               setPlaybtn3(1);
-              setTimerPlay(false);
             }}
           >
             Restart!
@@ -299,6 +333,7 @@ function AVLGame() {
   let aicontainer = document.querySelector(".aititle");
   console.log(AIOP);
   if (round > type) {
+    console.log("this1");
     setPlaybtn1(1);
     setPlaybtn2(1);
     setPlaybtn3(1);
@@ -308,7 +343,86 @@ function AVLGame() {
     playercontainer.classList.remove("myturn");
     aicontainer.classList.remove("myturn");
   }
-
+  function AIplay() {
+    doing = 0;
+    for (let i = 0; i < 3; i++) {
+      if (AIOP[opArr[round - 1] + i].do === 1) {
+        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
+          setTimeout(() => {
+            console.log("insert");
+            insert(AIOP[opArr[round - 1] + i].number);
+            search(AIOP[opArr[round - 1] + i].number);
+            setPlaybtn1(0);
+            setPlaybtn2(0);
+            setPlaybtn3(0);
+            playercontainer.classList.add("myturn");
+            aicontainer.classList.remove("myturn");
+            setAigrade(aigrade + 5);
+            if (round <= type) {
+              setRound(round + 1);
+            }
+            if (reset) {
+              setReset(0);
+              console.log("reset2");
+            } else {
+              setReset(1);
+              console.log("reset2");
+            }
+          }, AIOP[opArr[round - 1] + i].time);
+        } else {
+          setTimeout(() => {
+            console.log("Remove");
+            let orderValue = getData("inorder");
+            let tmp = 0;
+            orderValue.forEach((e) => {
+              if (e === AIOP[opArr[round - 1] + i].number) {
+                tmp = 1;
+              }
+            });
+            if (tmp) {
+              search(AIOP[opArr[round - 1] + i].number);
+              remove(AIOP[opArr[round - 1] + i].number);
+              setAigrade(aigrade + 5);
+              setPlaybtn1(0);
+              setPlaybtn2(0);
+              setPlaybtn3(0);
+              playercontainer.classList.add("myturn");
+              aicontainer.classList.remove("myturn");
+              if (round <= type) {
+                setRound(round + 1);
+              }
+              if (reset) {
+                setReset(0);
+                console.log("reset2");
+              } else {
+                setReset(1);
+                console.log("reset2");
+              }
+            } else {
+              setAigrade(aigrade - 3);
+              if (reset) {
+                setReset(0);
+                console.log("reset2");
+              } else {
+                setReset(1);
+                console.log("reset2");
+              }
+              setPlaybtn1(0);
+              setPlaybtn2(0);
+              setPlaybtn3(0);
+              playercontainer.classList.add("myturn");
+              aicontainer.classList.remove("myturn");
+              if (round <= type) {
+                setRound(round + 1);
+              }
+            }
+          }, AIOP[opArr[round - 1] + i].time);
+        }
+        break;
+      }
+    }
+  }
+  console.log(gameovermodalShow);
   return (
     <div className="A3">
       <div className="AVLgame">
@@ -371,91 +485,7 @@ function AVLGame() {
                     console.log("reset1");
                     setReset(!reset);
                     console.log("AI");
-                    for (let i = 0; i < 3; i++) {
-                      if (AIOP[opArr[round - 1] + i].do === 1) {
-                        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
-                          setTimeout(() => {
-                            console.log("insert");
-                            insert(AIOP[opArr[round - 1] + i].number);
-                            search(AIOP[opArr[round - 1] + i].number);
-                            setPlaybtn1(0);
-                            setPlaybtn2(0);
-                            setPlaybtn3(0);
-                            playercontainer.classList.add("myturn");
-                            aicontainer.classList.remove("myturn");
-                            setAigrade(aigrade + 5);
-                            if (round > type) {
-                              setRound(1);
-                              setGameovermodalShow(true);
-                            } else {
-                              setRound(round + 1);
-                            }
-                            if (reset) {
-                              setReset(0);
-                              console.log("reset2");
-                            } else {
-                              setReset(1);
-                              console.log("reset2");
-                            }
-                          }, AIOP[opArr[round - 1] + i].time);
-                        } else {
-                          setTimeout(() => {
-                            console.log("Remove");
-                            let orderValue = getData("inorder");
-                            let tmp = 0;
-                            orderValue.forEach((e) => {
-                              if (e === AIOP[opArr[round - 1] + i].number) {
-                                tmp = 1;
-                              }
-                            });
-                            if (tmp) {
-                              search(AIOP[opArr[round - 1] + i].number);
-                              remove(AIOP[opArr[round - 1] + i].number);
-                              setAigrade(aigrade + 5);
-                              setPlaybtn1(0);
-                              setPlaybtn2(0);
-                              setPlaybtn3(0);
-                              playercontainer.classList.add("myturn");
-                              aicontainer.classList.remove("myturn");
-                              if (round > type) {
-                                setRound(1);
-                                setGameovermodalShow(true);
-                              } else {
-                                setRound(round + 1);
-                              }
-                              if (reset) {
-                                setReset(0);
-                                console.log("reset2");
-                              } else {
-                                setReset(1);
-                                console.log("reset2");
-                              }
-                            } else {
-                              setAigrade(aigrade - 3);
-                              if (reset) {
-                                setReset(0);
-                                console.log("reset2");
-                              } else {
-                                setReset(1);
-                                console.log("reset2");
-                              }
-                              setPlaybtn1(0);
-                              setPlaybtn2(0);
-                              setPlaybtn3(0);
-                              playercontainer.classList.add("myturn");
-                              aicontainer.classList.remove("myturn");
-                              if (round > type) {
-                                setRound(1);
-                                setGameovermodalShow(true);
-                              } else {
-                                setRound(round + 1);
-                              }
-                            }
-                          }, AIOP[opArr[round - 1] + i].time);
-                        }
-                        break;
-                      }
-                    }
+                    AIplay();
                   }}
                 >
                   {playerOP[opArr[round - 1]].IR}
@@ -494,91 +524,7 @@ function AVLGame() {
                     console.log("reset1");
                     setReset(!reset);
                     console.log("AI");
-                    for (let i = 0; i < 3; i++) {
-                      if (AIOP[opArr[round - 1] + i].do === 1) {
-                        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
-                          setTimeout(() => {
-                            console.log("insert");
-                            insert(AIOP[opArr[round - 1] + i].number);
-                            search(AIOP[opArr[round - 1] + i].number);
-                            setPlaybtn1(0);
-                            setPlaybtn2(0);
-                            setPlaybtn3(0);
-                            playercontainer.classList.add("myturn");
-                            aicontainer.classList.remove("myturn");
-                            setAigrade(aigrade + 5);
-                            if (round > type) {
-                              setRound(1);
-                              setGameovermodalShow(true);
-                            } else {
-                              setRound(round + 1);
-                            }
-                            if (reset) {
-                              setReset(0);
-                              console.log("reset2");
-                            } else {
-                              setReset(1);
-                              console.log("reset2");
-                            }
-                          }, AIOP[opArr[round - 1] + i].time);
-                        } else {
-                          setTimeout(() => {
-                            console.log("Remove");
-                            let orderValue = getData("inorder");
-                            let tmp = 0;
-                            orderValue.forEach((e) => {
-                              if (e === AIOP[opArr[round - 1] + i].number) {
-                                tmp = 1;
-                              }
-                            });
-                            if (tmp) {
-                              search(AIOP[opArr[round - 1] + i].number);
-                              remove(AIOP[opArr[round - 1] + i].number);
-                              setAigrade(aigrade + 5);
-                              setPlaybtn1(0);
-                              setPlaybtn2(0);
-                              setPlaybtn3(0);
-                              playercontainer.classList.add("myturn");
-                              aicontainer.classList.remove("myturn");
-                              if (round > type) {
-                                setRound(1);
-                                setGameovermodalShow(true);
-                              } else {
-                                setRound(round + 1);
-                              }
-                              if (reset) {
-                                setReset(0);
-                                console.log("reset2");
-                              } else {
-                                setReset(1);
-                                console.log("reset2");
-                              }
-                            } else {
-                              setAigrade(aigrade - 3);
-                              if (reset) {
-                                setReset(0);
-                                console.log("reset2");
-                              } else {
-                                setReset(1);
-                                console.log("reset2");
-                              }
-                              setPlaybtn1(0);
-                              setPlaybtn2(0);
-                              setPlaybtn3(0);
-                              playercontainer.classList.add("myturn");
-                              aicontainer.classList.remove("myturn");
-                              if (round > type) {
-                                setRound(1);
-                                setGameovermodalShow(true);
-                              } else {
-                                setRound(round + 1);
-                              }
-                            }
-                          }, AIOP[opArr[round - 1] + i].time);
-                        }
-                        break;
-                      }
-                    }
+                    AIplay();
                   }}
                 >
                   {playerOP[opArr[round - 1] + 1].IR}
@@ -617,91 +563,7 @@ function AVLGame() {
                     console.log("reset1");
                     setReset(!reset);
                     console.log("AI");
-                    for (let i = 0; i < 3; i++) {
-                      if (AIOP[opArr[round - 1] + i].do === 1) {
-                        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
-                          setTimeout(() => {
-                            console.log("insert");
-                            insert(AIOP[opArr[round - 1] + i].number);
-                            search(AIOP[opArr[round - 1] + i].number);
-                            setPlaybtn1(0);
-                            setPlaybtn2(0);
-                            setPlaybtn3(0);
-                            playercontainer.classList.add("myturn");
-                            aicontainer.classList.remove("myturn");
-                            setAigrade(aigrade + 5);
-                            if (round > type) {
-                              setRound(1);
-                              setGameovermodalShow(true);
-                            } else {
-                              setRound(round + 1);
-                            }
-                            if (reset) {
-                              setReset(0);
-                              console.log("reset2");
-                            } else {
-                              setReset(1);
-                              console.log("reset2");
-                            }
-                          }, AIOP[opArr[round - 1] + i].time);
-                        } else {
-                          setTimeout(() => {
-                            console.log("Remove");
-                            let orderValue = getData("inorder");
-                            let tmp = 0;
-                            orderValue.forEach((e) => {
-                              if (e === AIOP[opArr[round - 1] + i].number) {
-                                tmp = 1;
-                              }
-                            });
-                            if (tmp) {
-                              search(AIOP[opArr[round - 1] + i].number);
-                              remove(AIOP[opArr[round - 1] + i].number);
-                              setAigrade(aigrade + 5);
-                              setPlaybtn1(0);
-                              setPlaybtn2(0);
-                              setPlaybtn3(0);
-                              playercontainer.classList.add("myturn");
-                              aicontainer.classList.remove("myturn");
-                              if (round > type) {
-                                setRound(1);
-                                setGameovermodalShow(true);
-                              } else {
-                                setRound(round + 1);
-                              }
-                              if (reset) {
-                                setReset(0);
-                                console.log("reset2");
-                              } else {
-                                setReset(1);
-                                console.log("reset2");
-                              }
-                            } else {
-                              setAigrade(aigrade - 3);
-                              if (reset) {
-                                setReset(0);
-                                console.log("reset2");
-                              } else {
-                                setReset(1);
-                                console.log("reset2");
-                              }
-                              setPlaybtn1(0);
-                              setPlaybtn2(0);
-                              setPlaybtn3(0);
-                              playercontainer.classList.add("myturn");
-                              aicontainer.classList.remove("myturn");
-                              if (round > type) {
-                                setRound(1);
-                                setGameovermodalShow(true);
-                              } else {
-                                setRound(round + 1);
-                              }
-                            }
-                          }, AIOP[opArr[round - 1] + i].time);
-                        }
-                        break;
-                      }
-                    }
+                    AIplay();
                   }}
                 >
                   {playerOP[opArr[round - 1] + 2].IR}
@@ -714,10 +576,10 @@ function AVLGame() {
             <CountdownCircleTimer
               key={reset}
               isPlaying={timerPlay}
-              duration={10}
+              duration={second}
               colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
               colorsTime={[10, 6, 3, 0]}
-              onComplete={() => ({ shouldRepeat: true, delay: 5 })}
+              onComplete={() => ({ shouldRepeat: true, delay: 3 })}
             >
               {renderTime}
             </CountdownCircleTimer>
@@ -777,7 +639,18 @@ function AVLGame() {
           <Button
             variant="outline-dark"
             style={{ marginTop: "20px" }}
-            onClick={() => setdiffcultyModalShow(true)}
+            onClick={() => {
+              setTimerPlay(false);
+              let btn = document.querySelector(".startbtn");
+              btn.disabled = 0;
+              setPlaybtn1(1);
+              setPlaybtn2(1);
+              setPlaybtn3(1);
+              let playercontainer = document.querySelector(".playtitle");
+              playercontainer.classList.remove("myturn");
+              setdiffcultyModalShow(true);
+              setReset(!reset);
+            }}
           >
             Restart
           </Button>
