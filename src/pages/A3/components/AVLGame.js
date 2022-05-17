@@ -5,7 +5,8 @@ import { AVLTree, useAVLTree } from "react-tree-vis";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import VanillaTilt from "vanilla-tilt";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-
+import axios from "axios";
+import AVLdocument from "../../A1/components/AVLdocument";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -70,11 +71,11 @@ function PDFDocument(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Adelson Velsky Landis Tree Interactive
+          Adelson Velsky Landis Tree Document
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Showpdf />
+        <AVLdocument />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -95,7 +96,7 @@ function Gamerule(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Adelson Velsky Landis Tree Interactive
+          Adelson Velsky Landis Tree Game
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -132,7 +133,6 @@ var AIOP = {};
 let change = 1;
 let playerOP = {};
 let opArr = [0, 3, 6, 9, 12, 15, 18, 21, 24];
-let timeai = 0;
 let doing = 0;
 
 function AVLGame() {
@@ -167,7 +167,15 @@ function AVLGame() {
   };
 
   const renderTime = ({ remainingTime }) => {
+    let title = "Remaining";
+    if (remainingTime <= 3) {
+      title = "Hurry up!!";
+      let timer = document.querySelector(".timer-wrapper");
+      timer.classList.add("toolate");
+    }
     if (remainingTime === 0 && round <= type) {
+      let timer = document.querySelector(".timer-wrapper");
+      timer.classList.remove("toolate");
       setPlaybtn1(1);
       setPlaybtn2(1);
       setPlaybtn3(1);
@@ -176,7 +184,6 @@ function AVLGame() {
         setTimeout(() => {
           playercontainer.classList.remove("myturn");
           aicontainer.classList.add("myturn");
-          console.log(timeai++);
           AIplay();
         }, 3000);
       }
@@ -184,7 +191,7 @@ function AVLGame() {
     }
     return (
       <div className="timer">
-        <div className="text">Remaining</div>
+        <div className="text">{title}</div>
         <div className="value">{remainingTime}</div>
         <div className="text">seconds</div>
       </div>
@@ -297,14 +304,14 @@ function AVLGame() {
             IR: "Remove",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, 8) * 1000,
+            time: getRandom(3, second - 1) * 1000,
           };
         } else if (arN === 2) {
           AIOP[aicount++] = {
             IR: "Insert",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, 8) * 1000,
+            time: getRandom(3, second - 1) * 1000,
           };
         } else {
           let title = tmp2 === 1 ? "Insert" : "Remove";
@@ -312,7 +319,7 @@ function AVLGame() {
             IR: title,
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, 8) * 1000,
+            time: getRandom(3, second - 1) * 1000,
           };
         }
       }
@@ -423,6 +430,22 @@ function AVLGame() {
     }
   }
   console.log(gameovermodalShow);
+
+  const [UserData, setUserData] = useState("");
+
+  useEffect(() => {
+    const GetSid = sessionStorage.getItem("Sid");
+    axios({
+      method: "POST",
+      data: {
+        _id: GetSid,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_USERINFO,
+    }).then((response) => {
+      setUserData(response.data);
+    });
+  }, []);
   return (
     <div className="A3">
       <div className="AVLgame">
@@ -442,14 +465,68 @@ function AVLGame() {
             onClick={() => setdocumentModalShow(true)}
           />
         </div>
+        <div className="roundContainer" style={{ marginRight: "500px" }}>
+          <h2>Round {round}</h2>
+        </div>
+        <div className="controlContainer">
+          <div className="timer-wrapper">
+            <CountdownCircleTimer
+              key={reset}
+              isPlaying={timerPlay}
+              duration={second}
+              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+              colorsTime={[10, 6, 3, 0]}
+              onComplete={() => ({ shouldRepeat: true, delay: 3 })}
+            >
+              {renderTime}
+            </CountdownCircleTimer>
+          </div>
+          <div>
+            <Button
+              className="startbtn"
+              variant="outline-dark"
+              style={{ marginTop: "20px" }}
+              onClick={() => {
+                setTimerPlay(true);
+                let btn = document.querySelector(".startbtn");
+                btn.disabled = 1;
+                setPlaybtn1(0);
+                setPlaybtn2(0);
+                setPlaybtn3(0);
+                let playercontainer = document.querySelector(".playtitle");
+                playercontainer.classList.add("myturn");
+              }}
+            >
+              Start
+            </Button>
+            <Button
+              variant="outline-dark"
+              style={{ marginTop: "20px" }}
+              onClick={() => {
+                setTimerPlay(false);
+                let btn = document.querySelector(".startbtn");
+                btn.disabled = 0;
+                setPlaybtn1(1);
+                setPlaybtn2(1);
+                setPlaybtn3(1);
+                let playercontainer = document.querySelector(".playtitle");
+                playercontainer.classList.remove("myturn");
+                setdiffcultyModalShow(true);
+                setReset(!reset);
+              }}
+            >
+              Restart
+            </Button>
+          </div>
+        </div>
         <h1>AVL</h1>
-        <h2>Round {round}</h2>
+
         <div className="interactiveInterface">
           <Tilt className="gametitle playtitle" options={options}>
             <div className="playercontainer">
               <div className="namegrade">
-                <div className="thegrade">{playergrade}</div>
-                <h3>player</h3>
+                <div className="thegrade">{aigrade}</div>
+                <h3>{UserData.Name}</h3>
               </div>
               <div className="options">
                 <Button
@@ -572,18 +649,7 @@ function AVLGame() {
               </div>
             </div>
           </Tilt>
-          <div className="timer-wrapper">
-            <CountdownCircleTimer
-              key={reset}
-              isPlaying={timerPlay}
-              duration={second}
-              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-              colorsTime={[10, 6, 3, 0]}
-              onComplete={() => ({ shouldRepeat: true, delay: 3 })}
-            >
-              {renderTime}
-            </CountdownCircleTimer>
-          </div>
+          <div style={{ margin: "20px" }}></div>
           <Tilt className="gametitle aititle" options={options}>
             <div className="AIcontainer">
               <div className="namegrade">
@@ -597,7 +663,7 @@ function AVLGame() {
                   disabled={true}
                 >
                   {AIOP[opArr[round - 1]].IR} {AIOP[opArr[round - 1]].number}
-                </Button>
+                </Button>{" "}
                 <Button
                   className="aibtn2"
                   variant="outline-dark"
@@ -618,44 +684,8 @@ function AVLGame() {
             </div>
           </Tilt>
         </div>
-        <div>
-          <Button
-            className="startbtn"
-            variant="outline-dark"
-            style={{ marginTop: "20px" }}
-            onClick={() => {
-              setTimerPlay(true);
-              let btn = document.querySelector(".startbtn");
-              btn.disabled = 1;
-              setPlaybtn1(0);
-              setPlaybtn2(0);
-              setPlaybtn3(0);
-              let playercontainer = document.querySelector(".playtitle");
-              playercontainer.classList.add("myturn");
-            }}
-          >
-            Start
-          </Button>
-          <Button
-            variant="outline-dark"
-            style={{ marginTop: "20px" }}
-            onClick={() => {
-              setTimerPlay(false);
-              let btn = document.querySelector(".startbtn");
-              btn.disabled = 0;
-              setPlaybtn1(1);
-              setPlaybtn2(1);
-              setPlaybtn3(1);
-              let playercontainer = document.querySelector(".playtitle");
-              playercontainer.classList.remove("myturn");
-              setdiffcultyModalShow(true);
-              setReset(!reset);
-            }}
-          >
-            Restart
-          </Button>
-        </div>
         <AVLTree data={arr} ref={ref} />
+
         <PDFDocument
           show={documentmodalShow}
           onHide={() => setdocumentModalShow(false)}

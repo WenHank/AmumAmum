@@ -4,7 +4,7 @@ import { Button, Modal, Carousel } from "react-bootstrap";
 import { RedBlackTree, useRedBlackTree } from "react-tree-vis";
 import { MDBContainer } from "mdbreact";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
-
+import RBTdocument from "../../A1/components/RBTdocument";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -73,7 +73,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Showpdf />
+        <RBTdocument />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>

@@ -4,6 +4,7 @@ import { AVLTree, useAVLTree } from "react-tree-vis";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import AVLdocument from "../../A1/components/AVLdocument";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -73,7 +74,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Showpdf />
+        <AVLdocument />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
