@@ -132,6 +132,19 @@ let doing = 0;
 var arr = [];
 let tmpArr = [];
 
+function makeArr() {
+  tmpArr = [];
+  for (let i = 0; i < getRandom(5, 15); i++) {
+    let tmp = getRandom(5, 80);
+    for (let j = 0; j < tmpArr.length; j++) {
+      if (tmpArr[j] === tmp) {
+        tmpArr.splice(j, 1);
+      }
+    }
+    tmpArr.push(tmp);
+  }
+}
+
 function BSTGame() {
   const { ref, insert, remove, search, getData, clear, generateRandomTree } =
     useBinarySearchTree();
@@ -147,9 +160,11 @@ function BSTGame() {
   const [playerbtn2, setPlaybtn2] = useState(1);
   const [playerbtn3, setPlaybtn3] = useState(1);
   const [timerPlay, setTimerPlay] = useState(false);
+  const [gobtn, setGobtn] = useState(0);
   const [reset, setReset] = useState(0);
   let whowin = playergrade > aigrade ? "You win" : "You lose";
   let second = 10;
+  let timer;
   if (type === 4) {
     second = 10;
   } else if (type === 6) {
@@ -167,7 +182,7 @@ function BSTGame() {
     let title = "Remaining";
     if (remainingTime <= 3) {
       title = "Hurry up!!";
-      let timer = document.querySelector(".timer-wrapper");
+      timer = document.querySelector(".timer-wrapper");
       timer.classList.add("toolate");
     }
     if (remainingTime === 0 && round <= type) {
@@ -195,10 +210,9 @@ function BSTGame() {
     );
   };
   let count = 0;
-  let tmptype = 4;
   let aicount = 0;
+  let tmptype = 4;
   let orderArr = ["inorder", "preorder", "postorder"];
-  let inreArr = ["insert", "remove"];
   function Difficulty(props) {
     return (
       <Modal
@@ -234,94 +248,76 @@ function BSTGame() {
         <Modal.Footer>
           <Button
             variant="outline-dark"
+            disabled={gobtn}
             onClick={() => {
+              let titlecount = 0;
               setdiffcultyModalShow(false);
               generateRandomTree(getRandom(5, 10));
               async function Creatchoice(params) {
                 for (let i = 0; i < type + 1; i++) {
-                  await generateRandomTree(getRandom(5, 10));
-                  let thetitle = getRandom(0, 1);
-                  let theorder = getRandom(0, 2);
-                  let theinre = getRandom(0, 1);
-                  let inValue = getRandom(5, 70);
-                  let orderValue = getData(orderArr[theorder]);
-                  let thenumber = getRandom(0, orderValue.length - 1);
-                  if (thetitle) {
-                    title[i] = {
-                      Arr: orderValue,
-                      Operation: orderArr[theorder],
-                      number: orderValue[thenumber],
-                      ans: thenumber,
-                      title:
-                        "根據下圖，請問" +
-                        orderValue[thenumber] +
-                        "為" +
-                        orderArr[theorder] +
-                        "的第幾個",
-                    };
-                    // } else if (theinre) {
-                    //   let orderValue = getData("inorder");
-                    //   title[i] = {
-                    //     Arr: orderValue,
-                    //     Operation: inreArr[theinre],
-                    //     number: inValue,
-                    //     title:
-                    //       "根據下圖，請問insert " + inValue + "需要幾步 Search",
-                    //   };
-                    // } else {
-                    //   title[i] = {
-                    //     Arr: tmpArr,
-                    //     Operation: inreArr[theinre],
-                    //     number: tmpArr[thenumber],
-                    //     title:
-                    //       "根據下圖，請問remove " +
-                    //       tmpArr[thenumber] +
-                    //       "需要幾步 Search",
-                    //   };
+                  makeArr();
+                  await clear();
+                  for (let i = 0; i < tmpArr.length; i++) {
+                    insert(tmpArr[i]);
                   }
+                  let theorder = getRandom(0, 2);
+                  let orderValue = await getData(orderArr[theorder]);
+                  let thenumber = getRandom(0, orderValue.length - 1);
+                  title[titlecount++] = {
+                    Arr: orderValue,
+                    Operation: orderArr[theorder],
+                    number: orderValue[thenumber],
+                    ans: thenumber,
+                    title:
+                      "根據下圖，請問" +
+                      orderValue[thenumber] +
+                      "為" +
+                      orderArr[theorder] +
+                      "的第幾個",
+                  };
                   let playnumber = [];
                   playnumber[0] = thenumber;
                   playnumber[1] = getRandom(1, 0)
-                    ? thenumber + getRandom(1, tmpArr.length - 2)
-                    : tmpArr - getRandom(0, thenumber);
+                    ? thenumber + getRandom(1, orderValue.length - 2)
+                    : thenumber - getRandom(0, thenumber);
                   playnumber[2] = getRandom(1, 0)
-                    ? thenumber + getRandom(1, tmpArr.length - 2)
-                    : tmpArr - getRandom(0, thenumber);
+                    ? thenumber + getRandom(1, orderValue.length - 2)
+                    : thenumber - getRandom(0, thenumber);
                   while (playnumber[1] === playnumber[2]) {
                     playnumber[2] = getRandom(1, 0)
-                      ? thenumber + getRandom(1, tmpArr.length - 2)
-                      : tmpArr - getRandom(0, thenumber);
+                      ? thenumber + getRandom(1, orderValue.length - 2)
+                      : thenumber - getRandom(0, thenumber);
                   }
                   playnumber.sort(function () {
                     return 0.5 - Math.random();
                   });
+                  let doArr = [1, 0, 0];
+                  doArr.sort(function () {
+                    return 0.5 - Math.random();
+                  });
                   for (let j = 0; j < 3; j++) {
                     playerOP[count++] = {
-                      choice: "Number " + playnumber[j],
+                      choice: "Number " + (playnumber[j] + 1),
                       number: playnumber[j],
                     };
                     AIOP[aicount++] = {
-                      choice: "Number " + playnumber[j],
+                      choice: "Number " + (playnumber[j] + 1),
                       number: playnumber[j],
-                      do: 0,
-                      time: getRandom(3, second - 1) * 1000,
+                      do: doArr[j],
+                      time: getRandom(3, 6) * 1000,
                     };
                   }
-                  console.log(AIOP);
-                  aicount = 0;
-                  for (let i = 0; i < type + 1; i++) {
-                    let doArr = [1, 0, 0];
-                    doArr.sort(function () {
-                      return 0.5 - Math.random();
-                    });
-                    for (let j = 0; j < 3; j++) {
-                      AIOP[aicount++].do = doArr[j];
-                    }
-                  }
-                  console.log(orderValue);
                 }
-                console.log(title);
+                console.log(AIOP);
                 console.log(playerOP);
+                console.log(title);
+                if (
+                  title.length === type + 1 &&
+                  playerOP.length === (type + 1) * 3 &&
+                  AIOP.length === (type + 1) * 3
+                ) {
+                  setGobtn(1);
+                }
               }
               Creatchoice();
             }}
@@ -364,115 +360,23 @@ function BSTGame() {
     );
   }
 
-  function makeArr() {
-    tmpArr = [];
-    for (let i = 0; i < getRandom(5, 10); i++) {
-      let tmp = getRandom(5, 70);
-      for (let j = 0; j < tmpArr.length; j++) {
-        if (tmpArr[j] === tmp) {
-          tmpArr.splice(j, 1);
-        }
-      }
-      tmpArr.push(tmp);
-    }
-  }
-
   if (change || tmptype !== type) {
     tmptype = type;
     title[0] = {
       title: "根據下圖，請問" + 1 + "為inorder 的第幾個",
     };
-    let thetitle = getRandom(0, 1);
     for (let j = 0; j < 3; j++) {
       playerOP[count++] = {
-        choice: thetitle ? "Number " + 1 : 1 + " step",
+        choice: "Number " + 1,
         number: 1,
       };
       AIOP[aicount++] = {
-        choice: thetitle ? "Number " + 1 : 1 + " step",
+        choice: "Number " + 1,
         number: 1,
         do: 0,
-        time: getRandom(3, second - 1) * 1000,
+        time: getRandom(3, 6) * 1000,
       };
     }
-    // for (let i = 0; i < type + 1; i++) {
-    //   makeArr();
-    //   let thenumber = getRandom(0, tmpArr.length - 1);
-    //   let thetitle = getRandom(0, 1);
-    //   let theorder = getRandom(0, 2);
-    //   let theinre = getRandom(0, 1);
-    //   let inValue = getRandom(5, 70);
-    //   if (thetitle) {
-    //     title[i] = {
-    //       Arr: tmpArr,
-    //       Operation: orderArr[theorder],
-    //       number: tmpArr[thenumber],
-    //       title:
-    //         "根據下圖，請問" +
-    //         tmpArr[thenumber] +
-    //         "為" +
-    //         orderArr[theorder] +
-    //         "的第幾個",
-    //     };
-    //   } else if (theinre) {
-    //     title[i] = {
-    //       Arr: tmpArr,
-    //       Operation: inreArr[theinre],
-    //       number: inValue,
-    //       title: "根據下圖，請問insert " + inValue + "需要幾步 Search",
-    //     };
-    //   } else {
-    //     title[i] = {
-    //       Arr: tmpArr,
-    //       Operation: inreArr[theinre],
-    //       number: tmpArr[thenumber],
-    //       title:
-    //         "根據下圖，請問remove " + tmpArr[thenumber] + "需要幾步 Search",
-    //     };
-    //   }
-    //   let playnumber = [];
-    //   playnumber[0] = thenumber;
-    //   playnumber[1] = getRandom(1, 0)
-    //     ? thenumber + getRandom(1, tmpArr.length - 2)
-    //     : tmpArr - getRandom(0, thenumber);
-    //   playnumber[2] = getRandom(1, 0)
-    //     ? thenumber + getRandom(1, tmpArr.length - 2)
-    //     : tmpArr - getRandom(0, thenumber);
-    //   while (playnumber[1] === playnumber[2]) {
-    //     playnumber[2] = getRandom(1, 0)
-    //       ? thenumber + getRandom(1, tmpArr.length - 2)
-    //       : tmpArr - getRandom(0, thenumber);
-    //   }
-    //   playnumber.sort(function () {
-    //     return 0.5 - Math.random();
-    //   });
-    //   for (let j = 0; j < 3; j++) {
-    //     playerOP[count++] = {
-    //       choice: thetitle
-    //         ? "Number " + playnumber[j]
-    //         : playnumber[j] + " step",
-    //       number: playnumber[j],
-    //     };
-    //     AIOP[aicount++] = {
-    //       choice: thetitle
-    //         ? "Number " + playnumber[j]
-    //         : playnumber[j] + " step",
-    //       number: playnumber[j],
-    //       do: 0,
-    //       time: getRandom(3, second - 1) * 1000,
-    //     };
-    //   }
-    // }
-    // aicount = 0;
-    // for (let i = 0; i < type + 1; i++) {
-    //   let doArr = [1, 0, 0];
-    //   doArr.sort(function () {
-    //     return 0.5 - Math.random();
-    //   });
-    //   for (let j = 0; j < 3; j++) {
-    //     AIOP[aicount++].do = doArr[j];
-    //   }
-    // }
     change = 0;
   }
   let playercontainer = document.querySelector(".playtitle");
@@ -492,19 +396,26 @@ function BSTGame() {
     doing = 0;
     for (let i = 0; i < 3; i++) {
       if (AIOP[opArr[round - 1] + i].do === 1) {
-        if (AIOP[opArr[round - 1] + i].IR === "Insert") {
-          setTimeout(() => {
-            console.log("insert");
-            insert(AIOP[opArr[round - 1] + i].number);
-            search(AIOP[opArr[round - 1] + i].number);
+        if (AIOP[opArr[round - 1] + i].number === title[round - 1].ans) {
+          setTimeout(async () => {
             setPlaybtn1(0);
             setPlaybtn2(0);
             setPlaybtn3(0);
             playercontainer.classList.add("myturn");
             aicontainer.classList.remove("myturn");
             setAigrade(aigrade + 5);
+            let timer = document.querySelector(".timer-wrapper");
+            timer.classList.remove("toolate");
+            let tmpRound = round + 1;
             if (round <= type) {
               setRound(round + 1);
+            }
+            console.log("round");
+            console.log(tmpRound);
+            await clear();
+            console.log(title[tmpRound - 1].Arr);
+            for (let i = 0; i < title[tmpRound - 1].Arr.length; i++) {
+              insert(title[tmpRound - 1].Arr[i]);
             }
             if (reset) {
               setReset(0);
@@ -515,51 +426,32 @@ function BSTGame() {
             }
           }, AIOP[opArr[round - 1] + i].time);
         } else {
-          setTimeout(() => {
-            console.log("Remove");
-            let orderValue = getData("inorder");
-            let tmp = 0;
-            orderValue.forEach((e) => {
-              if (e === AIOP[opArr[round - 1] + i].number) {
-                tmp = 1;
-              }
-            });
-            if (tmp) {
-              search(AIOP[opArr[round - 1] + i].number);
-              remove(AIOP[opArr[round - 1] + i].number);
-              setAigrade(aigrade + 5);
-              setPlaybtn1(0);
-              setPlaybtn2(0);
-              setPlaybtn3(0);
-              playercontainer.classList.add("myturn");
-              aicontainer.classList.remove("myturn");
-              if (round <= type) {
-                setRound(round + 1);
-              }
-              if (reset) {
-                setReset(0);
-                console.log("reset2");
-              } else {
-                setReset(1);
-                console.log("reset2");
-              }
+          setTimeout(async () => {
+            setPlaybtn1(0);
+            setPlaybtn2(0);
+            setPlaybtn3(0);
+            playercontainer.classList.add("myturn");
+            aicontainer.classList.remove("myturn");
+            setAigrade(aigrade - 3);
+            let timer = document.querySelector(".timer-wrapper");
+            timer.classList.remove("toolate");
+            let tmpRound = round + 1;
+            if (round <= type) {
+              setRound(round + 1);
+            }
+            console.log("round");
+            console.log(tmpRound);
+            await clear();
+            console.log(title[tmpRound - 1].Arr);
+            for (let i = 0; i < title[tmpRound - 1].Arr.length; i++) {
+              insert(title[tmpRound - 1].Arr[i]);
+            }
+            if (reset) {
+              setReset(0);
+              console.log("reset2");
             } else {
-              setAigrade(aigrade - 3);
-              if (reset) {
-                setReset(0);
-                console.log("reset2");
-              } else {
-                setReset(1);
-                console.log("reset2");
-              }
-              setPlaybtn1(0);
-              setPlaybtn2(0);
-              setPlaybtn3(0);
-              playercontainer.classList.add("myturn");
-              aicontainer.classList.remove("myturn");
-              if (round <= type) {
-                setRound(round + 1);
-              }
+              setReset(1);
+              console.log("reset2");
             }
           }, AIOP[opArr[round - 1] + i].time);
         }
@@ -567,23 +459,7 @@ function BSTGame() {
       }
     }
   }
-  console.log(gameovermodalShow);
 
-  const [UserData, setUserData] = useState("");
-
-  useEffect(() => {
-    const GetSid = sessionStorage.getItem("Sid");
-    axios({
-      method: "POST",
-      data: {
-        _id: GetSid,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_USERINFO,
-    }).then((response) => {
-      setUserData(response.data);
-    });
-  }, []);
   return (
     <div className="A3">
       <div className="BSTgame">
@@ -625,14 +501,22 @@ function BSTGame() {
               variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
-                setTimerPlay(true);
-                let btn = document.querySelector(".startbtn");
-                btn.disabled = 1;
-                setPlaybtn1(0);
-                setPlaybtn2(0);
-                setPlaybtn3(0);
-                let playercontainer = document.querySelector(".playtitle");
-                playercontainer.classList.add("myturn");
+                async function Start(params) {
+                  await clear();
+                  setTimerPlay(true);
+                  let btn = document.querySelector(".startbtn");
+                  btn.disabled = 1;
+                  setPlaybtn1(0);
+                  setPlaybtn2(0);
+                  setPlaybtn3(0);
+                  let playercontainer = document.querySelector(".playtitle");
+                  playercontainer.classList.add("myturn");
+                  setRound(1);
+                  for (let i = 0; i < title[0].Arr.length; i++) {
+                    insert(title[0].Arr[i]);
+                  }
+                }
+                Start();
               }}
             >
               Start
@@ -663,8 +547,8 @@ function BSTGame() {
           <Tilt className="gametitle playtitle" options={options}>
             <div className="playercontainer">
               <div className="namegrade">
-                <div className="thegrade">{aigrade}</div>
-                <h3>{UserData.Name}</h3>
+                <div className="thegrade">{playergrade}</div>
+                <h3>Player</h3>
               </div>
               <div className="options">
                 <Button
@@ -672,32 +556,25 @@ function BSTGame() {
                   variant="outline-dark"
                   disabled={playerbtn1}
                   onClick={() => {
+                    let timer = document.querySelector(".timer-wrapper");
                     playercontainer.classList.remove("myturn");
                     aicontainer.classList.add("myturn");
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
-                    if (playerOP[opArr[round - 1]].IR === "Insert") {
-                      insert(playerOP[opArr[round - 1]].number);
-                      search(playerOP[opArr[round - 1]].number);
+                    console.log("pre-round");
+                    console.log(round);
+                    console.log("ans");
+                    console.log(title[round - 1].ans);
+                    if (
+                      playerOP[opArr[round - 1]].number === title[round - 1].ans
+                    ) {
                       setPlayergrade(playergrade + 5);
+                      timer.classList.remove("toolate");
                     } else {
-                      let orderValue = getData("inorder");
-                      let tmp = 0;
-                      orderValue.forEach((e) => {
-                        if (e === playerOP[opArr[round - 1]].number) {
-                          tmp = 1;
-                        }
-                      });
-                      if (tmp) {
-                        search(playerOP[opArr[round - 1]].number);
-                        remove(playerOP[opArr[round - 1]].number);
-                        setPlayergrade(playergrade + 5);
-                      } else {
-                        setPlayergrade(playergrade - 3);
-                      }
+                      setPlayergrade(playergrade - 3);
+                      timer.classList.remove("toolate");
                     }
-                    console.log("reset1");
                     setReset(!reset);
                     console.log("AI");
                     AIplay();
@@ -710,30 +587,26 @@ function BSTGame() {
                   variant="outline-dark"
                   disabled={playerbtn2}
                   onClick={() => {
+                    let timer = document.querySelector(".timer-wrapper");
                     playercontainer.classList.remove("myturn");
                     aicontainer.classList.add("myturn");
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
-                    if (playerOP[opArr[round - 1] + 1].IR === "Insert") {
-                      insert(playerOP[opArr[round - 1] + 1].number);
-                      search(playerOP[opArr[round - 1] + 1].number);
+                    console.log("pre-round");
+                    console.log(round);
+                    console.log("ans");
+                    console.log(title[round - 1].ans);
+                    if (
+                      playerOP[opArr[round - 1] + 1].number ===
+                      title[round - 1].ans
+                    ) {
                       setPlayergrade(playergrade + 5);
+                      timer.classList.remove("toolate");
+                      console.log("correct");
                     } else {
-                      let orderValue = getData("inorder");
-                      let tmp = 0;
-                      orderValue.forEach((e) => {
-                        if (e === playerOP[opArr[round - 1] + 1].number) {
-                          tmp = 1;
-                        }
-                      });
-                      if (tmp) {
-                        search(playerOP[opArr[round - 1] + 1].number);
-                        remove(playerOP[opArr[round - 1] + 1].number);
-                        setPlayergrade(playergrade + 5);
-                      } else {
-                        setPlayergrade(playergrade - 3);
-                      }
+                      setPlayergrade(playergrade - 3);
+                      timer.classList.remove("toolate");
                     }
                     console.log("reset1");
                     setReset(!reset);
@@ -748,30 +621,26 @@ function BSTGame() {
                   variant="outline-dark"
                   disabled={playerbtn3}
                   onClick={() => {
+                    let timer = document.querySelector(".timer-wrapper");
                     playercontainer.classList.remove("myturn");
                     aicontainer.classList.add("myturn");
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
-                    if (playerOP[opArr[round - 1] + 2].IR === "Insert") {
-                      insert(playerOP[opArr[round - 1] + 2].number);
-                      search(playerOP[opArr[round - 1] + 2].number);
+                    console.log("pre-round");
+                    console.log(round);
+                    console.log("ans");
+                    console.log(title[round - 1].ans);
+                    if (
+                      playerOP[opArr[round - 1] + 2].number ===
+                      title[round - 1].ans
+                    ) {
                       setPlayergrade(playergrade + 5);
+                      console.log("correct");
+                      timer.classList.remove("toolate");
                     } else {
-                      let orderValue = getData("inorder");
-                      let tmp = 0;
-                      orderValue.forEach((e) => {
-                        if (e === playerOP[opArr[round - 1] + 2].number) {
-                          tmp = 1;
-                        }
-                      });
-                      if (tmp) {
-                        search(playerOP[opArr[round - 1] + 2].number);
-                        remove(playerOP[opArr[round - 1] + 2].number);
-                        setPlayergrade(playergrade + 5);
-                      } else {
-                        setPlayergrade(playergrade - 3);
-                      }
+                      setPlayergrade(playergrade - 3);
+                      timer.classList.remove("toolate");
                     }
                     console.log("reset1");
                     setReset(!reset);

@@ -138,6 +138,21 @@ let doing = 0;
 function AVLGame() {
   const { ref, insert, remove, search, getData, generateRandomTree } =
     useAVLTree();
+  // const [UserData, setUserData] = useState("");
+
+  // useEffect(() => {
+  //   const GetSid = sessionStorage.getItem("Sid");
+  //   axios({
+  //     method: "POST",
+  //     data: {
+  //       _id: GetSid,
+  //     },
+  //     withCredentials: true,
+  //     url: process.env.REACT_APP_AXIOS_USERINFO,
+  //   }).then((response) => {
+  //     setUserData(response.data);
+  //   });
+  // }, []);
   const [documentmodalShow, setdocumentModalShow] = React.useState(false);
   const [gamemodalShow, setgameModalShow] = React.useState(false);
   const [diffcultymodalShow, setdiffcultyModalShow] = React.useState(true);
@@ -153,6 +168,7 @@ function AVLGame() {
   const [reset, setReset] = useState(0);
   let whowin = playergrade > aigrade ? "You win" : "You lose";
   let second = 10;
+  let timer;
   if (type === 4) {
     second = 10;
   } else if (type === 6) {
@@ -170,11 +186,11 @@ function AVLGame() {
     let title = "Remaining";
     if (remainingTime <= 3) {
       title = "Hurry up!!";
-      let timer = document.querySelector(".timer-wrapper");
+      timer = document.querySelector(".timer-wrapper");
       timer.classList.add("toolate");
     }
     if (remainingTime === 0 && round <= type) {
-      let timer = document.querySelector(".timer-wrapper");
+      timer = document.querySelector(".timer-wrapper");
       timer.classList.remove("toolate");
       setPlaybtn1(1);
       setPlaybtn2(1);
@@ -304,14 +320,14 @@ function AVLGame() {
             IR: "Remove",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, second - 1) * 1000,
+            time: getRandom(3, 6) * 1000,
           };
         } else if (arN === 2) {
           AIOP[aicount++] = {
             IR: "Insert",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, second - 1) * 1000,
+            time: getRandom(3, 6) * 1000,
           };
         } else {
           let title = tmp2 === 1 ? "Insert" : "Remove";
@@ -319,7 +335,7 @@ function AVLGame() {
             IR: title,
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, second - 1) * 1000,
+            time: getRandom(3, 6) * 1000,
           };
         }
       }
@@ -365,6 +381,8 @@ function AVLGame() {
             playercontainer.classList.add("myturn");
             aicontainer.classList.remove("myturn");
             setAigrade(aigrade + 5);
+            let timer = document.querySelector(".timer-wrapper");
+            timer.classList.remove("toolate");
             if (round <= type) {
               setRound(round + 1);
             }
@@ -390,6 +408,8 @@ function AVLGame() {
               search(AIOP[opArr[round - 1] + i].number);
               remove(AIOP[opArr[round - 1] + i].number);
               setAigrade(aigrade + 5);
+              let timer = document.querySelector(".timer-wrapper");
+              timer.classList.remove("toolate");
               setPlaybtn1(0);
               setPlaybtn2(0);
               setPlaybtn3(0);
@@ -407,6 +427,8 @@ function AVLGame() {
               }
             } else {
               setAigrade(aigrade - 3);
+              let timer = document.querySelector(".timer-wrapper");
+              timer.classList.remove("toolate");
               if (reset) {
                 setReset(0);
                 console.log("reset2");
@@ -429,23 +451,7 @@ function AVLGame() {
       }
     }
   }
-  console.log(gameovermodalShow);
 
-  const [UserData, setUserData] = useState("");
-
-  useEffect(() => {
-    const GetSid = sessionStorage.getItem("Sid");
-    axios({
-      method: "POST",
-      data: {
-        _id: GetSid,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_USERINFO,
-    }).then((response) => {
-      setUserData(response.data);
-    });
-  }, []);
   return (
     <div className="A3">
       <div className="AVLgame">
@@ -525,8 +531,8 @@ function AVLGame() {
           <Tilt className="gametitle playtitle" options={options}>
             <div className="playercontainer">
               <div className="namegrade">
-                <div className="thegrade">{aigrade}</div>
-                <h3>{UserData.Name}</h3>
+                <div className="thegrade">{playergrade}</div>
+                <h3>Player</h3>
               </div>
               <div className="options">
                 <Button
@@ -534,6 +540,7 @@ function AVLGame() {
                   variant="outline-dark"
                   disabled={playerbtn1}
                   onClick={() => {
+                    let timer = document.querySelector(".timer-wrapper");
                     playercontainer.classList.remove("myturn");
                     aicontainer.classList.add("myturn");
                     setPlaybtn1(1);
@@ -543,6 +550,7 @@ function AVLGame() {
                       insert(playerOP[opArr[round - 1]].number);
                       search(playerOP[opArr[round - 1]].number);
                       setPlayergrade(playergrade + 5);
+                      timer.classList.remove("toolate");
                     } else {
                       let orderValue = getData("inorder");
                       let tmp = 0;
@@ -555,8 +563,10 @@ function AVLGame() {
                         search(playerOP[opArr[round - 1]].number);
                         remove(playerOP[opArr[round - 1]].number);
                         setPlayergrade(playergrade + 5);
+                        timer.classList.remove("toolate");
                       } else {
                         setPlayergrade(playergrade - 3);
+                        timer.classList.remove("toolate");
                       }
                     }
                     console.log("reset1");
@@ -573,6 +583,7 @@ function AVLGame() {
                   variant="outline-dark"
                   disabled={playerbtn2}
                   onClick={() => {
+                    let timer = document.querySelector(".timer-wrapper");
                     playercontainer.classList.remove("myturn");
                     aicontainer.classList.add("myturn");
                     setPlaybtn1(1);
@@ -582,6 +593,7 @@ function AVLGame() {
                       insert(playerOP[opArr[round - 1] + 1].number);
                       search(playerOP[opArr[round - 1] + 1].number);
                       setPlayergrade(playergrade + 5);
+                      timer.classList.remove("toolate");
                     } else {
                       let orderValue = getData("inorder");
                       let tmp = 0;
@@ -594,8 +606,10 @@ function AVLGame() {
                         search(playerOP[opArr[round - 1] + 1].number);
                         remove(playerOP[opArr[round - 1] + 1].number);
                         setPlayergrade(playergrade + 5);
+                        timer.classList.remove("toolate");
                       } else {
                         setPlayergrade(playergrade - 3);
+                        timer.classList.remove("toolate");
                       }
                     }
                     console.log("reset1");
@@ -612,6 +626,7 @@ function AVLGame() {
                   variant="outline-dark"
                   disabled={playerbtn3}
                   onClick={() => {
+                    let timer = document.querySelector(".timer-wrapper");
                     playercontainer.classList.remove("myturn");
                     aicontainer.classList.add("myturn");
                     setPlaybtn1(1);
@@ -621,6 +636,7 @@ function AVLGame() {
                       insert(playerOP[opArr[round - 1] + 2].number);
                       search(playerOP[opArr[round - 1] + 2].number);
                       setPlayergrade(playergrade + 5);
+                      timer.classList.remove("toolate");
                     } else {
                       let orderValue = getData("inorder");
                       let tmp = 0;
@@ -633,8 +649,10 @@ function AVLGame() {
                         search(playerOP[opArr[round - 1] + 2].number);
                         remove(playerOP[opArr[round - 1] + 2].number);
                         setPlayergrade(playergrade + 5);
+                        timer.classList.remove("toolate");
                       } else {
                         setPlayergrade(playergrade - 3);
+                        timer.classList.remove("toolate");
                       }
                     }
                     console.log("reset1");
