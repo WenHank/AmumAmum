@@ -7,7 +7,7 @@ const Gateway = ({ Location, UserToken, User }) => {
 
   useEffect(() => {
     GatewayRedirect();
-  },[]);
+  });
 
   const GatewayRedirect = () => {
     const GetSid = sessionStorage.getItem("Sid");
@@ -19,21 +19,25 @@ const Gateway = ({ Location, UserToken, User }) => {
         },
         withCredentials: true,
         url: process.env.REACT_APP_AXIOS_USERINFO,
-      }).then((response) => {
-        User();
-        UserToken(() => {
-          return response.data;
+      })
+        .then((response) => {
+          User();
+          UserToken(() => {
+            console.log(123);
+            return response.data;
+          });
+        })
+        .then((response) => {
+          if (
+            Location === "/Gateway" ||
+            Location === "/Login" ||
+            Location === "/"
+          ) {
+            Navigate("/Profile");
+          } else {
+            Navigate(Location);
+          }
         });
-        if (
-          Location === "/Gateway" ||
-          Location === "/Login" ||
-          Location === "/"
-        ) {
-          Navigate("/Profile");
-        } else {
-          Navigate(Location);
-        }
-      });
     } else {
       Navigate("/Login");
     }

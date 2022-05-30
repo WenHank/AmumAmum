@@ -10,6 +10,9 @@ import RBTdocument from "../../A1/components/RBTdocument";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+function makeSecond(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min) / 100;
+}
 var arr = [];
 for (let i = 0; i < getRandom(5, 10); i++) {
   let tmp = getRandom(5, 70);
@@ -20,47 +23,6 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   }
   arr.push(tmp);
 }
-function Showpdf() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDoucumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-    setPageNumber(1);
-  }
-  function changePage(offset) {
-    setPageNumber((prePageNumber) => prePageNumber + offset);
-  }
-  function changePageBack() {
-    changePage(-1);
-  }
-  function changePageNext() {
-    changePage(+1);
-  }
-  return (
-    <div className="pdfcontainer">
-      <Document file="/RedBlackTree.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
-        <Page height="1000" pageNumber={pageNumber} />
-      </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {pageNumber > 1 && (
-          <Button variant="outline-dark" onClick={changePageBack}>
-            Previous Page
-          </Button>
-        )}
-        {pageNumber < numPages && (
-          <Button variant="outline-dark" onClick={changePageNext}>
-            Next Page
-          </Button>
-        )}
-      </div>
-    </div>
-  );
-}
-
 function PDFDocument(props) {
   return (
     <Modal
@@ -134,21 +96,24 @@ let change = 1;
 let playerOP = {};
 let opArr = [0, 3, 6, 9, 12, 15, 18, 21, 24];
 let doing = 0;
+let gradefunction = 0;
+let aiAns = [1, 1, 0, 0];
+let playtime = 0;
 function RBTGame() {
   const [UserData, setUserData] = useState("");
-  const GetSid = sessionStorage.getItem("Sid");
-  // useEffect(() => {
-  //   axios({
-  //     method: "POST",
-  //     data: {
-  //       _id: GetSid,
-  //     },
-  //     withCredentials: true,
-  //     url: process.env.REACT_APP_AXIOS_USERINFO,
-  //   }).then((response) => {
-  //     setUserData(response.data);
-  //   });
-  // }, []);
+  let GetSid = sessionStorage.getItem("Sid");
+  if (!UserData) {
+    axios({
+      method: "POST",
+      data: {
+        _id: GetSid,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_USERINFO,
+    }).then((response) => {
+      setUserData(response.data);
+    });
+  }
   const { ref, insert, remove, search, getData, generateRandomTree } =
     useRedBlackTree();
   const [documentmodalShow, setdocumentModalShow] = React.useState(false);
@@ -169,10 +134,13 @@ function RBTGame() {
   let timer;
   if (type === 4) {
     second = 10;
+    aiAns = [1, 1, 0, 0];
   } else if (type === 6) {
     second = 8;
+    aiAns = [1, 1, 1, 1, 0, 0];
   } else {
     second = 6;
+    aiAns = [1, 1, 1, 1, 1, 1, 0, 0];
   }
   const options = {
     scale: 1,
@@ -182,6 +150,7 @@ function RBTGame() {
 
   const renderTime = ({ remainingTime }) => {
     let title = "Remaining";
+    playtime = remainingTime;
     if (remainingTime <= 3) {
       title = "Hurry up!!";
       timer = document.querySelector(".timer-wrapper");
@@ -246,6 +215,7 @@ function RBTGame() {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            id={`A3_RBT_GameDifficulty_${type}`}
             variant="outline-dark"
             onClick={() => {
               setdiffcultyModalShow(false);
@@ -273,6 +243,7 @@ function RBTGame() {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            id="A3_RBT_Game_Restart"
             variant="outline-dark"
             onClick={() => {
               setGameovermodalShow(false);
@@ -339,13 +310,25 @@ function RBTGame() {
       }
     }
     aicount = 0;
+    aiAns.sort(function () {
+      return 0.5 - Math.random();
+    });
     for (let i = 0; i < type + 1; i++) {
-      let doArr = [1, 0, 0];
-      doArr.sort(function () {
-        return 0.5 - Math.random();
-      });
+      let havendo = 0;
+      console.log(aiAns);
       for (let j = 0; j < 3; j++) {
-        AIOP[aicount++].do = doArr[j];
+        if (aiAns[i] && !havendo) {
+          if (AIOP[aicount].IR === "Insert") {
+            AIOP[aicount].do = 1;
+            havendo = 1;
+          }
+        } else if (aiAns[i] === 0 && !havendo) {
+          if (AIOP[aicount].IR === "Remove") {
+            AIOP[aicount].do = 1;
+            havendo = 1;
+          }
+        }
+        aicount++;
       }
     }
     change = 0;
@@ -355,6 +338,8 @@ function RBTGame() {
   console.log(AIOP);
   if (round > type) {
     console.log("this1");
+    writegrade();
+    gradefunction = 1;
     setPlaybtn1(1);
     setPlaybtn2(1);
     setPlaybtn3(1);
@@ -363,6 +348,24 @@ function RBTGame() {
     setTimerPlay(false);
     playercontainer.classList.remove("myturn");
     aicontainer.classList.remove("myturn");
+  }
+  async function writegrade(params) {
+    const Writegrade = {
+      StudentId: UserData.StudentId,
+      Grades: playergrade.toString(),
+      Time: Date(),
+    };
+    console.log(Writegrade);
+    ////////////////////////////////
+    //////////送出請求///////////////
+    if (gradefunction) {
+      await axios
+        .post(process.env.REACT_APP_AXIOS_RBTGRADE, Writegrade)
+        .then((response) => {
+          console.log(response);
+        });
+      gradefunction = 0;
+    }
   }
   function AIplay() {
     doing = 0;
@@ -378,7 +381,15 @@ function RBTGame() {
             setPlaybtn3(0);
             playercontainer.classList.add("myturn");
             aicontainer.classList.remove("myturn");
-            setAigrade(aigrade + 5);
+            setAigrade(
+              aigrade +
+                Math.floor(
+                  100 *
+                    (10 -
+                      AIOP[opArr[round - 1] + i].time / 1000 +
+                      makeSecond(1, 100))
+                )
+            );
             let timer = document.querySelector(".timer-wrapper");
             timer.classList.remove("toolate");
             if (round <= type) {
@@ -405,7 +416,15 @@ function RBTGame() {
             if (tmp) {
               search(AIOP[opArr[round - 1] + i].number);
               remove(AIOP[opArr[round - 1] + i].number);
-              setAigrade(aigrade + 5);
+              setAigrade(
+                aigrade +
+                  Math.floor(
+                    100 *
+                      (10 -
+                        AIOP[opArr[round - 1] + i].time / 1000 +
+                        makeSecond(1, 100))
+                  )
+              );
               let timer = document.querySelector(".timer-wrapper");
               timer.classList.remove("toolate");
               setPlaybtn1(0);
@@ -424,7 +443,7 @@ function RBTGame() {
                 console.log("reset2");
               }
             } else {
-              setAigrade(aigrade - 3);
+              // setAigrade(aigrade - 3);
               let timer = document.querySelector(".timer-wrapper");
               timer.classList.remove("toolate");
               if (reset) {
@@ -457,6 +476,7 @@ function RBTGame() {
         <div className="gamehintContainer" style={{ marginLeft: "250px" }}>
           <div className="loader"></div>
           <img
+            id="A3_RBT_Gamerule"
             className="gamerule"
             onClick={() => setgameModalShow(true)}
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAACUElEQVRoge2av04bQRDGfzoJYUVujBSUBJyGUFJZ4g3SJqGJ6IBXoCKv4LT0KYIipaBKlwKSUCXQ0URI/CmQsS0jKJyEAskpdiyfImNm9tbni3yftNrV+fb7Zry3s6udhR6eAltAC+ikXK6Bb8AqEJEA80BjBA70K1+BKR8nIuBASHaBGR8So96+6O2IXgk3GjV5fgAUrMRL0vkcKAYy1lfvCXAkv1etxB+l40ZCA0PpVYBb4A/w0EJ8KsSVJNYF1tuWd9YtxDfSqeRtmg0avWV555OWNJIOaUKj913qBS1pBFxIe85qkSc0eg2p1XMkAn5I+7mHUT7Q6P2W+oGF+BXphl+tXneBVCO+IH4BZj0NtOh1F8RBemZHAJ4Bde7fPgyrBHMEoAy8ZzSbxqCO3IXghMPQTbRlzhJyR7KG3JGsYewdKQJn9ELk3h3PtWWPhAg1IknXmVTWqXxBTBO5I1lDHrX+QR61QumO/RzJHMbekTxqDam/WiSPWp6YjLX7fYot3NFV2UI6ihGZQDe36rjDRRWy+GnN4vKdHdxxr+rL6keYRtS67w8s4g7CO8DL/zlqtYFNaS9rOvwSIVOuIgDaCt2KvHOsGZFLqacTGmZFU6F7IvVjjSOHUi96m+SHnxZdjSM7Ur/2MscfnxW63TxkTUM4jUve35JeLh7gES6XOEj3DW6OfNCSVqXDEe6aRVp4O0A3Hn5faAkL9PKMNWANzxs8RhTo5RvjuvEFcR/jVmsKdwXJutgNs1xg2KLEEQEruEtiVyN0oAm8I5YR/guUqaZe1GPGYQAAAABJRU5ErkJggg=="
@@ -465,6 +485,7 @@ function RBTGame() {
         <div className="gamehintContainer" style={{ marginRight: "250px" }}>
           <div className="loader"></div>
           <img
+            id="A3_RBT_Game_Hint"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setdocumentModalShow(true)}
@@ -488,8 +509,9 @@ function RBTGame() {
           </div>
           <div>
             <Button
+              id="A3_RBT_Game_Start"
               className="startbtn"
-              variant="outline-dark"
+              variant="danger"
               style={{ marginTop: "20px" }}
               onClick={() => {
                 setTimerPlay(true);
@@ -505,6 +527,7 @@ function RBTGame() {
               Start
             </Button>
             <Button
+              id="A3_RBT_Game_Restart"
               variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
@@ -531,10 +554,12 @@ function RBTGame() {
             <div className="playercontainer">
               <div className="namegrade">
                 <div className="thegrade">{playergrade}</div>
-                <h3>Player</h3>
+                <h3>{UserData.Name}</h3>
               </div>
               <div className="options">
                 <Button
+                  id={`RBT_Game_Option_${playerOP[opArr[round - 1]].IR}
+                  ${playerOP[opArr[round - 1]].number}`}
                   className="playerbtn1"
                   variant="outline-dark"
                   disabled={playerbtn1}
@@ -548,7 +573,10 @@ function RBTGame() {
                     if (playerOP[opArr[round - 1]].IR === "Insert") {
                       insert(playerOP[opArr[round - 1]].number);
                       search(playerOP[opArr[round - 1]].number);
-                      setPlayergrade(playergrade + 5);
+                      setPlayergrade(
+                        playergrade +
+                          Math.floor(100 * (playtime + makeSecond(1, 100)))
+                      );
                       timer.classList.remove("toolate");
                     } else {
                       let orderValue = getData("inorder");
@@ -561,10 +589,13 @@ function RBTGame() {
                       if (tmp) {
                         search(playerOP[opArr[round - 1]].number);
                         remove(playerOP[opArr[round - 1]].number);
-                        setPlayergrade(playergrade + 5);
+                        setPlayergrade(
+                          playergrade +
+                            Math.floor(100 * (playtime + makeSecond(1, 100)))
+                        );
                         timer.classList.remove("toolate");
                       } else {
-                        setPlayergrade(playergrade - 3);
+                        // setPlayergrade(playergrade - 3);
                         timer.classList.remove("toolate");
                       }
                     }
@@ -578,6 +609,8 @@ function RBTGame() {
                   {playerOP[opArr[round - 1]].number}
                 </Button>
                 <Button
+                  id={`RBT_Game_Option_${playerOP[opArr[round - 1] + 1].IR}
+                  ${playerOP[opArr[round - 1] + 1].number}`}
                   className="playerbtn2"
                   variant="outline-dark"
                   disabled={playerbtn2}
@@ -591,7 +624,10 @@ function RBTGame() {
                     if (playerOP[opArr[round - 1] + 1].IR === "Insert") {
                       insert(playerOP[opArr[round - 1] + 1].number);
                       search(playerOP[opArr[round - 1] + 1].number);
-                      setPlayergrade(playergrade + 5);
+                      setPlayergrade(
+                        playergrade +
+                          Math.floor(100 * (playtime + makeSecond(1, 100)))
+                      );
                       timer.classList.remove("toolate");
                     } else {
                       let orderValue = getData("inorder");
@@ -604,10 +640,13 @@ function RBTGame() {
                       if (tmp) {
                         search(playerOP[opArr[round - 1] + 1].number);
                         remove(playerOP[opArr[round - 1] + 1].number);
-                        setPlayergrade(playergrade + 5);
+                        setPlayergrade(
+                          playergrade +
+                            Math.floor(100 * (playtime + makeSecond(1, 100)))
+                        );
                         timer.classList.remove("toolate");
                       } else {
-                        setPlayergrade(playergrade - 3);
+                        // setPlayergrade(playergrade - 3);
                         timer.classList.remove("toolate");
                       }
                     }
@@ -621,6 +660,8 @@ function RBTGame() {
                   {playerOP[opArr[round - 1] + 1].number}
                 </Button>
                 <Button
+                  id={`RBT_Game_Option_${playerOP[opArr[round - 1] + 2].IR}
+                  ${playerOP[opArr[round - 1] + 2].number}`}
                   className="playerbtn3"
                   variant="outline-dark"
                   disabled={playerbtn3}
@@ -634,7 +675,10 @@ function RBTGame() {
                     if (playerOP[opArr[round - 1] + 2].IR === "Insert") {
                       insert(playerOP[opArr[round - 1] + 2].number);
                       search(playerOP[opArr[round - 1] + 2].number);
-                      setPlayergrade(playergrade + 5);
+                      setPlayergrade(
+                        playergrade +
+                          Math.floor(100 * (playtime + makeSecond(1, 100)))
+                      );
                       timer.classList.remove("toolate");
                     } else {
                       let orderValue = getData("inorder");
@@ -647,10 +691,13 @@ function RBTGame() {
                       if (tmp) {
                         search(playerOP[opArr[round - 1] + 2].number);
                         remove(playerOP[opArr[round - 1] + 2].number);
-                        setPlayergrade(playergrade + 5);
+                        setPlayergrade(
+                          playergrade +
+                            Math.floor(100 * (playtime + makeSecond(1, 100)))
+                        );
                         timer.classList.remove("toolate");
                       } else {
-                        setPlayergrade(playergrade - 3);
+                        // setPlayergrade(playergrade - 3);
                         timer.classList.remove("toolate");
                       }
                     }

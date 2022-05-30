@@ -6,55 +6,14 @@ import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import VanillaTilt from "vanilla-tilt";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import axios from "axios";
+import BSTdocument from "../../A1/components/BSTdocument";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-function Showpdf() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDoucumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-    setPageNumber(1);
-  }
-  function changePage(offset) {
-    setPageNumber((prePageNumber) => prePageNumber + offset);
-  }
-  function changePageBack() {
-    changePage(-1);
-  }
-  function changePageNext() {
-    changePage(+1);
-  }
-  return (
-    <div className="pdfcontainer">
-      <Document
-        file="/BinarySearchTree.pdf"
-        onLoadSuccess={onDoucumentLoadSuccess}
-      >
-        <Page height="1000" pageNumber={pageNumber} />
-      </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {pageNumber > 1 && (
-          <Button variant="outline-dark" onClick={changePageBack}>
-            Previous Page
-          </Button>
-        )}
-        {pageNumber < numPages && (
-          <Button variant="outline-dark" onClick={changePageNext}>
-            Next Page
-          </Button>
-        )}
-      </div>
-    </div>
-  );
+function makeSecond(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min) / 100;
 }
-
 function PDFDocument(props) {
   return (
     <Modal
@@ -69,7 +28,7 @@ function PDFDocument(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Showpdf />
+        <BSTdocument />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -131,10 +90,12 @@ let opArr = [0, 3, 6, 9, 12, 15, 18, 21, 24];
 let doing = 0;
 var arr = [];
 let tmpArr = [];
-
+let gradefunction = 0;
+let aiAns = [1, 1, 0, 0];
+let playtime = 0;
 function makeArr() {
   tmpArr = [];
-  for (let i = 0; i < getRandom(5, 15); i++) {
+  for (let i = 0; i < getRandom(5, 8); i++) {
     let tmp = getRandom(5, 80);
     for (let j = 0; j < tmpArr.length; j++) {
       if (tmpArr[j] === tmp) {
@@ -146,7 +107,7 @@ function makeArr() {
 }
 
 function BSTGame() {
-  const { ref, insert, remove, search, getData, clear, generateRandomTree } =
+  const { ref, insert, getData, clear, generateRandomTree } =
     useBinarySearchTree();
   const [documentmodalShow, setdocumentModalShow] = React.useState(false);
   const [gamemodalShow, setgameModalShow] = React.useState(false);
@@ -162,15 +123,33 @@ function BSTGame() {
   const [timerPlay, setTimerPlay] = useState(false);
   const [gobtn, setGobtn] = useState(0);
   const [reset, setReset] = useState(0);
+  const [restart, setRestart] = useState(1);
+  const [UserData, setUserData] = useState("");
+  let GetSid = sessionStorage.getItem("Sid");
+  if (UserData === "") {
+    axios({
+      method: "POST",
+      data: {
+        _id: GetSid,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_USERINFO,
+    }).then((response) => {
+      setUserData(response.data);
+    });
+  }
   let whowin = playergrade > aigrade ? "You win" : "You lose";
   let second = 10;
   let timer;
   if (type === 4) {
     second = 10;
+    aiAns = [1, 1, 0, 0];
   } else if (type === 6) {
     second = 8;
+    aiAns = [1, 1, 1, 1, 0, 0];
   } else {
     second = 6;
+    aiAns = [1, 1, 1, 1, 1, 1, 0, 0];
   }
   const options = {
     scale: 1,
@@ -179,6 +158,7 @@ function BSTGame() {
   };
 
   const renderTime = ({ remainingTime }) => {
+    playtime = remainingTime;
     let title = "Remaining";
     if (remainingTime <= 3) {
       title = "Hurry up!!";
@@ -247,6 +227,7 @@ function BSTGame() {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            id={`A3_BST_GameDifficulty_${type}`}
             variant="outline-dark"
             disabled={gobtn}
             onClick={() => {
@@ -258,7 +239,7 @@ function BSTGame() {
                   makeArr();
                   await clear();
                   for (let i = 0; i < tmpArr.length; i++) {
-                    insert(tmpArr[i]);
+                    await insert(tmpArr[i]);
                   }
                   let theorder = getRandom(0, 2);
                   let orderValue = await getData(orderArr[theorder]);
@@ -291,21 +272,26 @@ function BSTGame() {
                   playnumber.sort(function () {
                     return 0.5 - Math.random();
                   });
-                  let doArr = [1, 0, 0];
-                  doArr.sort(function () {
-                    return 0.5 - Math.random();
-                  });
                   for (let j = 0; j < 3; j++) {
                     playerOP[count++] = {
                       choice: "Number " + (playnumber[j] + 1),
                       number: playnumber[j],
                     };
-                    AIOP[aicount++] = {
-                      choice: "Number " + (playnumber[j] + 1),
-                      number: playnumber[j],
-                      do: doArr[j],
-                      time: getRandom(3, 6) * 1000,
-                    };
+                    if (aiAns[i]) {
+                      AIOP[aicount++] = {
+                        choice: "Number " + (playnumber[j] + 1),
+                        number: thenumber,
+                        do: 1,
+                        time: getRandom(3, 6) * 1000,
+                      };
+                    } else {
+                      AIOP[aicount++] = {
+                        choice: "Number " + (playnumber[j] + 1),
+                        number: thenumber + 1,
+                        do: 1,
+                        time: getRandom(3, 6) * 1000,
+                      };
+                    }
                   }
                 }
                 console.log(AIOP);
@@ -343,6 +329,7 @@ function BSTGame() {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            id="A3_BST_Game_Restart"
             variant="outline-dark"
             onClick={() => {
               setGameovermodalShow(false);
@@ -353,7 +340,7 @@ function BSTGame() {
               setPlaybtn3(1);
             }}
           >
-            Restart!
+            End!
           </Button>
         </Modal.Footer>
       </Modal>
@@ -382,12 +369,15 @@ function BSTGame() {
   let playercontainer = document.querySelector(".playtitle");
   let aicontainer = document.querySelector(".aititle");
   if (round > type) {
-    console.log("this1");
+    console.log("fuck");
+    writegrade();
+    gradefunction = 1;
     setPlaybtn1(1);
     setPlaybtn2(1);
     setPlaybtn3(1);
     setRound(1);
     setGameovermodalShow(true);
+    setRestart(0);
     setTimerPlay(false);
     playercontainer.classList.remove("myturn");
     aicontainer.classList.remove("myturn");
@@ -403,26 +393,29 @@ function BSTGame() {
             setPlaybtn3(0);
             playercontainer.classList.add("myturn");
             aicontainer.classList.remove("myturn");
-            setAigrade(aigrade + 5);
+            setAigrade(
+              aigrade +
+                Math.floor(
+                  100 *
+                    (10 -
+                      AIOP[opArr[round - 1] + i].time / 1000 +
+                      makeSecond(1, 100))
+                )
+            );
             let timer = document.querySelector(".timer-wrapper");
             timer.classList.remove("toolate");
             let tmpRound = round + 1;
             if (round <= type) {
               setRound(round + 1);
             }
-            console.log("round");
-            console.log(tmpRound);
             await clear();
-            console.log(title[tmpRound - 1].Arr);
             for (let i = 0; i < title[tmpRound - 1].Arr.length; i++) {
               insert(title[tmpRound - 1].Arr[i]);
             }
             if (reset) {
               setReset(0);
-              console.log("reset2");
             } else {
               setReset(1);
-              console.log("reset2");
             }
           }, AIOP[opArr[round - 1] + i].time);
         } else {
@@ -432,26 +425,21 @@ function BSTGame() {
             setPlaybtn3(0);
             playercontainer.classList.add("myturn");
             aicontainer.classList.remove("myturn");
-            setAigrade(aigrade - 3);
+            // setAigrade(aigrade - 3);
             let timer = document.querySelector(".timer-wrapper");
             timer.classList.remove("toolate");
             let tmpRound = round + 1;
             if (round <= type) {
               setRound(round + 1);
             }
-            console.log("round");
-            console.log(tmpRound);
             await clear();
-            console.log(title[tmpRound - 1].Arr);
             for (let i = 0; i < title[tmpRound - 1].Arr.length; i++) {
               insert(title[tmpRound - 1].Arr[i]);
             }
             if (reset) {
               setReset(0);
-              console.log("reset2");
             } else {
               setReset(1);
-              console.log("reset2");
             }
           }, AIOP[opArr[round - 1] + i].time);
         }
@@ -459,13 +447,31 @@ function BSTGame() {
       }
     }
   }
-
+  async function writegrade(params) {
+    const Writegrade = {
+      StudentId: UserData.StudentId,
+      Grades: playergrade.toString(),
+      Time: Date(),
+    };
+    console.log(Writegrade);
+    ////////////////////////////////
+    //////////送出請求///////////////
+    if (gradefunction) {
+      await axios
+        .post(process.env.REACT_APP_AXIOS_BSTGRADE, Writegrade)
+        .then((response) => {
+          console.log(response);
+        });
+      gradefunction = 0;
+    }
+  }
   return (
     <div className="A3">
       <div className="BSTgame">
         <div className="gamehintContainer" style={{ marginLeft: "250px" }}>
           <div className="loader"></div>
           <img
+            id="A3_BST_Gamerule"
             className="gamerule"
             onClick={() => setgameModalShow(true)}
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAACUElEQVRoge2av04bQRDGfzoJYUVujBSUBJyGUFJZ4g3SJqGJ6IBXoCKv4LT0KYIipaBKlwKSUCXQ0URI/CmQsS0jKJyEAskpdiyfImNm9tbni3yftNrV+fb7Zry3s6udhR6eAltAC+ikXK6Bb8AqEJEA80BjBA70K1+BKR8nIuBASHaBGR8So96+6O2IXgk3GjV5fgAUrMRL0vkcKAYy1lfvCXAkv1etxB+l40ZCA0PpVYBb4A/w0EJ8KsSVJNYF1tuWd9YtxDfSqeRtmg0avWV555OWNJIOaUKj913qBS1pBFxIe85qkSc0eg2p1XMkAn5I+7mHUT7Q6P2W+oGF+BXphl+tXneBVCO+IH4BZj0NtOh1F8RBemZHAJ4Bde7fPgyrBHMEoAy8ZzSbxqCO3IXghMPQTbRlzhJyR7KG3JGsYewdKQJn9ELk3h3PtWWPhAg1IknXmVTWqXxBTBO5I1lDHrX+QR61QumO/RzJHMbekTxqDam/WiSPWp6YjLX7fYot3NFV2UI6ihGZQDe36rjDRRWy+GnN4vKdHdxxr+rL6keYRtS67w8s4g7CO8DL/zlqtYFNaS9rOvwSIVOuIgDaCt2KvHOsGZFLqacTGmZFU6F7IvVjjSOHUi96m+SHnxZdjSM7Ur/2MscfnxW63TxkTUM4jUve35JeLh7gES6XOEj3DW6OfNCSVqXDEe6aRVp4O0A3Hn5faAkL9PKMNWANzxs8RhTo5RvjuvEFcR/jVmsKdwXJutgNs1xg2KLEEQEruEtiVyN0oAm8I5YR/guUqaZe1GPGYQAAAABJRU5ErkJggg=="
@@ -474,6 +480,7 @@ function BSTGame() {
         <div className="gamehintContainer" style={{ marginRight: "250px" }}>
           <div className="loader"></div>
           <img
+            id="A3_BST_Hint"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setdocumentModalShow(true)}
@@ -497,8 +504,9 @@ function BSTGame() {
           </div>
           <div>
             <Button
+              id="A3_BST_Game_Start"
               className="startbtn"
-              variant="outline-dark"
+              variant="danger"
               style={{ marginTop: "20px" }}
               onClick={() => {
                 async function Start(params) {
@@ -522,8 +530,10 @@ function BSTGame() {
               Start
             </Button>
             <Button
+              id="A3_BST_Game_Restart"
               variant="outline-dark"
               style={{ marginTop: "20px" }}
+              disabled={restart}
               onClick={() => {
                 setTimerPlay(false);
                 let btn = document.querySelector(".startbtn");
@@ -535,6 +545,8 @@ function BSTGame() {
                 playercontainer.classList.remove("myturn");
                 setdiffcultyModalShow(true);
                 setReset(!reset);
+                setPlayergrade(0);
+                setRestart(1);
               }}
             >
               Restart
@@ -548,10 +560,11 @@ function BSTGame() {
             <div className="playercontainer">
               <div className="namegrade">
                 <div className="thegrade">{playergrade}</div>
-                <h3>Player</h3>
+                <h3>{UserData.Name}</h3>
               </div>
               <div className="options">
                 <Button
+                  id={`BST_Game_Option_${playerOP[opArr[round - 1]].choice}`}
                   className="playerbtn1"
                   variant="outline-dark"
                   disabled={playerbtn1}
@@ -562,27 +575,28 @@ function BSTGame() {
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
-                    console.log("pre-round");
-                    console.log(round);
-                    console.log("ans");
-                    console.log(title[round - 1].ans);
                     if (
                       playerOP[opArr[round - 1]].number === title[round - 1].ans
                     ) {
-                      setPlayergrade(playergrade + 5);
+                      setPlayergrade(
+                        playergrade +
+                          Math.floor(100 * (playtime + makeSecond(1, 100)))
+                      );
                       timer.classList.remove("toolate");
                     } else {
-                      setPlayergrade(playergrade - 3);
+                      // setPlayergrade(playergrade - 3);
                       timer.classList.remove("toolate");
                     }
                     setReset(!reset);
-                    console.log("AI");
                     AIplay();
                   }}
                 >
                   {playerOP[opArr[round - 1]].choice}
                 </Button>
                 <Button
+                  id={`BST_Game_Option_${
+                    playerOP[opArr[round - 1] + 1].choice
+                  }`}
                   className="playerbtn2"
                   variant="outline-dark"
                   disabled={playerbtn2}
@@ -593,30 +607,29 @@ function BSTGame() {
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
-                    console.log("pre-round");
-                    console.log(round);
-                    console.log("ans");
-                    console.log(title[round - 1].ans);
                     if (
                       playerOP[opArr[round - 1] + 1].number ===
                       title[round - 1].ans
                     ) {
-                      setPlayergrade(playergrade + 5);
+                      setPlayergrade(
+                        playergrade +
+                          Math.floor(100 * (playtime + makeSecond(1, 100)))
+                      );
                       timer.classList.remove("toolate");
-                      console.log("correct");
                     } else {
-                      setPlayergrade(playergrade - 3);
+                      // setPlayergrade(playergrade - 3);
                       timer.classList.remove("toolate");
                     }
-                    console.log("reset1");
                     setReset(!reset);
-                    console.log("AI");
                     AIplay();
                   }}
                 >
                   {playerOP[opArr[round - 1] + 1].choice}
                 </Button>
                 <Button
+                  id={`BST_Game_Option_${
+                    playerOP[opArr[round - 1] + 2].choice
+                  }`}
                   className="playerbtn3"
                   variant="outline-dark"
                   disabled={playerbtn3}
@@ -627,24 +640,20 @@ function BSTGame() {
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
-                    console.log("pre-round");
-                    console.log(round);
-                    console.log("ans");
-                    console.log(title[round - 1].ans);
                     if (
                       playerOP[opArr[round - 1] + 2].number ===
                       title[round - 1].ans
                     ) {
-                      setPlayergrade(playergrade + 5);
-                      console.log("correct");
+                      setPlayergrade(
+                        playergrade +
+                          Math.floor(100 * (playtime + makeSecond(1, 100)))
+                      );
                       timer.classList.remove("toolate");
                     } else {
-                      setPlayergrade(playergrade - 3);
+                      // setPlayergrade(playergrade - 3);
                       timer.classList.remove("toolate");
                     }
-                    console.log("reset1");
                     setReset(!reset);
-                    console.log("AI");
                     AIplay();
                   }}
                 >

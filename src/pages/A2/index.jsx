@@ -8,6 +8,7 @@ import BSTInteractive from "./components/BSTInteractive";
 import AVL from "./components/AVL";
 import AVLInteractive from "./components/AVLInteractive";
 import RBT from "./components/RBT";
+import Grade from "../Grade/components/Grade";
 
 
 class A2 extends React.Component{
@@ -142,10 +143,24 @@ class A2 extends React.Component{
                      style={{
                       textDecoration: "none",
                       cursor: "pointer",
+                      marginRight: "20px",
                     }}
                     id="306"
                   >
                     Test
+                  </Button>
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => {
+                      this.handle(<Grade />);
+                    }}
+                    style={{
+                      textDecoration: "none",
+                      cursor: "pointer",
+                    }}
+                    id="305"
+                  >
+                    Grade
                   </Button>
                 </Nav>
               </Navbar.Collapse>

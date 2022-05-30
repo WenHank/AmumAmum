@@ -4,6 +4,9 @@ const bcryptjs = require("bcrypt");
 //引入Schema
 const SignUpTemplateCopy = require("../models/SignUpModels");
 const MarkUserTemplateCopy = require("../models/MarkUserModels");
+const BstGradeTemplateCopy = require("../models/BstGradeModels");
+const AvlGradeTemplateCopy = require("../models/AvlGradeModels");
+const RbtGradeTemplateCopy = require("../models/RbtGradeModels");
 
 /////////////寫入資料庫///////////////////
 router.post(process.env.ROUTER_SIGNUP, async (req, res) => {
@@ -124,5 +127,103 @@ router.post(process.env.ROUTER_CHANGEEMAIL, async (req, res) => {
     }
   );
 });
-
+////////////////////成績寫入資料庫---BST////////////////////
+router.post(process.env.ROUTER_BSTGRADE, async (req, res) => {
+  BstGradeTemplateCopy.find(
+    { StudentId: req.body.StudentId },
+    (err, result) => {
+      if (err) throw err;
+      if (result) {
+        BstGradeTemplateCopy.insert({
+          StudentId: req.body.StudentId,
+          Grades: req.body.Grades,
+          Time: req.body.Time,
+        });
+      } else {
+        /////////////Schema///////////////////
+        const BstGrade = new BstGradeTemplateCopy({
+          StudentId: req.body.StudentId,
+          Grades: req.body.Grades,
+          Time: req.body.Time,
+        });
+        ////////////////////////////////
+        BstGrade.save()
+          .then((data) => {
+            res.send(data);
+          })
+          .catch((err) => {
+            res.send(err);
+          });
+      }
+    }
+  );
+});
+////////////////////成績寫入資料庫---AVL////////////////////
+router.post(process.env.ROUTER_AVLGRADE, async (req, res) => {
+  AvlGradeTemplateCopy.findOne(
+    { StudentId: req.body.StudentId },
+    (err, result) => {
+      if (err) throw err;
+      if (result) {
+        AvlGradeTemplateCopy.updateOne(
+          { Grades: req.body.Grades },
+          { Time: req.body.Time },
+          (err, result) => {
+            if (err) throw err;
+            res.send("success");
+          }
+        );
+      } else {
+        /////////////Schema///////////////////
+        const AvlGrade = new AvlGradeTemplateCopy({
+          StudentId: req.body.StudentId,
+          Grades: req.body.Grades,
+          Time: req.body.Time,
+        });
+        ////////////////////////////////
+        AvlGrade.save()
+          .then((data) => {
+            res.send(data);
+          })
+          .catch((err) => {
+            res.send(err);
+          });
+      }
+    }
+  );
+});
+////////////////////成績寫入資料庫---RBT////////////////////
+router.post(process.env.ROUTER_RBTGRADE, async (req, res) => {
+  RbtGradeTemplateCopy.findOne(
+    { StudentId: req.body.StudentId },
+    (err, result) => {
+      if (err) throw err;
+      if (result) {
+        RbtGradeTemplateCopy.updateOne(
+          { Grades: req.body.Grades },
+          { Time: req.body.Time },
+          (err, result) => {
+            if (err) throw err;
+            res.send("success");
+          }
+        );
+      } else {
+        /////////////Schema///////////////////
+        const RbtGrade = new RbtGradeTemplateCopy({
+          StudentId: req.body.StudentId,
+          Grades: req.body.Grades,
+          Time: req.body.Time,
+        });
+        ////////////////////////////////
+        RbtGrade.save()
+          .then((data) => {
+            res.send(data);
+          })
+          .catch((err) => {
+            res.send(err);
+          });
+      }
+    }
+  );
+});
 module.exports = router;

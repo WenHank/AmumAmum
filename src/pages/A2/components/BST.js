@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import BSTdocument from "../../A1/components/BSTdocument";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -76,7 +77,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Showpdf />
+        <BSTdocument />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>

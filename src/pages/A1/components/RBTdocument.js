@@ -52,28 +52,28 @@ function RBTdocument() {
       case 1:
         return (
           <div>
-            <label class="title">Red BlackTree</label>
-            <label class="subtitle">定義：</label>
+            <label className="title">Red BlackTree</label>
+            <label className="subtitle">定義：</label>
             <p>
               又稱紅⿊樹，簡單來說就是，他是BST和AVL的中間值
               <br /> 為什麼會這樣說，是因為BST可能會有最壞的情況發⽣，
-              <span class="red">變成斜曲的⼆元樹</span>
+              <span className="red">變成斜曲的⼆元樹</span>
               <br />{" "}
               ⽽AVL是為了避免這種情況的發⽣，嚴格執⾏平衡的動做，但相對付出的時間
               <br />{" "}
               也就很多，⽽紅⿊數則是不那麼要求平衡，你可以想成說他犧牲⼀點平衡去換
               <br /> 來時間跟效率，他的尋找、插⼊的時間複雜度較低，為Ｏ(logN)。
             </p>
-            <label class="subtitle">使用：</label>
+            <label className="subtitle">使用：</label>
             <p>
               我們可以先將資料建成紅⿊樹，之後如果需要資料時，即可透透過此紅⿊樹快速找到我們想要的資料，
               <br />
               以降低我們查詢資料的時間，另外可以對他進⾏增加和刪除的動作。
             </p>
-            <label class="subtitle">操作：</label>
-            <label class="secSubtitle">搜尋（一）</label>
+            <label className="subtitle">操作：</label>
+            <label className="secSubtitle">搜尋（一）</label>
             <p>
-              原則為<span class="red">依序比較比節點⼤或小</span>
+              原則為<span className="red">依序比較比節點⼤或小</span>
               ，以下圖搜尋39為例
               <br />
               第⼀步：39 比13⼤，往13的右⼦樹⾛
@@ -82,7 +82,7 @@ function RBTdocument() {
               <br />
               第三步：找到39
             </p>
-            <div class="center">
+            <div className="center">
               <img src="./img/RBT/pic1.jpg" alt="" />
             </div>
           </div>
@@ -90,7 +90,7 @@ function RBTdocument() {
       case 2:
         return (
           <div>
-            <label class="secSubtitle">搜尋（二）</label>
+            <label className="secSubtitle">搜尋（二）</label>
             <p>
               你可能會好奇假如找不到怎麼辦，請看下圖，假設要找69
               <br />
@@ -102,20 +102,21 @@ function RBTdocument() {
               <br />
               第四步：58沒有右⼦數，表示找不到，則回傳null 插
             </p>
-            <div class="center">
+            <div className="center">
               <img src="./img/RBT/pic2.jpg" alt="" />
             </div>
-            <label class="secSubtitle">插⼊（規則）</label>
+            <label className="secSubtitle">插⼊（規則）</label>
             <p>
               基於搜尋的規則，先找到適合插⼊的位置，
-              <span class="red">⽽新增的節點先標紅⾊</span>，且在插⼊ 的時候，
+              <span className="red">⽽新增的節點先標紅⾊</span>，且在插⼊
+              的時候，
               <br />
               若發現某個Node兩個⼦點是紅⾊Node的話，則做
-              <span class="red">color change</span>
+              <span className="red">color change</span>
               ，再判斷是否要『旋轉』，
               <br />
               旋轉是為了要達到符合
-              <span class="red">『紅⿊數的五⼤條件』</span>，分別為
+              <span className="red">『紅⿊數的五⼤條件』</span>，分別為
               <br />
               ⼀． Node 必為⿊⾊或紅⾊
               <br />
@@ -131,7 +132,7 @@ function RBTdocument() {
               旋轉差不多，
               <br />
               只是加上顏⾊的變化，⽽這些旋轉都圍繞著⼀個原則，
-              <span class="red">
+              <span className="red">
                 『中間值向 上提標⿊，⼤的放左小的放右標紅』
               </span>
             </p>
@@ -140,7 +141,7 @@ function RBTdocument() {
       case 3:
         return (
           <div>
-            <label class="secSubtitle">插⼊（color change）</label>
+            <label className="secSubtitle">插⼊（color change）</label>
             <p>
               請看下⽅兩張圖
               <br />
@@ -148,27 +149,28 @@ function RBTdocument() {
               Node 8的兩個⼦點為紅⾊，
               <br />
               因此必須做
-              <span class=" red ">color change</span>，⽽color change的作法為
-              <span class="red ">『該Node改為紅⾊，⼦點改為⿊⾊』</span>
+              <span className=" red ">color change</span>，⽽color
+              change的作法為
+              <span className="red ">『該Node改為紅⾊，⼦點改為⿊⾊』</span>
               ，<br />
               並且檢查有無連續的紅節點，若無才可
               進祥下⼀步，因此我們可以插⼊Node 5了，
               <br />
               插⼊完還要檢查是否有違反規則
             </p>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic3.jpg " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/arrow.png " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic4.jpg " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/arrow.png " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic5.jpg " alt=" " />
             </div>
           </div>
@@ -176,7 +178,7 @@ function RBTdocument() {
       case 4:
         return (
           <div>
-            <label class="secSubtitle ">插⼊（LL旋轉）</label>
+            <label className="secSubtitle ">插⼊（LL旋轉）</label>
             <p>
               請看下⽅兩張圖
               <br />
@@ -194,13 +196,13 @@ function RBTdocument() {
               <br />
               若皆無違反的話，恭喜你完成LL旋轉了！
             </p>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic6.jpg " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/arrow.png " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic7.jpg " alt=" " />
             </div>
           </div>
@@ -208,7 +210,7 @@ function RBTdocument() {
       case 5:
         return (
           <div>
-            <label class="secSubtitle ">插⼊（RR 旋轉）</label>
+            <label className="secSubtitle ">插⼊（RR 旋轉）</label>
             <p>
               請看下⽅兩張圖
               <br />
@@ -227,13 +229,13 @@ function RBTdocument() {
               <br />
               若皆無違反 的話，恭喜你完成RR旋轉了！
             </p>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic8.jpg " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/arrow.png " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic9.jpg " alt=" " />
             </div>
           </div>
@@ -241,7 +243,7 @@ function RBTdocument() {
       case 6:
         return (
           <div>
-            <label class="secSubtitle ">插⼊（LR旋轉）</label>
+            <label className="secSubtitle ">插⼊（LR旋轉）</label>
             <p>
               <br />
               請看下⽅兩張圖 因為新增Node 17的時候，必須先搜尋要插⼊的位置，
@@ -259,13 +261,13 @@ function RBTdocument() {
               右節點則為Node 18標紅，做完之後需檢查有無違反規則，若皆無違反的
               話，恭喜你完成LR旋轉了！
             </p>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic10.jpg " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/arrow.png " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic11.jpg " alt=" " />
             </div>
           </div>
@@ -273,7 +275,7 @@ function RBTdocument() {
       case 7:
         return (
           <div>
-            <label class="secSubtitle ">插⼊（RL旋轉）</label>
+            <label className="secSubtitle ">插⼊（RL旋轉）</label>
             <p>
               請看下⽅兩張圖
               <br />
@@ -291,13 +293,13 @@ function RBTdocument() {
               <br />
               若皆無違反的 話，恭喜你完成RL旋轉了！
             </p>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic12.jpg " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/arrow.png " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic13.jpg " alt=" " />
             </div>
           </div>
@@ -305,22 +307,22 @@ function RBTdocument() {
       case 8:
         return (
           <div>
-            <label class="secSubtitle ">移除（規則）</label>
+            <label className="secSubtitle ">移除（規則）</label>
             <p>
               動作和BST的移除類似，只是多了要檢查
-              <span class="red ">是否移除會造成違反規則</span> ，<br />
+              <span className="red ">是否移除會造成違反規則</span> ，<br />
               若會造成 違反規則記得旋轉，請看下圖移除20，
               <br />
               且以左⼦樹最⼤取代
               首先直接移除20，並且以25取代原本位置，沒有違反任何規則
             </p>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic14.jpg " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/arrow.png " alt=" " />
             </div>
-            <div class="center ">
+            <div className="center ">
               <img src="./img/RBT/pic15.jpg " alt=" " />
             </div>
           </div>
@@ -328,12 +330,12 @@ function RBTdocument() {
       case 9:
         return (
           <div>
-            <label class="secSubtitle">建立⼀顆紅⿊數</label>
+            <label className="secSubtitle">建立⼀顆紅⿊數</label>
             <p>
               假設有筆資料為[40,60,55,15,20,5,25,30]，建成⼀顆紅⿊數該怎麼建呢？
               <br />
               我們可以把建立看成多次的插⼊，記住⼀個原則
-              <span class="red">⼤的放右小的放左</span>，<br />
+              <span className="red">⼤的放右小的放左</span>，<br />
               且在每次 的插⼊完後，⼀定要檢查是否符合規則。
               <br />
               第⼀步：40當樹根標⿊，因root必為⿊
@@ -357,7 +359,7 @@ function RBTdocument() {
               第⼋步：30 比55小，30比20⼤，30比40小，30
               比25⼤，往25的右⼦樹放，但違反『連續兩紅⾊節點』，因此需做LR旋轉
             </p>
-            <div class="center">
+            <div className="center">
               <img src="./img/RBT/pic16.jpg" alt="" />
             </div>
           </div>
@@ -365,10 +367,10 @@ function RBTdocument() {
       case 10:
         return (
           <div>
-            <label class="secSubtitle">中序</label>
+            <label className="secSubtitle">中序</label>
             <p>
               為⼀種⾛訪的順序，順序為
-              <span class="red">
+              <span className="red">
                 拜訪左⼦樹(L)，印出該節點(D)，拜訪右⼦數(R)
               </span>
               ，
@@ -405,7 +407,7 @@ function RBTdocument() {
               剛好為由 小到⼤的排序，這並不是剛好，⽽是⼆元搜尋樹的特性，
               紅⿊樹的中序⾛訪剛好為由小到⼤的順序
             </p>
-            <div class="center">
+            <div className="center">
               <img src="./img/RBT/pic17.jpg" alt="" />
             </div>
           </div>
@@ -413,10 +415,10 @@ function RBTdocument() {
       case 11:
         return (
           <div>
-            <label class="secSubtitle">前序</label>
+            <label className="secSubtitle">前序</label>
             <p>
               是⼀種⾛訪的順序，順序為
-              <span class="red">
+              <span className="red">
                 印出該節點(D)，拜訪左⼦樹(L)，拜訪右⼦數(R)
               </span>
               ，
@@ -444,7 +446,7 @@ function RBTdocument() {
               <br />
               因此這顆紅⿊樹的前序⾛訪為『37,11,3,46,38,52』
             </p>
-            <div class="center">
+            <div className="center">
               <img src="./img/RBT/pic18.jpg" alt="" />
             </div>
           </div>
@@ -452,10 +454,10 @@ function RBTdocument() {
       case 12:
         return (
           <div>
-            <label class="red">後序</label>
+            <label className="red">後序</label>
             <p>
               為⼀種⾛訪的順序，順序為
-              <span class="red">
+              <span className="red">
                 拜訪左⼦樹(L) ，拜訪右⼦數(R)，印出該節點(D)
               </span>
               ，
@@ -487,7 +489,7 @@ function RBTdocument() {
               <br />
               因此這顆紅⿊樹的後序⾛訪為『3,11,38,52,46,37』
             </p>
-            <div class="center">
+            <div className="center">
               <img src="./img/RBT/pic19.jpg" alt="" />
             </div>
           </div>
@@ -495,7 +497,7 @@ function RBTdocument() {
       case 13:
         return (
           <div>
-            <label class="subtitle">實際應用</label>
+            <label className="subtitle">實際應用</label>
             <p>
               假設有筆資料為[12,34,6,25,58]，我們先將它建成紅⿊樹，之後假設我們要找58
               這筆數據的話，
@@ -508,7 +510,7 @@ function RBTdocument() {
               <br />
               第三步：此值剛好為58，找到了
             </p>
-            <div class="center">
+            <div className="center">
               <img src="./img/RBT/pic20.jpg" alt="" />
             </div>
             <p>
@@ -517,7 +519,7 @@ function RBTdocument() {
               <br />
               來看看下⽅的結果 答案是會的，因為它會平衡
             </p>
-            <div class="center">
+            <div className="center">
               <img src="./img/RBT/pic21.jpg" alt="" />
             </div>
           </div>

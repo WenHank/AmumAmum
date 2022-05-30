@@ -6,7 +6,7 @@ import Tree from "./components/Treedocument";
 import BST from "./components/BSTdocument";
 import AVL from "./components/AVLdocument";
 import RBT from "./components/RBTdocument";
-
+import Grade from "../Grade/components/Grade";
 
 class A1 extends React.Component{
   constructor(props) {
@@ -105,10 +105,24 @@ class A1 extends React.Component{
                      style={{
                       textDecoration: "none",
                       cursor: "pointer",
+                      marginRight: "20px",
                     }}
                     id="306"
                   >
                     Test
+                  </Button>
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => {
+                      this.handle(<Grade />);
+                    }}
+                    style={{
+                      textDecoration: "none",
+                      cursor: "pointer",
+                    }}
+                    id="305"
+                  >
+                    Grade
                   </Button>
                 </Nav>
               </Navbar.Collapse>

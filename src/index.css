@@ -839,6 +839,41 @@ h2 span:nth-child(even) {
   flex-direction: column;
 }
 /****************************************************************/
+/*************************A3 Grade**********************************/
+.Gradecontainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.chart{
+  margin-bottom: 30px;
+  width: 800px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.gradetitle{
+  flex-direction: column;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  padding: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  width: 700px;
+  height: 500px;
+  margin-top: 20px;
+}
+.userCard{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.polar{
+  height: 100%;
+}
+/****************************************************************/
 /*************************Admin**********************************/
 /* .container {
   text-align: center;
