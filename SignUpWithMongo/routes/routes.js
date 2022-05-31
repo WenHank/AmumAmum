@@ -133,18 +133,40 @@ router.post(process.env.ROUTER_BSTGRADE, async (req, res) => {
     { StudentId: req.body.StudentId },
     (err, result) => {
       if (err) throw err;
-      if (result) {
-        BstGradeTemplateCopy.insert({
-          StudentId: req.body.StudentId,
-          Grades: req.body.Grades,
-          Time: req.body.Time,
-        });
+      ////////////////////////////////
+      if (result.length > 0) {
+        console.log("fuck1");
+        console.log(result);
+        let GradesArr = [];
+        let TimesArr = [];
+        for (let i = 0; i < result[0].Grades.length; i++) {
+          console.log(result[0].Grades[i]);
+          GradesArr[i] = result[0].Grades[i];
+          TimesArr[i] = result[0].Time[i];
+        }
+        GradesArr[result[0].Grades.length] = req.body.Grades;
+        TimesArr[result[0].Grades.length] = req.body.Time;
+        console.log(GradesArr);
+        console.log(TimesArr);
+        BstGradeTemplateCopy.updateOne(
+          { StudentId: req.body.StudentId },
+          { Grades: GradesArr, Time: TimesArr },
+          (err, result) => {
+            if (err) throw err;
+            res.send("success");
+          }
+        );
       } else {
+        console.log("fuck2");
         /////////////Schema///////////////////
+        let GradesArr = [];
+        let TimesArr = [];
+        GradesArr[0] = req.body.Grades;
+        TimesArr[0] = req.body.Time;
         const BstGrade = new BstGradeTemplateCopy({
           StudentId: req.body.StudentId,
-          Grades: req.body.Grades,
-          Time: req.body.Time,
+          Grades: GradesArr,
+          Time: TimesArr,
         });
         ////////////////////////////////
         BstGrade.save()
@@ -155,6 +177,22 @@ router.post(process.env.ROUTER_BSTGRADE, async (req, res) => {
             res.send(err);
           });
       }
+    }
+  );
+});
+/////////////取得成績BST/////////////////////////
+router.post(process.env.ROUTER_BSTGRADEINFO, async (req, res) => {
+  BstGradeTemplateCopy.findOne(
+    { StudentId: req.body.StudentId },
+    (err, result) => {
+      if (err) throw err;
+      const SendResponse = {
+        StudentId: result.StudentId,
+        Grades: result.Grades,
+        Time: result.Time,
+        ////////////////////////////////////////////////////////////////
+      };
+      res.send(SendResponse);
     }
   );
 });

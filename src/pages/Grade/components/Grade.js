@@ -45,6 +45,8 @@ let avlaverageArr = [];
 let rbtmeArr = [];
 let rbtbestArr = [];
 let rbtaverageArr = [];
+let useringo;
+let datapolar;
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -63,7 +65,14 @@ function makeArr() {
   }
 }
 makeArr();
-
+function caculate(arr) {
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+  }
+  console.log(sum);
+  return sum;
+}
 function Tilt(props) {
   const { options, ...rest } = props;
   const tilt = useRef(null);
@@ -78,20 +87,74 @@ export default function Grade() {
   const [meArr, setMeArr] = useState(bstmeArr);
   const [bestArr, setBestArr] = useState(bstbestArr);
   const [averageArr, setAverageArr] = useState(bstaverageArr);
-  const [polarBest, setPolarBest] = useState(Math.max(...bstmeArr));
-  const [polarWorst, setPolarWorst] = useState(Math.min(...bstmeArr));
+  const [polarBest, setPolarBest] = useState(1);
+  const [polarWorst, setPolarWorst] = useState(1);
+  const [polarAverage, setPolarAverage] = useState(1);
   const Refresh = useNavigate();
+  const [userBSTgrades, setUserBSTgrades] = useState("");
   const [googlegrade, setGooglegrade] = useState("");
-  const [renderF, setRenderF] = useState(<UserCard />);
-  const [polarAverage, setPolarAverage] = useState(
-    bstmeArr.reduce((a, b) => a + b) / bstmeArr.length
-  );
-  const data = {
+  const [renderF, setRenderF] = useState("");
+  const options = {
+    scale: 1,
+    max: 15,
+    speed: 250,
+  };
+  const [UserData, setUserData] = useState("");
+  let GetSid = sessionStorage.getItem("Sid");
+  useEffect(async () => {
+    let sID;
+    let bstgrades;
+    await axios({
+      method: "POST",
+      data: {
+        _id: GetSid,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_USERINFO,
+    }).then((response) => {
+      setUserData(response.data);
+      sID = response.data.StudentId;
+    });
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_BSTGRADEINFO,
+    }).then((response) => {
+      setUserBSTgrades(response.data);
+      bstgrades = response.data.Grades.map(Number);
+      setPolarBest(Math.max(...bstgrades));
+      setPolarWorst(Math.min(...bstgrades));
+      setPolarAverage(Math.floor(caculate(bstgrades) / bstgrades.length));
+      console.log(bstgrades);
+      console.log(polarBest);
+      console.log(polarWorst);
+      console.log(Math.floor(caculate(bstgrades) / bstgrades.length));
+    });
+    datapolar = {
+      labels: ["Best", "Worst", "Average"],
+      datasets: [
+        {
+          label: "Hours Studied in Geeksforgeeks",
+          data: [polarBest, polarWorst, polarAverage],
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.5)",
+            "rgba(53, 162, 235, 0.5)",
+            "rgb(43, 202, 56, 0.5)",
+          ],
+        },
+      ],
+    };
+  }, [polarBest, polarWorst, polarAverage]);
+
+  const dataline = {
     labels,
     datasets: [
       {
         label: "You",
-        data: meArr,
+        data: userBSTgrades.Grades,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
@@ -109,20 +172,8 @@ export default function Grade() {
       },
     ],
   };
-  const datapolar = {
-    labels: ["Best", "Worst", "Average"],
-    datasets: [
-      {
-        label: "Hours Studied in Geeksforgeeks",
-        data: [polarBest, polarWorst, polarAverage],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.5)",
-          "rgba(53, 162, 235, 0.5)",
-          "rgb(43, 202, 56, 0.5)",
-        ],
-      },
-    ],
-  };
+  let a = [1, 2, 3];
+
   const radarData = {
     labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
     datasets: [
@@ -150,26 +201,6 @@ export default function Grade() {
       },
     ],
   };
-  const options = {
-    scale: 1,
-    max: 15,
-    speed: 250,
-  };
-  const [UserData, setUserData] = useState("");
-  let GetSid = sessionStorage.getItem("Sid");
-  if (!UserData) {
-    axios({
-      method: "POST",
-      data: {
-        _id: GetSid,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_USERINFO,
-    }).then((response) => {
-      setUserData(response.data);
-    });
-  }
-
   function UserCard(params) {
     return (
       <Tilt className="gametitle playtitle" options={options}>
@@ -315,7 +346,7 @@ export default function Grade() {
           className="gradetitle"
           style={{ padding: "10px", flexDirection: "row" }}
         >
-          <Line options={Lineoptions} data={data} width="400px" />
+          <Line options={Lineoptions} data={dataline} width="400px" />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Button
               variant="outline-dark"
@@ -414,6 +445,7 @@ export default function Grade() {
       </Tilt>
     );
   }
+
   return (
     <div className="A3">
       <div className="Gradecontainer">

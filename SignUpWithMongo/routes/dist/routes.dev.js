@@ -228,20 +228,44 @@ router.post(process.env.ROUTER_BSTGRADE, function _callee8(req, res) {
           BstGradeTemplateCopy.find({
             StudentId: req.body.StudentId
           }, function (err, result) {
-            if (err) throw err;
+            if (err) throw err; ////////////////////////////////
 
-            if (result) {
-              BstGradeTemplateCopy.insert({
-                StudentId: req.body.StudentId,
-                Grades: req.body.Grades,
-                Time: req.body.Time
+            if (result.length > 0) {
+              console.log("fuck1");
+              console.log(result);
+              var GradesArr = [];
+              var TimesArr = [];
+
+              for (var i = 0; i < result[0].Grades.length; i++) {
+                console.log(result[0].Grades[i]);
+                GradesArr[i] = result[0].Grades[i];
+                TimesArr[i] = result[0].Time[i];
+              }
+
+              GradesArr[result[0].Grades.length] = req.body.Grades;
+              TimesArr[result[0].Grades.length] = req.body.Time;
+              console.log(GradesArr);
+              console.log(TimesArr);
+              BstGradeTemplateCopy.updateOne({
+                StudentId: req.body.StudentId
+              }, {
+                Grades: GradesArr,
+                Time: TimesArr
+              }, function (err, result) {
+                if (err) throw err;
+                res.send("success");
               });
             } else {
-              /////////////Schema///////////////////
+              console.log("fuck2"); /////////////Schema///////////////////
+
+              var _GradesArr = [];
+              var _TimesArr = [];
+              _GradesArr[0] = req.body.Grades;
+              _TimesArr[0] = req.body.Time;
               var BstGrade = new BstGradeTemplateCopy({
                 StudentId: req.body.StudentId,
-                Grades: req.body.Grades,
-                Time: req.body.Time
+                Grades: _GradesArr,
+                Time: _TimesArr
               }); ////////////////////////////////
 
               BstGrade.save().then(function (data) {
@@ -258,12 +282,38 @@ router.post(process.env.ROUTER_BSTGRADE, function _callee8(req, res) {
       }
     }
   });
-}); ////////////////////成績寫入資料庫---AVL////////////////////
+}); /////////////取得成績BST/////////////////////////
 
-router.post(process.env.ROUTER_AVLGRADE, function _callee9(req, res) {
+router.post(process.env.ROUTER_BSTGRADEINFO, function _callee9(req, res) {
   return regeneratorRuntime.async(function _callee9$(_context9) {
     while (1) {
       switch (_context9.prev = _context9.next) {
+        case 0:
+          BstGradeTemplateCopy.findOne({
+            StudentId: req.body.StudentId
+          }, function (err, result) {
+            if (err) throw err;
+            var SendResponse = {
+              StudentId: result.StudentId,
+              Grades: result.Grades,
+              Time: result.Time ////////////////////////////////////////////////////////////////
+
+            };
+            res.send(SendResponse);
+          });
+
+        case 1:
+        case "end":
+          return _context9.stop();
+      }
+    }
+  });
+}); ////////////////////成績寫入資料庫---AVL////////////////////
+
+router.post(process.env.ROUTER_AVLGRADE, function _callee10(req, res) {
+  return regeneratorRuntime.async(function _callee10$(_context10) {
+    while (1) {
+      switch (_context10.prev = _context10.next) {
         case 0:
           AvlGradeTemplateCopy.findOne({
             StudentId: req.body.StudentId
@@ -297,16 +347,16 @@ router.post(process.env.ROUTER_AVLGRADE, function _callee9(req, res) {
 
         case 1:
         case "end":
-          return _context9.stop();
+          return _context10.stop();
       }
     }
   });
 }); ////////////////////成績寫入資料庫---RBT////////////////////
 
-router.post(process.env.ROUTER_RBTGRADE, function _callee10(req, res) {
-  return regeneratorRuntime.async(function _callee10$(_context10) {
+router.post(process.env.ROUTER_RBTGRADE, function _callee11(req, res) {
+  return regeneratorRuntime.async(function _callee11$(_context11) {
     while (1) {
-      switch (_context10.prev = _context10.next) {
+      switch (_context11.prev = _context11.next) {
         case 0:
           RbtGradeTemplateCopy.findOne({
             StudentId: req.body.StudentId
@@ -340,7 +390,7 @@ router.post(process.env.ROUTER_RBTGRADE, function _callee10(req, res) {
 
         case 1:
         case "end":
-          return _context10.stop();
+          return _context11.stop();
       }
     }
   });

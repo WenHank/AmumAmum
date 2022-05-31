@@ -6,11 +6,11 @@ const BstGradeTemplate = new mongoose.Schema({
     required: true,
   },
   Grades: {
-    type: "string",
+    type: "object",
     required: true,
   },
   Time: {
-    type: "string",
+    type: "object",
     required: true,
   },
 });

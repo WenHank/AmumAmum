@@ -126,7 +126,7 @@ function BSTGame() {
   const [restart, setRestart] = useState(1);
   const [UserData, setUserData] = useState("");
   let GetSid = sessionStorage.getItem("Sid");
-  if (UserData === "") {
+  useEffect(() => {
     axios({
       method: "POST",
       data: {
@@ -137,7 +137,8 @@ function BSTGame() {
     }).then((response) => {
       setUserData(response.data);
     });
-  }
+  }, []);
+
   let whowin = playergrade > aigrade ? "You win" : "You lose";
   let second = 10;
   let timer;
@@ -296,7 +297,6 @@ function BSTGame() {
                 }
                 console.log(AIOP);
                 console.log(playerOP);
-                console.log(title);
                 if (
                   title.length === type + 1 &&
                   playerOP.length === (type + 1) * 3 &&
@@ -457,6 +457,7 @@ function BSTGame() {
     ////////////////////////////////
     //////////送出請求///////////////
     if (gradefunction) {
+      console.log(Writegrade);
       await axios
         .post(process.env.REACT_APP_AXIOS_BSTGRADE, Writegrade)
         .then((response) => {

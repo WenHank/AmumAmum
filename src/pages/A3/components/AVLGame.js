@@ -13,7 +13,6 @@ function getRandom(min, max) {
 function makeSecond(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min) / 100;
 }
-console.log(makeSecond(1, 100));
 var arr = [];
 for (let i = 0; i < getRandom(5, 10); i++) {
   let tmp = getRandom(5, 70);
