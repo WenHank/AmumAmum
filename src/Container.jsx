@@ -46,7 +46,6 @@ const Container = () => {
 
   useEffect(() => {
     const GetSid = sessionStorage.getItem("Sid");
-
     if (GetSid !== null || GetSid !== "null") {
       axios({
         method: "POST",
@@ -158,14 +157,6 @@ const Container = () => {
     )
   }
   
-  // <Route path="/Gateway" element={
-  //           <Gateway
-  //             Location={window.location.pathname}
-  //             UserToken={setUserData}
-  //             User={() => setUser(true)}
-  //           />
-  //         }
-  //       />
 };
 
 function DialogflowSetting() {

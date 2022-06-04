@@ -142,15 +142,22 @@ function BSTGame() {
   let whowin = playergrade > aigrade ? "You win" : "You lose";
   let second = 10;
   let timer;
+  let count = 0;
+  let aicount = 0;
+  let tmptype = 4;
+  let orderArr = ["inorder", "preorder", "postorder"];
   if (type === 4) {
     second = 10;
     aiAns = [1, 1, 0, 0];
+    tmptype = 4;
   } else if (type === 6) {
     second = 8;
     aiAns = [1, 1, 1, 1, 0, 0];
+    tmptype = 6;
   } else {
     second = 6;
     aiAns = [1, 1, 1, 1, 1, 1, 0, 0];
+    tmptype = 8;
   }
   const options = {
     scale: 1,
@@ -190,10 +197,7 @@ function BSTGame() {
       </div>
     );
   };
-  let count = 0;
-  let aicount = 0;
-  let tmptype = 4;
-  let orderArr = ["inorder", "preorder", "postorder"];
+
   function Difficulty(props) {
     return (
       <Modal
@@ -283,20 +287,21 @@ function BSTGame() {
                         choice: "Number " + (playnumber[j] + 1),
                         number: thenumber,
                         do: 1,
-                        time: getRandom(3, 6) * 1000,
+                        time: getRandom(3, second - 3.5) * 1000,
                       };
                     } else {
                       AIOP[aicount++] = {
                         choice: "Number " + (playnumber[j] + 1),
                         number: thenumber + 1,
                         do: 1,
-                        time: getRandom(3, 6) * 1000,
+                        time: getRandom(3, second - 3.5) * 1000,
                       };
                     }
                   }
                 }
                 console.log(AIOP);
                 console.log(playerOP);
+                console.log(title);
                 if (
                   title.length === type + 1 &&
                   playerOP.length === (type + 1) * 3 &&
@@ -346,8 +351,11 @@ function BSTGame() {
       </Modal>
     );
   }
-
+  console.log(change);
+  console.log(tmptype);
+  console.log(type);
   if (change || tmptype !== type) {
+    console.log("fuck");
     tmptype = type;
     title[0] = {
       title: "根據下圖，請問" + 1 + "為inorder 的第幾個",
@@ -369,7 +377,6 @@ function BSTGame() {
   let playercontainer = document.querySelector(".playtitle");
   let aicontainer = document.querySelector(".aititle");
   if (round > type) {
-    console.log("fuck");
     writegrade();
     gradefunction = 1;
     setPlaybtn1(1);
@@ -448,21 +455,81 @@ function BSTGame() {
     }
   }
   async function writegrade(params) {
+    // for (let i = 0; i < 10; i++) {
+    //   gradefunction = 1;
+    //   const Writegrade = {
+    //     StudentId: UserData.StudentId,
+    //     Grades: getRandom(1000, 4000).toString(),
+    //     Time: Date(),
+    //   };
+    //   if (gradefunction) {
+    //     console.log("easy");
+    //     console.log(i);
+    //     await axios
+    //       .post(process.env.REACT_APP_AXIOS_BSTGRADEEASY, Writegrade)
+    //       .then((response) => {
+    //         console.log(response);
+    //       });
+    //     gradefunction = 0;
+    //   }
+    // }
+    // for (let i = 0; i < 10; i++) {
+    //   gradefunction = 1;
+    //   const Writegrade = {
+    //     StudentId: UserData.StudentId,
+    //     Grades: getRandom(1000, 6000).toString(),
+    //     Time: Date(),
+    //   };
+    //   if (gradefunction) {
+    //     console.log("medium");
+    //     console.log(i);
+    //     await axios
+    //       .post(process.env.REACT_APP_AXIOS_BSTGRADEMEDIUM, Writegrade)
+    //       .then((response) => {
+    //         console.log(response);
+    //       });
+    //     gradefunction = 0;
+    //   }
+    // }
+    // for (let i = 0; i < 10; i++) {
+    //   gradefunction = 1;
+    //   const Writegrade = {
+    //     StudentId: UserData.StudentId,
+    //     Grades: getRandom(1000, 8000).toString(),
+    //     Time: Date(),
+    //   };
+    //   if (gradefunction) {
+    //     console.log("hard");
+    //     console.log(i);
+    //     await axios
+    //       .post(process.env.REACT_APP_AXIOS_BSTGRADEHARD, Writegrade)
+    //       .then((response) => {
+    //         console.log(response);
+    //       });
+    //     gradefunction = 0;
+    //   }
+    // }
     const Writegrade = {
       StudentId: UserData.StudentId,
       Grades: playergrade.toString(),
       Time: Date(),
     };
     console.log(Writegrade);
+    let post;
+    if (type === 4) {
+      post = process.env.REACT_APP_AXIOS_BSTGRADEEASY;
+    } else if (type === 6) {
+      post = process.env.REACT_APP_AXIOS_BSTGRADEMEDIUM;
+    } else {
+      post = process.env.REACT_APP_AXIOS_BSTGRADEHARD;
+    }
     ////////////////////////////////
     //////////送出請求///////////////
     if (gradefunction) {
       console.log(Writegrade);
-      await axios
-        .post(process.env.REACT_APP_AXIOS_BSTGRADE, Writegrade)
-        .then((response) => {
-          console.log(response);
-        });
+      await axios.post(post, Writegrade).then((response) => {
+        console.log(response);
+      });
       gradefunction = 0;
     }
   }
@@ -521,6 +588,7 @@ function BSTGame() {
                   let playercontainer = document.querySelector(".playtitle");
                   playercontainer.classList.add("myturn");
                   setRound(1);
+                  console.log(title);
                   for (let i = 0; i < title[0].Arr.length; i++) {
                     insert(title[0].Arr[i]);
                   }

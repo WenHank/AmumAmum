@@ -31,14 +31,13 @@ const Login = ({ User }) => {
     }).then((response) => {
       if (response.data !== process.env.REACT_APP_LOGIN_FAIL) {
         sessionStorage.setItem("Sid", response.data._id);
-        Navigate("/Gateway");
         User();
       } else {
         alert("Login Failed");
       }
     });
   }
- 
+
   return (
     <div className="LoginMain">
       <h1 className="Login_h1" style={{ userSelect: "none" }}>

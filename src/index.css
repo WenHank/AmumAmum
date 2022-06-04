@@ -861,7 +861,7 @@ h2 span:nth-child(even) {
   display: flex;
   align-items: flex-start;
   width: 700px;
-  height: 500px;
+  height: 600px;
   margin-top: 20px;
 }
 .userCard{
@@ -875,32 +875,40 @@ h2 span:nth-child(even) {
 }
 /****************************************************************/
 /*************************Admin**********************************/
-/* .container {
+.AdminTitle {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.AdminStand {
+  display: flex;
+  margin-top: 50px;
+  justify-content: space-evenly;
+}
+.AdminMember {
+  margin-top: 100px;
+  height: auto;
+}
+.memberTable {
   text-align: center;
   margin: 0 auto;
-  padding: 2% 2% 2% 2%;
-  width: 70%;
-  border: 1px dashed black;
-} */
-
-.submit {
-  margin-top: 50px;
+  padding: 10px;
 }
-
-.Stand {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.memberTable_th {
-  display: flex;
-  justify-content: space-evenly;
-}
-
 .memberTable_td {
+  padding: 12px;
+}
+.memberBtn {
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
-  justify-content: space-evenly;
-  margin-top: 10px;
+  justify-content: space-around;
+  border: 1px dashed black;
+  padding: 10px;
+  width: 80%;
+  margin-left:10%;
+}
+#memberuploadBtn{
+  width:200px;
 }
 /****************************************************************/
 /*************************Profile*********************************/

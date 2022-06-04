@@ -100,20 +100,6 @@ let gradefunction = 0;
 let aiAns = [1, 1, 0, 0];
 let playtime = 0;
 function RBTGame() {
-  const [UserData, setUserData] = useState("");
-  let GetSid = sessionStorage.getItem("Sid");
-  if (!UserData) {
-    axios({
-      method: "POST",
-      data: {
-        _id: GetSid,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_USERINFO,
-    }).then((response) => {
-      setUserData(response.data);
-    });
-  }
   const { ref, insert, remove, search, getData, generateRandomTree } =
     useRedBlackTree();
   const [documentmodalShow, setdocumentModalShow] = React.useState(false);
@@ -129,6 +115,21 @@ function RBTGame() {
   const [playerbtn3, setPlaybtn3] = useState(1);
   const [timerPlay, setTimerPlay] = useState(false);
   const [reset, setReset] = useState(0);
+  const [UserData, setUserData] = useState("");
+  const [restart, setRestart] = useState(1);
+  let GetSid = sessionStorage.getItem("Sid");
+  useEffect(() => {
+    axios({
+      method: "POST",
+      data: {
+        _id: GetSid,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_USERINFO,
+    }).then((response) => {
+      setUserData(response.data);
+    });
+  }, []);
   let whowin = playergrade > aigrade ? "You win" : "You lose";
   let second = 10;
   let timer;
@@ -254,7 +255,7 @@ function RBTGame() {
               setPlaybtn3(1);
             }}
           >
-            Restart!
+            End!
           </Button>
         </Modal.Footer>
       </Modal>
@@ -289,14 +290,14 @@ function RBTGame() {
             IR: "Remove",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, 6) * 1000,
+            time: getRandom(3, second - 3) * 1000,
           };
         } else if (arN === 2) {
           AIOP[aicount++] = {
             IR: "Insert",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, 6) * 1000,
+            time: getRandom(3, second - 3) * 1000,
           };
         } else {
           let title = tmp2 === 1 ? "Insert" : "Remove";
@@ -304,7 +305,7 @@ function RBTGame() {
             IR: title,
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, 6) * 1000,
+            time: getRandom(3, second - 3) * 1000,
           };
         }
       }
@@ -345,27 +346,10 @@ function RBTGame() {
     setPlaybtn3(1);
     setRound(1);
     setGameovermodalShow(true);
+    setRestart(0);
     setTimerPlay(false);
     playercontainer.classList.remove("myturn");
     aicontainer.classList.remove("myturn");
-  }
-  async function writegrade(params) {
-    const Writegrade = {
-      StudentId: UserData.StudentId,
-      Grades: playergrade.toString(),
-      Time: Date(),
-    };
-    console.log(Writegrade);
-    ////////////////////////////////
-    //////////送出請求///////////////
-    if (gradefunction) {
-      await axios
-        .post(process.env.REACT_APP_AXIOS_RBTGRADE, Writegrade)
-        .then((response) => {
-          console.log(response);
-        });
-      gradefunction = 0;
-    }
   }
   function AIplay() {
     doing = 0;
@@ -469,7 +453,85 @@ function RBTGame() {
     }
   }
   console.log(gameovermodalShow);
-
+  async function writegrade(params) {
+    for (let i = 0; i < 10; i++) {
+      gradefunction = 1;
+      const Writegrade = {
+        StudentId: UserData.StudentId,
+        Grades: getRandom(1000, 4000).toString(),
+        Time: Date(),
+      };
+      if (gradefunction) {
+        console.log("easy");
+        console.log(i);
+        await axios
+          .post(process.env.REACT_APP_AXIOS_RBTGRADEEASY, Writegrade)
+          .then((response) => {
+            console.log(response);
+          });
+        gradefunction = 0;
+      }
+    }
+    for (let i = 0; i < 10; i++) {
+      gradefunction = 1;
+      const Writegrade = {
+        StudentId: UserData.StudentId,
+        Grades: getRandom(1000, 6000).toString(),
+        Time: Date(),
+      };
+      if (gradefunction) {
+        console.log("medium");
+        console.log(i);
+        await axios
+          .post(process.env.REACT_APP_AXIOS_RBTGRADEMEDIUM, Writegrade)
+          .then((response) => {
+            console.log(response);
+          });
+        gradefunction = 0;
+      }
+    }
+    for (let i = 0; i < 10; i++) {
+      gradefunction = 1;
+      const Writegrade = {
+        StudentId: UserData.StudentId,
+        Grades: getRandom(1000, 8000).toString(),
+        Time: Date(),
+      };
+      if (gradefunction) {
+        console.log("hard");
+        console.log(i);
+        await axios
+          .post(process.env.REACT_APP_AXIOS_RBTGRADEHARD, Writegrade)
+          .then((response) => {
+            console.log(response);
+          });
+        gradefunction = 0;
+      }
+    }
+    // const Writegrade = {
+    //   StudentId: UserData.StudentId,
+    //   Grades: playergrade.toString(),
+    //   Time: Date(),
+    // };
+    // console.log(Writegrade);
+    // let post;
+    // if (type === 4) {
+    //   post = process.env.REACT_APP_AXIOS_RBTGRADEEASY;
+    // } else if (type === 6) {
+    //   post = process.env.REACT_APP_AXIOS_RBTGRADEMEDIUM;
+    // } else {
+    //   post = process.env.REACT_APP_AXIOS_RBTGRADEHARD;
+    // }
+    // ////////////////////////////////
+    // //////////送出請求///////////////
+    // if (gradefunction) {
+    //   console.log(Writegrade);
+    //   await axios.post(post, Writegrade).then((response) => {
+    //     console.log(response);
+    //   });
+    //   gradefunction = 0;
+    // }
+  }
   return (
     <div className="A3">
       <div className="RBTgame">
@@ -530,6 +592,7 @@ function RBTGame() {
               id="A3_RBT_Game_Restart"
               variant="outline-dark"
               style={{ marginTop: "20px" }}
+              disabled={restart}
               onClick={() => {
                 setTimerPlay(false);
                 let btn = document.querySelector(".startbtn");
@@ -541,6 +604,7 @@ function RBTGame() {
                 playercontainer.classList.remove("myturn");
                 setdiffcultyModalShow(true);
                 setReset(!reset);
+                setRestart(1);
               }}
             >
               Restart

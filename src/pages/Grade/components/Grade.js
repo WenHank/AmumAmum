@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button } from "react-bootstrap";
+import { Button, ToggleButton } from "react-bootstrap";
 import VanillaTilt from "vanilla-tilt";
 import { useNavigate } from "react-router-dom";
 import {
@@ -35,42 +35,27 @@ export const Lineoptions = {
 export const Polaroptions = {
   maintainAspectRatio: false,
 };
-const labels = [];
-let bstmeArr = [];
-let bstbestArr = [];
-let bstaverageArr = [];
-let avlmeArr = [];
-let avlbestArr = [];
-let avlaverageArr = [];
-let rbtmeArr = [];
-let rbtbestArr = [];
-let rbtaverageArr = [];
-let useringo;
-let datapolar;
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function makeArr() {
-  for (let i = 0; i < 10; i++) {
-    bstmeArr.push(getRandom(5, 80));
-    bstbestArr.push(getRandom(5, 80));
-    bstaverageArr.push((bstmeArr[i] + bstbestArr[i]) / 2);
-    avlmeArr.push(getRandom(5, 80));
-    avlbestArr.push(getRandom(5, 80));
-    avlaverageArr.push((avlmeArr[i] + avlbestArr[i]) / 2);
-    rbtmeArr.push(getRandom(5, 80));
-    rbtbestArr.push(getRandom(5, 80));
-    rbtaverageArr.push((rbtmeArr[i] + rbtbestArr[i]) / 2);
-    labels[i] = "第" + (i + 1) + "次";
-  }
+let labels = [];
+for (let i = 0; i < 10; i++) {
+  labels[i] = "第" + (i + 1) + "次";
 }
-makeArr();
+let datalinebsteasy;
+let datalineavleasy;
+let datalinerbteasy;
+let datalinebstmedium;
+let datalineavlmedium;
+let datalinerbtmedium;
+let datalinebsthard;
+let datalineavlhard;
+let datalinerbthard;
 function caculate(arr) {
   let sum = 0;
   for (let i = 0; i < arr.length; i++) {
     sum += arr[i];
   }
-  console.log(sum);
   return sum;
 }
 function Tilt(props) {
@@ -83,17 +68,21 @@ function Tilt(props) {
 
   return <div ref={tilt} {...rest} />;
 }
+
 export default function Grade() {
-  const [meArr, setMeArr] = useState(bstmeArr);
-  const [bestArr, setBestArr] = useState(bstbestArr);
-  const [averageArr, setAverageArr] = useState(bstaverageArr);
-  const [polarBest, setPolarBest] = useState(1);
-  const [polarWorst, setPolarWorst] = useState(1);
-  const [polarAverage, setPolarAverage] = useState(1);
-  const Refresh = useNavigate();
-  const [userBSTgrades, setUserBSTgrades] = useState("");
+  const Refresh = useNavigate("");
+  const [userBSTgradesEasy, setUserBSTgradesEasy] = useState("");
+  const [userAVLgradesEasy, setUserAVLgradesEasy] = useState("");
+  const [userRBTgradesEasy, setUserRBTgradesEasy] = useState("");
+  const [userBSTgradesMedium, setUserBSTgradesMedium] = useState("");
+  const [userAVLgradesMedium, setUserAVLgradesMedium] = useState("");
+  const [userRBTgradesMedium, setUserRBTgradesMedium] = useState("");
+  const [userBSTgradesHard, setUserBSTgradesHard] = useState("");
+  const [userAVLgradesHard, setUserAVLgradesHard] = useState("");
+  const [userRBTgradesHard, setUserRBTgradesHard] = useState("");
   const [googlegrade, setGooglegrade] = useState("");
   const [renderF, setRenderF] = useState("");
+  let maxlength = 0;
   const options = {
     scale: 1,
     max: 15,
@@ -101,9 +90,24 @@ export default function Grade() {
   };
   const [UserData, setUserData] = useState("");
   let GetSid = sessionStorage.getItem("Sid");
+  let tmplength = [
+    userBSTgradesEasy.length,
+    userBSTgradesMedium.length,
+    userBSTgradesHard.length,
+    userAVLgradesEasy.length,
+    userAVLgradesMedium.length,
+    userAVLgradesHard.length,
+    userRBTgradesEasy.length,
+    userRBTgradesMedium.length,
+    userRBTgradesHard.length,
+  ];
+  maxlength = Math.max(...tmplength);
+  labels = [];
+  for (let i = 0; i < maxlength; i++) {
+    labels[i] = "第" + (i + 1) + "次";
+  }
   useEffect(async () => {
     let sID;
-    let bstgrades;
     await axios({
       method: "POST",
       data: {
@@ -115,89 +119,202 @@ export default function Grade() {
       setUserData(response.data);
       sID = response.data.StudentId;
     });
+    //BST AVL RBT EASYINFO
     axios({
       method: "POST",
       data: {
         StudentId: sID,
       },
       withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_BSTGRADEINFO,
+      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOEASY,
     }).then((response) => {
-      setUserBSTgrades(response.data);
-      bstgrades = response.data.Grades.map(Number);
-      setPolarBest(Math.max(...bstgrades));
-      setPolarWorst(Math.min(...bstgrades));
-      setPolarAverage(Math.floor(caculate(bstgrades) / bstgrades.length));
-      console.log(bstgrades);
-      console.log(polarBest);
-      console.log(polarWorst);
-      console.log(Math.floor(caculate(bstgrades) / bstgrades.length));
+      let tmp = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        tmp[i] = "第" + (i + 1) + "次";
+      }
+      labels = tmp;
+      setUserBSTgradesEasy(response.data.Grades.map(Number));
     });
-    datapolar = {
-      labels: ["Best", "Worst", "Average"],
-      datasets: [
-        {
-          label: "Hours Studied in Geeksforgeeks",
-          data: [polarBest, polarWorst, polarAverage],
-          backgroundColor: [
-            "rgba(255, 99, 132, 0.5)",
-            "rgba(53, 162, 235, 0.5)",
-            "rgb(43, 202, 56, 0.5)",
-          ],
-        },
-      ],
-    };
-  }, [polarBest, polarWorst, polarAverage]);
-
-  const dataline = {
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOEASY,
+    }).then((response) => {
+      setUserAVLgradesEasy(response.data.Grades.map(Number));
+    });
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOEASY,
+    }).then((response) => {
+      setUserRBTgradesEasy(response.data.Grades.map(Number));
+    });
+    //BST AVL RBT MEDIUMINFO
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOMEDIUM,
+    }).then((response) => {
+      setUserBSTgradesMedium(response.data.Grades.map(Number));
+    });
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOMEDIUM,
+    }).then((response) => {
+      setUserAVLgradesMedium(response.data.Grades.map(Number));
+    });
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOMEDIUM,
+    }).then((response) => {
+      setUserRBTgradesMedium(response.data.Grades.map(Number));
+    });
+    //BST AVL RBT HARD
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOHARD,
+    }).then((response) => {
+      setUserBSTgradesHard(response.data.Grades.map(Number));
+    });
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOHARD,
+    }).then((response) => {
+      setUserAVLgradesHard(response.data.Grades.map(Number));
+    });
+    axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOHARD,
+    }).then((response) => {
+      setUserRBTgradesHard(response.data.Grades.map(Number));
+    });
+  }, []);
+  //line data
+  datalinebsteasy = {
     labels,
     datasets: [
       {
         label: "You",
-        data: userBSTgrades.Grades,
+        data: userBSTgradesEasy,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
+    ],
+  };
+  datalinebstmedium = {
+    labels,
+    datasets: [
       {
-        label: "Best",
-        data: bestArr,
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Average",
-        data: averageArr,
-        borderColor: "rgb(43, 202, 56)",
-        backgroundColor: "rgb(43, 202, 56, 0.5)",
+        label: "You",
+        data: userBSTgradesMedium,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
   };
-  let a = [1, 2, 3];
-
-  const radarData = {
-    labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
+  datalinebsthard = {
+    labels,
     datasets: [
       {
-        label: "My First Dataset",
-        data: [65, 59, 90, 81, 76],
-        fill: true,
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        label: "You",
+        data: userBSTgradesHard,
         borderColor: "rgb(255, 99, 132)",
-        pointBackgroundColor: "rgb(255, 99, 132)",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
+    ],
+  };
+  datalineavleasy = {
+    labels,
+    datasets: [
       {
-        label: "My Second Dataset",
-        data: [28, 48, 40, 19, 61],
-        fill: true,
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-        borderColor: "rgb(54, 162, 235)",
-        pointBackgroundColor: "rgb(54, 162, 235)",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgb(54, 162, 235)",
+        label: "You",
+        data: userAVLgradesEasy,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
+  datalineavlmedium = {
+    labels,
+    datasets: [
+      {
+        label: "You",
+        data: userAVLgradesMedium,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
+  datalineavlhard = {
+    labels,
+    datasets: [
+      {
+        label: "You",
+        data: userAVLgradesHard,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
+  datalinerbteasy = {
+    labels,
+    datasets: [
+      {
+        label: "You",
+        data: userRBTgradesEasy,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
+  datalinerbtmedium = {
+    labels,
+    datasets: [
+      {
+        label: "You",
+        data: userRBTgradesMedium,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
+  datalinerbthard = {
+    labels,
+    datasets: [
+      {
+        label: "You",
+        data: userRBTgradesHard,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
   };
@@ -340,98 +457,943 @@ export default function Grade() {
     );
   }
   function LineChart(params) {
-    return (
-      <Tilt className="gametitle playtitle" options={options}>
-        <div
-          className="gradetitle"
-          style={{ padding: "10px", flexDirection: "row" }}
-        >
-          <Line options={Lineoptions} data={dataline} width="400px" />
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                setMeArr(bstmeArr);
-                setBestArr(bstbestArr);
-                setAverageArr(bstaverageArr);
-              }}
+    const [rendertype, setRendertype] = useState(1);
+    const [difficulty, setDifficulty] = useState(1);
+    const [checked, setChecked] = useState(1);
+    const [typechecked, setTypechecked] = useState(1);
+    if (difficulty === 1) {
+      if (rendertype === 1) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
             >
-              BST
-            </Button>
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                setMeArr(avlmeArr);
-                setBestArr(avlbestArr);
-                setAverageArr(avlaverageArr);
-              }}
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userBSTgradesEasy) / userBSTgradesEasy.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalinebsteasy}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+      if (rendertype === 2) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
             >
-              AVL
-            </Button>
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                setMeArr(rbtmeArr);
-                setBestArr(rbtbestArr);
-                setAverageArr(rbtaverageArr);
-              }}
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userAVLgradesEasy) / userAVLgradesEasy.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalineavleasy}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+      if (rendertype === 3) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
             >
-              RBT
-            </Button>
-          </div>
-        </div>
-      </Tilt>
-    );
-  }
-  function PalorChart(params) {
-    return (
-      <Tilt className="polar" options={options}>
-        <div
-          className="gradetitle polar"
-          style={{ padding: "10px", flexDirection: "row" }}
-        >
-          <PolarArea data={datapolar} width="400px" />
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                setPolarBest(Math.max(...bstmeArr));
-                setPolarWorst(Math.min(...bstmeArr));
-                setPolarAverage(
-                  bstmeArr.reduce((a, b) => a + b) / bstmeArr.length
-                );
-              }}
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userRBTgradesEasy) / userRBTgradesEasy.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalinerbteasy}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+    }
+    if (difficulty === 2) {
+      if (rendertype === 1) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
             >
-              BST
-            </Button>
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                setPolarBest(Math.max(...avlmeArr));
-                setPolarWorst(Math.min(...avlmeArr));
-                setPolarAverage(
-                  avlmeArr.reduce((a, b) => a + b) / avlmeArr.length
-                );
-              }}
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userBSTgradesMedium) / userBSTgradesMedium.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalinebstmedium}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+      if (rendertype === 2) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
             >
-              AVL
-            </Button>
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                setPolarBest(Math.max(...rbtmeArr));
-                setPolarWorst(Math.min(...rbtmeArr));
-                setPolarAverage(
-                  rbtmeArr.reduce((a, b) => a + b) / rbtmeArr.length
-                );
-              }}
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userAVLgradesMedium) / userAVLgradesMedium.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalineavlmedium}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+      if (rendertype === 3) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
             >
-              RBT
-            </Button>
-          </div>
-        </div>
-      </Tilt>
-    );
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userRBTgradesMedium) / userRBTgradesMedium.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalinerbtmedium}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+    }
+    if (difficulty === 3) {
+      if (rendertype === 1) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
+            >
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userBSTgradesHard) / userBSTgradesHard.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalinebsthard}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+      if (rendertype === 2) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
+            >
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userAVLgradesHard) / userAVLgradesHard.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalineavlhard}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+      if (rendertype === 3) {
+        return (
+          <Tilt className="gametitle playtitle" options={options}>
+            <div
+              className="gradetitle"
+              style={{ padding: "10px", flexDirection: "row" }}
+            >
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 1}
+                    onClick={() => {
+                      setDifficulty(1);
+                      setChecked(1);
+                    }}
+                  >
+                    EASY
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 2}
+                    onClick={() => {
+                      setDifficulty(2);
+                      setChecked(2);
+                    }}
+                  >
+                    MEDIUM
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === 3}
+                    onClick={() => {
+                      setDifficulty(3);
+                      setChecked(3);
+                    }}
+                  >
+                    HARD
+                  </ToggleButton>
+                  <div style={{ marginLeft: "20px" }}>
+                    Average: {}
+                    {Math.floor(
+                      caculate(userRBTgradesHard) / userRBTgradesHard.length
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "600px",
+                    height: "500px",
+                  }}
+                >
+                  <Line
+                    options={Lineoptions}
+                    data={datalinerbthard}
+                    width="400px"
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
+        );
+      }
+    }
   }
   function RadarChart(params) {
     return (
@@ -445,7 +1407,33 @@ export default function Grade() {
       </Tilt>
     );
   }
-
+  const radarData = {
+    labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
+    datasets: [
+      {
+        label: "My First Dataset",
+        data: [65, 59, 90, 81, 76],
+        fill: true,
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgb(255, 99, 132)",
+        pointBackgroundColor: "rgb(255, 99, 132)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgb(255, 99, 132)",
+      },
+      {
+        label: "My Second Dataset",
+        data: [28, 48, 40, 19, 61],
+        fill: true,
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgb(54, 162, 235)",
+        pointBackgroundColor: "rgb(54, 162, 235)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgb(54, 162, 235)",
+      },
+    ],
+  };
   return (
     <div className="A3">
       <div className="Gradecontainer">
@@ -478,14 +1466,6 @@ export default function Grade() {
             }}
           >
             Game Line Chart
-          </Button>
-          <Button
-            variant="outline-dark"
-            onClick={() => {
-              setRenderF(<PalorChart />);
-            }}
-          >
-            Game Polar Chart
           </Button>
           <Button
             variant="outline-dark"
