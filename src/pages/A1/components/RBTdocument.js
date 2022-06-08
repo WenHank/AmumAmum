@@ -52,7 +52,7 @@ function RBTdocument() {
       case 1:
         return (
           <div>
-            <label className="title">Red BlackTree</label>
+            <label className="titlePDF">Red BlackTree</label>
             <label className="subtitle">定義：</label>
             <p>
               又稱紅⿊樹，簡單來說就是，他是BST和AVL的中間值

@@ -55,7 +55,7 @@ function BSTdocument() {
       case 1:
         return (
           <div>
-            <label className="title">Binary Search Tree</label>
+            <label className="titlePDF">Binary Search Tree</label>
             <label className="subtitle">定義：</label>
             <p>
               又稱二元搜尋樹，簡單來說就是，{" "}

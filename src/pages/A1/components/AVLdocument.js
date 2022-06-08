@@ -52,7 +52,7 @@ function AVLdocument() {
       case 1:
         return (
           <div>
-            <label className="title">Adelson-Velsky and Landis Tree</label>
+            <label className="titlePDF">Adelson-Velsky and Landis Tree</label>
             <label className="subtitle">定義：</label>
             <p>
               又稱自平衡二元搜尋樹(AVL Tree)，簡單來說就是，

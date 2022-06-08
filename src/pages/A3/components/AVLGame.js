@@ -454,81 +454,155 @@ function AVLGame() {
     }
   }
   async function writegrade(params) {
-    // for (let i = 0; i < 10; i++) {
-    //   gradefunction = 1;
-    //   const Writegrade = {
-    //     StudentId: UserData.StudentId,
-    //     Grades: getRandom(1000, 4000).toString(),
-    //     Time: Date(),
-    //   };
-    //   if (gradefunction) {
-    //     console.log("easy");
-    //     console.log(i);
-    //     await axios
-    //       .post(process.env.REACT_APP_AXIOS_AVLGRADEEASY, Writegrade)
-    //       .then((response) => {
-    //         console.log(response);
-    //       });
-    //     gradefunction = 0;
+    let post;
+    let major;
+    // let id = [
+    //   "1002001",
+    //   "1002002",
+    //   "1002003",
+    //   "1002004",
+    //   "1002005",
+    //   "1002006",
+    //   "1002007",
+    //   "1002008",
+    // ];
+    // for (let j = 0; j < 8; j++) {
+    //   for (let i = 0; i < 10; i++) {
+    //     gradefunction = 1;
+    //     let grades = getRandom(1000, 6000).toString();
+    //     const Writegrade = {
+    //       StudentId: id[j],
+    //       Grades: grades,
+    //       Time: Date(),
+    //     };
+    //     const WritegradeRanking = {
+    //       MajorAndType: "AVLEASY",
+    //       Ranking: {
+    //         StudentId: id[j],
+    //         Grades: grades,
+    //         Time: Date(),
+    //       },
+    //     };
+    //     if (gradefunction) {
+    //       console.log("easy");
+    //       console.log(i);
+    //       await axios
+    //         .post(process.env.REACT_APP_AXIOS_AVLGRADEEASY, Writegrade)
+    //         .then((response) => {
+    //           console.log(response);
+    //         });
+    //       await axios
+    //         .post(process.env.REACT_APP_AXIOS_GRADESRANKING, WritegradeRanking)
+    //         .then((response) => {
+    //           console.log(response);
+    //         });
+    //       gradefunction = 0;
+    //     }
+    //   }
+    //   for (let i = 0; i < 10; i++) {
+    //     gradefunction = 1;
+    //     let grades = getRandom(1000, 4000).toString();
+    //     const Writegrade = {
+    //       StudentId: id[j],
+    //       Grades: grades,
+    //       Time: Date(),
+    //     };
+    //     const WritegradeRanking = {
+    //       MajorAndType: "AVLMEDIUM",
+    //       Ranking: {
+    //         StudentId: id[j],
+    //         Grades: grades,
+    //         Time: Date(),
+    //       },
+    //     };
+    //     if (gradefunction) {
+    //       console.log("medium");
+    //       console.log(i);
+    //       await axios
+    //         .post(process.env.REACT_APP_AXIOS_AVLGRADEMEDIUM, Writegrade)
+    //         .then((response) => {
+    //           console.log(response);
+    //         });
+    //       await axios
+    //         .post(process.env.REACT_APP_AXIOS_GRADESRANKING, WritegradeRanking)
+    //         .then((response) => {
+    //           console.log(response);
+    //         });
+    //       gradefunction = 0;
+    //     }
+    //   }
+    //   for (let i = 0; i < 10; i++) {
+    //     gradefunction = 1;
+    //     let grades = getRandom(1000, 8000).toString();
+    //     const Writegrade = {
+    //       StudentId: id[j],
+    //       Grades: grades,
+    //       Time: Date(),
+    //     };
+    //     const WritegradeRanking = {
+    //       MajorAndType: "AVLHARD",
+    //       Ranking: {
+    //         StudentId: id[j],
+    //         Grades: grades,
+    //         Time: Date(),
+    //       },
+    //     };
+    //     if (gradefunction) {
+    //       console.log("hard");
+    //       console.log(i);
+    //       await axios
+    //         .post(process.env.REACT_APP_AXIOS_AVLGRADEHARD, Writegrade)
+    //         .then((response) => {
+    //           console.log(response);
+    //         });
+    //       await axios
+    //         .post(process.env.REACT_APP_AXIOS_GRADESRANKING, WritegradeRanking)
+    //         .then((response) => {
+    //           console.log(response);
+    //         });
+    //       gradefunction = 0;
+    //     }
     //   }
     // }
-    // for (let i = 0; i < 10; i++) {
-    //   gradefunction = 1;
-    //   const Writegrade = {
-    //     StudentId: UserData.StudentId,
-    //     Grades: getRandom(1000, 6000).toString(),
-    //     Time: Date(),
-    //   };
-    //   if (gradefunction) {
-    //     console.log("medium");
-    //     console.log(i);
-    //     await axios
-    //       .post(process.env.REACT_APP_AXIOS_AVLGRADEMEDIUM, Writegrade)
-    //       .then((response) => {
-    //         console.log(response);
-    //       });
-    //     gradefunction = 0;
-    //   }
-    // }
-    // for (let i = 0; i < 10; i++) {
-    //   gradefunction = 1;
-    //   const Writegrade = {
-    //     StudentId: UserData.StudentId,
-    //     Grades: getRandom(1000, 8000).toString(),
-    //     Time: Date(),
-    //   };
-    //   if (gradefunction) {
-    //     console.log("hard");
-    //     console.log(i);
-    //     await axios
-    //       .post(process.env.REACT_APP_AXIOS_AVLGRADEHARD, Writegrade)
-    //       .then((response) => {
-    //         console.log(response);
-    //       });
-    //     gradefunction = 0;
-    //   }
-    // }
+
+    if (type === 4) {
+      post = process.env.REACT_APP_AXIOS_AVLGRADEEASY;
+      major = "AVLEASY";
+    } else if (type === 6) {
+      post = process.env.REACT_APP_AXIOS_AVLGRADEMEDIUM;
+      major = "AVLMEDIUM";
+    } else {
+      post = process.env.REACT_APP_AXIOS_AVLGRADEHARD;
+      major = "AVLHARD";
+    }
     const Writegrade = {
       StudentId: UserData.StudentId,
       Grades: playergrade.toString(),
       Time: Date(),
     };
+    const WritegradeRanking = {
+      MajorAndType: major,
+      Ranking: {
+        StudentId: UserData.StudentId,
+        Grades: playergrade.toString(),
+        Time: Date(),
+      },
+    };
     console.log(Writegrade);
-    let post;
-    if (type === 4) {
-      post = process.env.REACT_APP_AXIOS_AVLGRADEEASY;
-    } else if (type === 6) {
-      post = process.env.REACT_APP_AXIOS_AVLGRADEMEDIUM;
-    } else {
-      post = process.env.REACT_APP_AXIOS_AVLGRADEHARD;
-    }
+
     ////////////////////////////////
     //////////送出請求///////////////
     if (gradefunction) {
       console.log(Writegrade);
+      console.log(WritegradeRanking);
       await axios.post(post, Writegrade).then((response) => {
         console.log(response);
       });
+      await axios
+        .post(process.env.REACT_APP_AXIOS_GRADESRANKING, WritegradeRanking)
+        .then((response) => {
+          console.log(response);
+        });
       gradefunction = 0;
     }
   }
