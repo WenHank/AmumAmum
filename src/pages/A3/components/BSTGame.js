@@ -2,11 +2,11 @@ import React from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
 import { BinarySearchTree, useBinarySearchTree } from "react-tree-vis";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import VanillaTilt from "vanilla-tilt";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import axios from "axios";
 import BSTdocument from "../../A1/components/BSTdocument";
+import Confetti from "react-confetti";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -320,36 +320,88 @@ function BSTGame() {
     );
   }
   function Gameover(props) {
-    return (
-      <Modal
-        {...props}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Body>
-          <h2>Game Over</h2>
-          <p> Your grade: {playergrade}</p>
-          <p> AI grade: {aigrade}</p>
-          <p>{whowin}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            id="A3_BST_Game_Restart"
-            variant="outline-dark"
-            onClick={() => {
-              setGameovermodalShow(false);
-              setAigrade(0);
-              setPlayergrade(0);
-              setPlaybtn1(1);
-              setPlaybtn2(1);
-              setPlaybtn3(1);
-            }}
-          >
-            End!
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
+    if (whowin === "You win") {
+      return (
+        <Modal
+          size="lg"
+          {...props}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body>
+            <Confetti width={"790px"} height={"500px"} />
+            <div
+              style={{
+                height: "500px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <h1 className="winlose">{whowin}</h1>
+              <h4> Your grade: {playergrade}</h4>
+              <h4> AI grade: {aigrade}</h4>
+              <Button
+                id="A3_BST_Game_Restart"
+                variant="outline-dark"
+                onClick={() => {
+                  setGameovermodalShow(false);
+                  setAigrade(0);
+                  setPlayergrade(0);
+                  setPlaybtn1(1);
+                  setPlaybtn2(1);
+                  setPlaybtn3(1);
+                }}
+              >
+                End!
+              </Button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      );
+    } else {
+      return (
+        <Modal
+          size="lg"
+          {...props}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body>
+            <div
+              style={{
+                height: "500px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                background: "#515151",
+              }}
+            >
+              <h1 className="winlose">{whowin}</h1>
+              <h4> Your grade: {playergrade}</h4>
+              <h4> AI grade: {aigrade}</h4>
+
+              <Button
+                id="A3_BST_Game_Restart"
+                variant="outline-dark"
+                onClick={() => {
+                  setGameovermodalShow(false);
+                  setAigrade(0);
+                  setPlayergrade(0);
+                  setPlaybtn1(1);
+                  setPlaybtn2(1);
+                  setPlaybtn3(1);
+                }}
+              >
+                End!
+              </Button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      );
+    }
   }
   console.log(change);
   console.log(tmptype);

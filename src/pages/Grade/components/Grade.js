@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button, ToggleButton } from "react-bootstrap";
 import VanillaTilt from "vanilla-tilt";
 import { useNavigate } from "react-router-dom";
-import { MDBContainer } from "mdbreact";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -29,16 +28,12 @@ ChartJS.register(
   RadialLinearScale,
   ArcElement
 );
-
 export const Lineoptions = {
   maintainAspectRatio: false,
 };
 export const Polaroptions = {
   maintainAspectRatio: false,
 };
-function getRandom(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 let labels = [];
 for (let i = 0; i < 10; i++) {
   labels[i] = "第" + (i + 1) + "次";
@@ -52,6 +47,8 @@ let datalinerbtmedium;
 let datalinebsthard;
 let datalineavlhard;
 let datalinerbthard;
+const api =
+  "https://script.google.com/macros/s/AKfycbwYAmdn_yQhApUa8oA-HR5LDFAF86_kcxwO9fKan72PLm4UGg3ImFPiEvts330rpkcpKQ/exec";
 function caculate(arr) {
   let sum = 0;
   for (let i = 0; i < arr.length; i++) {
@@ -81,6 +78,17 @@ export default function Grade() {
   const [userBSTgradesHard, setUserBSTgradesHard] = useState("");
   const [userAVLgradesHard, setUserAVLgradesHard] = useState("");
   const [userRBTgradesHard, setUserRBTgradesHard] = useState("");
+
+  const [userBSTgradesEasyTable, setUserBSTgradesEasyTable] = useState("");
+  const [userAVLgradesEasyTable, setUserAVLgradesEasyTable] = useState("");
+  const [userRBTgradesEasyTable, setUserRBTgradesEasyTable] = useState("");
+  const [userBSTgradesMediumTable, setUserBSTgradesMediumTable] = useState("");
+  const [userAVLgradesMediumTable, setUserAVLgradesMediumTable] = useState("");
+  const [userRBTgradesMediumTable, setUserRBTgradesMediumTable] = useState("");
+  const [userBSTgradesHardTable, setUserBSTgradesHardTable] = useState("");
+  const [userAVLgradesHardTable, setUserAVLgradesHardTable] = useState("");
+  const [userRBTgradesHardTable, setUserRBTgradesHardTable] = useState("");
+
   const [bsteasyranking, setBsteasyranking] = useState("");
   const [bstmediumranking, setBstmediumranking] = useState("");
   const [bsthardranking, setBsthardranking] = useState("");
@@ -90,11 +98,19 @@ export default function Grade() {
   const [rbteasyranking, setRbteasyranking] = useState("");
   const [rbtmediumranking, setRbtmediumranking] = useState("");
   const [rbthardranking, setRbthardranking] = useState("");
-  const [easyranking, setEasyranking] = useState("");
-  const [mediumranking, setMediumranking] = useState("");
-  const [hardranking, setHardranking] = useState("");
-  const [googlegrade, setGooglegrade] = useState("");
+
+  const [minebsteasyranking, setmineBsteasyranking] = useState("XXX");
+  const [minebstmediumranking, setmineBstmediumranking] = useState("XXX");
+  const [minebsthardranking, setmineBsthardranking] = useState("XXX");
+  const [mineavleasyranking, setmineAvleasyranking] = useState("XXX");
+  const [mineavlmediumranking, setmineAvlmediumranking] = useState("XXX");
+  const [mineavlhardranking, setmineAvlhardranking] = useState("XXX");
+  const [minerbteasyranking, setmineRbteasyranking] = useState("XXX");
+  const [minerbtmediumranking, setmineRbtmediumranking] = useState("XXX");
+  const [minerbthardranking, setmineRbthardranking] = useState("XXX");
+
   const [renderF, setRenderF] = useState("");
+
   let maxlength = 0;
   const options = {
     scale: 1,
@@ -119,6 +135,9 @@ export default function Grade() {
   for (let i = 0; i < maxlength; i++) {
     labels[i] = "第" + (i + 1) + "次";
   }
+  axios.defaults.baseURL = "http://localhost:3000";
+  axios.defaults.headers.post["Content-Type"] = "text/plain";
+  axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
   useEffect(async () => {
     let sID;
     await axios({
@@ -142,10 +161,33 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_BSTGRADEINFOEASY,
     }).then((response) => {
       let tmp = [];
+      let tmptable = [];
       for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
         tmp[i] = "第" + (i + 1) + "次";
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
       }
       labels = tmp;
+      setUserBSTgradesEasyTable(tmptable);
       setUserBSTgradesEasy(response.data.Grades.map(Number));
     });
     axios({
@@ -156,6 +198,31 @@ export default function Grade() {
       withCredentials: true,
       url: process.env.REACT_APP_AXIOS_AVLGRADEINFOEASY,
     }).then((response) => {
+      let tmptable = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
+      }
+      setUserAVLgradesEasyTable(tmptable);
       setUserAVLgradesEasy(response.data.Grades.map(Number));
     });
     axios({
@@ -166,6 +233,31 @@ export default function Grade() {
       withCredentials: true,
       url: process.env.REACT_APP_AXIOS_RBTGRADEINFOEASY,
     }).then((response) => {
+      let tmptable = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
+      }
+      setUserRBTgradesEasyTable(tmptable);
       setUserRBTgradesEasy(response.data.Grades.map(Number));
     });
     //BST AVL RBT MEDIUMINFO
@@ -177,6 +269,31 @@ export default function Grade() {
       withCredentials: true,
       url: process.env.REACT_APP_AXIOS_BSTGRADEINFOMEDIUM,
     }).then((response) => {
+      let tmptable = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
+      }
+      setUserBSTgradesMediumTable(tmptable);
       setUserBSTgradesMedium(response.data.Grades.map(Number));
     });
     axios({
@@ -187,6 +304,31 @@ export default function Grade() {
       withCredentials: true,
       url: process.env.REACT_APP_AXIOS_AVLGRADEINFOMEDIUM,
     }).then((response) => {
+      let tmptable = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
+      }
+      setUserAVLgradesMediumTable(tmptable);
       setUserAVLgradesMedium(response.data.Grades.map(Number));
     });
     axios({
@@ -197,6 +339,31 @@ export default function Grade() {
       withCredentials: true,
       url: process.env.REACT_APP_AXIOS_RBTGRADEINFOMEDIUM,
     }).then((response) => {
+      let tmptable = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
+      }
+      setUserRBTgradesMediumTable(tmptable);
       setUserRBTgradesMedium(response.data.Grades.map(Number));
     });
     //BST AVL RBT HARD
@@ -208,6 +375,31 @@ export default function Grade() {
       withCredentials: true,
       url: process.env.REACT_APP_AXIOS_BSTGRADEINFOHARD,
     }).then((response) => {
+      let tmptable = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
+      }
+      setUserBSTgradesHardTable(tmptable);
       setUserBSTgradesHard(response.data.Grades.map(Number));
     });
     axios({
@@ -218,6 +410,31 @@ export default function Grade() {
       withCredentials: true,
       url: process.env.REACT_APP_AXIOS_AVLGRADEINFOHARD,
     }).then((response) => {
+      let tmptable = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
+      }
+      setUserAVLgradesHardTable(tmptable);
       setUserAVLgradesHard(response.data.Grades.map(Number));
     });
     axios({
@@ -228,6 +445,31 @@ export default function Grade() {
       withCredentials: true,
       url: process.env.REACT_APP_AXIOS_RBTGRADEINFOHARD,
     }).then((response) => {
+      let tmptable = [];
+      for (let i = 0; i < response.data.Grades.length; i++) {
+        let tmptime = response.data.Time[i].split(" ");
+        let time =
+          tmptime[0] +
+          " " +
+          tmptime[1] +
+          " " +
+          tmptime[2] +
+          " " +
+          tmptime[3] +
+          " " +
+          tmptime[4];
+        tmptable[i] = (
+          <div
+            className="rankingItem"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <div style={{ fontSize: "30px" }}>{i + 1} </div>
+            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px" }}>{time}</div>
+          </div>
+        );
+      }
+      setUserRBTgradesHardTable(tmptable);
       setUserRBTgradesHard(response.data.Grades.map(Number));
     });
     //BST RANKING
@@ -240,8 +482,10 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineBsteasyranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -303,11 +547,8 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setBsteasyranking(tmp);
-      setEasyranking(tmp);
     });
     axios({
       method: "POST",
@@ -318,8 +559,10 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineBstmediumranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -381,11 +624,8 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setBstmediumranking(tmp);
-      setMediumranking(tmp);
     });
     axios({
       method: "POST",
@@ -396,8 +636,10 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineBsthardranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -459,11 +701,8 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setBsthardranking(tmp);
-      setHardranking(tmp);
     });
     //AVL RANKING
     axios({
@@ -475,8 +714,10 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineAvleasyranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -538,8 +779,6 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setAvleasyranking(tmp);
     });
@@ -552,8 +791,10 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineAvlmediumranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -615,8 +856,6 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setAvlmediumranking(tmp);
     });
@@ -629,8 +868,10 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineAvlhardranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -692,8 +933,6 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setAvlhardranking(tmp);
     });
@@ -707,8 +946,11 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        console.log(response.data.Ranking[i].StudentId);
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineRbteasyranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -770,8 +1012,6 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setRbteasyranking(tmp);
     });
@@ -784,8 +1024,10 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineRbtmediumranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -847,8 +1089,6 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setRbtmediumranking(tmp);
     });
@@ -861,8 +1101,10 @@ export default function Grade() {
       url: process.env.REACT_APP_AXIOS_GRADESRANKINGINFO,
     }).then((response) => {
       let tmp = [];
-      console.log(response.data.Ranking);
       for (let i = 0; i < response.data.Ranking.length; i++) {
+        if (response.data.Ranking[i].StudentId === sID) {
+          setmineRbthardranking(i + 1);
+        }
         if (i === 0) {
           tmp[i] = (
             <div className="rankingItem">
@@ -924,11 +1166,21 @@ export default function Grade() {
             </div>
           );
         }
-
-        console.log(tmp);
       }
       setRbthardranking(tmp);
     });
+    //Google sheet
+    // axios({
+    //   method: "POST",
+    //   url: process.env.REACT_APP_AXIOS_GOOGLESHEET,
+    //   withCredentials: true,
+    // })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, []);
   //line data
   datalinebsteasy = {
@@ -1043,11 +1295,51 @@ export default function Grade() {
               <div
                 style={{
                   display: "inline",
-                  fontSize: "1.5rem",
                   color: "gray",
                 }}
               >
                 {UserData.Name}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginLeft: "50px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>BST EASY {minebsteasyranking}名</h5>
+                  <h5>BST MEDIUM {minebstmediumranking}名</h5>
+                  <h5>BST HARD {minebsthardranking}名</h5>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>AVL EASY {mineavleasyranking}名</h5>
+                  <h5>AVL MEDIUM {mineavlmediumranking}名</h5>
+                  <h5>AVL HARD {mineavlhardranking}名</h5>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>RBT EASY {minerbteasyranking}名</h5>
+                  <h5>RBT MEDIUM {minerbtmediumranking}名</h5>
+                  <h5>RBT HARD {minerbthardranking}名</h5>
+                </div>
               </div>
             </div>
             <div>
@@ -1162,11 +1454,51 @@ export default function Grade() {
               <div
                 style={{
                   display: "inline",
-                  fontSize: "1.5rem",
                   color: "gray",
                 }}
               >
                 {UserData.Name}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginLeft: "50px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>BST EASY {minebsteasyranking}名</h5>
+                  <h5>BST MEDIUM {minebstmediumranking}名</h5>
+                  <h5>BST HARD {minebsthardranking}名</h5>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>AVL EASY {mineavleasyranking}名</h5>
+                  <h5>AVL MEDIUM {mineavlmediumranking}名</h5>
+                  <h5>AVL HARD {mineavlhardranking}名</h5>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>RBT EASY {minerbteasyranking}名</h5>
+                  <h5>RBT MEDIUM {minerbtmediumranking}名</h5>
+                  <h5>RBT HARD {minerbthardranking}名</h5>
+                </div>
               </div>
             </div>
             <div>
@@ -1281,11 +1613,51 @@ export default function Grade() {
               <div
                 style={{
                   display: "inline",
-                  fontSize: "1.5rem",
                   color: "gray",
                 }}
               >
                 {UserData.Name}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginLeft: "50px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>BST EASY {minebsteasyranking}名</h5>
+                  <h5>BST MEDIUM {minebstmediumranking}名</h5>
+                  <h5>BST HARD {minebsthardranking}名</h5>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>AVL EASY {mineavleasyranking}名</h5>
+                  <h5>AVL MEDIUM {mineavlmediumranking}名</h5>
+                  <h5>AVL HARD {mineavlhardranking}名</h5>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "180px",
+                  }}
+                >
+                  <h5>RBT EASY {minerbteasyranking}名</h5>
+                  <h5>RBT MEDIUM {minerbtmediumranking}名</h5>
+                  <h5>RBT HARD {minerbthardranking}名</h5>
+                </div>
               </div>
             </div>
             <div>
@@ -1393,6 +1765,7 @@ export default function Grade() {
     }
   }
   function LineChart(params) {
+    const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
     const [rendertype, setRendertype] = useState(1);
     const [difficulty, setDifficulty] = useState(1);
     const [checked, setChecked] = useState(1);
@@ -1440,6 +1813,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -1460,40 +1866,16 @@ export default function Grade() {
                     data={datalinebsteasy}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">EASY</div>
+                    {userBSTgradesEasyTable}
                   </div>
                 </div>
               </div>
@@ -1543,6 +1925,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -1563,40 +1978,16 @@ export default function Grade() {
                     data={datalineavleasy}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">EASY</div>
+                    {userAVLgradesEasyTable}
                   </div>
                 </div>
               </div>
@@ -1646,6 +2037,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -1666,40 +2090,16 @@ export default function Grade() {
                     data={datalinerbteasy}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">EASY</div>
+                    {userRBTgradesEasyTable}
                   </div>
                 </div>
               </div>
@@ -1751,6 +2151,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -1771,40 +2204,16 @@ export default function Grade() {
                     data={datalinebstmedium}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">MEDIUM</div>
+                    {userBSTgradesMediumTable}
                   </div>
                 </div>
               </div>
@@ -1854,6 +2263,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -1874,40 +2316,19 @@ export default function Grade() {
                     data={datalineavlmedium}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                  <div
+                    style={{ display: "flex", flexDirection: "column" }}
+                  ></div>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">MEDIUM</div>
+                    {userAVLgradesMediumTable}
                   </div>
                 </div>
               </div>
@@ -1957,6 +2378,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -1977,40 +2431,16 @@ export default function Grade() {
                     data={datalinerbtmedium}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">MEDIUM</div>
+                    {userRBTgradesMediumTable}
                   </div>
                 </div>
               </div>
@@ -2062,6 +2492,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2082,40 +2545,16 @@ export default function Grade() {
                     data={datalinebsthard}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">HARD</div>
+                    {userBSTgradesHardTable}
                   </div>
                 </div>
               </div>
@@ -2165,6 +2604,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2185,40 +2657,16 @@ export default function Grade() {
                     data={datalineavlhard}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">HARD</div>
+                    {userAVLgradesHardTable}
                   </div>
                 </div>
               </div>
@@ -2268,6 +2716,39 @@ export default function Grade() {
                   >
                     HARD
                   </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 1}
+                    onClick={() => {
+                      setRendertype(1);
+                      setTypechecked(1);
+                    }}
+                  >
+                    BST
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 2}
+                    onClick={() => {
+                      setRendertype(2);
+                      setTypechecked(2);
+                    }}
+                  >
+                    AVL
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={typechecked === 3}
+                    onClick={() => {
+                      setRendertype(3);
+                      setTypechecked(3);
+                    }}
+                  >
+                    RBT
+                  </ToggleButton>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2288,40 +2769,16 @@ export default function Grade() {
                     data={datalinerbthard}
                     width="400px"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 1}
-                      onClick={() => {
-                        setRendertype(1);
-                        setTypechecked(1);
-                      }}
-                    >
-                      BST
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 2}
-                      onClick={() => {
-                        setRendertype(2);
-                        setTypechecked(2);
-                      }}
-                    >
-                      AVL
-                    </ToggleButton>
-                    <ToggleButton
-                      variant="outline-dark"
-                      type="checkbox"
-                      checked={typechecked === 3}
-                      onClick={() => {
-                        setRendertype(3);
-                        setTypechecked(3);
-                      }}
-                    >
-                      RBT
-                    </ToggleButton>
+                </div>
+              </div>
+              <div className="record rankingtable">
+                <div className="recordContainer">
+                  <div
+                    className="scrollbar linearbody mx-auto"
+                    style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+                  >
+                    <div className="title">HARD</div>
+                    {userRBTgradesHardTable}
                   </div>
                 </div>
               </div>

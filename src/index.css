@@ -690,6 +690,29 @@ h2 span:nth-child(even) {
   align-items: center;
   flex-direction: column;
 }
+.winlose{
+  animation: zy 2.5s .15s linear infinite;
+  animation: zy 2.5s .15s linear infinite;
+  animation: zy 2.5s .15s linear infinite;
+  animation: zy 2.5s .15s linear infinite;
+}
+@keyframes zy{
+  10%{
+    transform: rotate(15deg);
+  }
+  20%{
+    transform: rotate(-10deg);
+  }
+  30%{
+    transform: rotate(5deg);
+  }
+  40%{
+    transform: rotate(-5deg);
+  }
+  50%,100%{
+    transform: rotate(0deg);
+  }
+}
 /****************************************************************/
 /*************************A3 AVL game**********************************/
 .AVLgame{
@@ -860,9 +883,10 @@ h2 span:nth-child(even) {
   border-radius: 10px;
   display: flex;
   align-items: flex-start;
-  width: 700px;
   height: 600px;
   margin-top: 20px;
+  justify-content: center;
+  align-items: center;
 }
 .userCard{
   display: flex;
@@ -872,14 +896,25 @@ h2 span:nth-child(even) {
 }
 .polar{
   height: 100%;
+  width: 600px;
 }
 .rankingtable{
   position: initial;
   margin-top: 30px;
 }
+.linearbody{
+  width: 400px;
+  height: 500px;
+  border-radius: 10px;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  flex-direction: column;
+}
 .rankingbody{
   width: 200px;
-  height: 400px;
+  height: 300px;
   border-radius: 10px;
   box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;;
   display: flex;
