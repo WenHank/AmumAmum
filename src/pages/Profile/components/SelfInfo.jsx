@@ -148,6 +148,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
     }
   };
   const goCheck = () => {
+    Refresh("/AdminGrade")
   };
   return (
     <>
@@ -263,6 +264,20 @@ const SelfInfo = ({ Logout, UserToken }) => {
             onClick={Logout}
           >
             登出
+          </Button>
+          <Button
+            variant="contained"
+            style={{
+              display:UserData.Access === "4" ? "flex" : "none",
+              marginLeft: "1em",
+              marginTop: "1em",
+              height: "1.5em",
+              fontSize: "1em",
+              backgroundColor: "black",
+            }}
+            onClick={goCheck}
+          >
+            查看成績
           </Button>
         </div>
         <div className="Classroom" style={{ userSelect: "none" }}>

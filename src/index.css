@@ -969,6 +969,33 @@ h2 span:nth-child(even) {
   width:200px;
 }
 /****************************************************************/
+/*************************AdminGrade*********************************/
+.AdminGrade{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.AdminGradeContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.studentCard{
+  margin-top: 50px;
+  height: 700px;
+}
+.AdminmemberTable{
+  margin-top: 50px;
+  width: 700px;
+  display: flex;
+  flex-flow: wrap-reverse;
+}
+.studentButton{
+  width: 100px;
+}
+/****************************************************************/
 /*************************Profile*********************************/
 .ProfileTitle {
   font-size: 5em;

@@ -13,6 +13,7 @@ import A3 from "./pages/A3";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Error from './pages/Error';
+import AdminGrade from "./pages/AdminGrades";
 import axios from "axios";
 DialogflowSetting();
 
@@ -140,6 +141,7 @@ const Container = () => {
           <Route path="/A2" element={<A2 UserToken={userData} />} />
           <Route path="/A3" element={<A3 UserToken={userData} />} />
           <Route path="/Admin" element={<Admin/>}/>
+          <Route path="/AdminGrade" element={<AdminGrade/>}/>
           </>
         )}
         <Route path="*" element={<Error/>}/>

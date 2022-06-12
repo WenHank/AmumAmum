@@ -47,8 +47,6 @@ let datalinerbtmedium;
 let datalinebsthard;
 let datalineavlhard;
 let datalinerbthard;
-const api =
-  "https://script.google.com/macros/s/AKfycbwYAmdn_yQhApUa8oA-HR5LDFAF86_kcxwO9fKan72PLm4UGg3ImFPiEvts330rpkcpKQ/exec";
 function caculate(arr) {
   let sum = 0;
   for (let i = 0; i < arr.length; i++) {
@@ -67,7 +65,7 @@ function Tilt(props) {
   return <div ref={tilt} {...rest} />;
 }
 
-export default function Grade() {
+export default function Grade(props) {
   const Refresh = useNavigate("");
   const [userBSTgradesEasy, setUserBSTgradesEasy] = useState("");
   const [userAVLgradesEasy, setUserAVLgradesEasy] = useState("");
@@ -135,11 +133,8 @@ export default function Grade() {
   for (let i = 0; i < maxlength; i++) {
     labels[i] = "第" + (i + 1) + "次";
   }
-  axios.defaults.baseURL = "http://localhost:3000";
-  axios.defaults.headers.post["Content-Type"] = "text/plain";
-  axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+  let sID = "1082015";
   useEffect(async () => {
-    let sID;
     await axios({
       method: "POST",
       data: {
@@ -150,9 +145,14 @@ export default function Grade() {
     }).then((response) => {
       setUserData(response.data);
       sID = response.data.StudentId;
+      console.log(sID);
+      if (props.StudentId.length > 0) {
+        sID = props.StudentId;
+        console.log(sID);
+      }
     });
     //BST AVL RBT EASYINFO
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -190,7 +190,7 @@ export default function Grade() {
       setUserBSTgradesEasyTable(tmptable);
       setUserBSTgradesEasy(response.data.Grades.map(Number));
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -225,7 +225,7 @@ export default function Grade() {
       setUserAVLgradesEasyTable(tmptable);
       setUserAVLgradesEasy(response.data.Grades.map(Number));
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -261,7 +261,7 @@ export default function Grade() {
       setUserRBTgradesEasy(response.data.Grades.map(Number));
     });
     //BST AVL RBT MEDIUMINFO
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -296,7 +296,7 @@ export default function Grade() {
       setUserBSTgradesMediumTable(tmptable);
       setUserBSTgradesMedium(response.data.Grades.map(Number));
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -331,7 +331,7 @@ export default function Grade() {
       setUserAVLgradesMediumTable(tmptable);
       setUserAVLgradesMedium(response.data.Grades.map(Number));
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -367,7 +367,7 @@ export default function Grade() {
       setUserRBTgradesMedium(response.data.Grades.map(Number));
     });
     //BST AVL RBT HARD
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -402,7 +402,7 @@ export default function Grade() {
       setUserBSTgradesHardTable(tmptable);
       setUserBSTgradesHard(response.data.Grades.map(Number));
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -437,7 +437,7 @@ export default function Grade() {
       setUserAVLgradesHardTable(tmptable);
       setUserAVLgradesHard(response.data.Grades.map(Number));
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         StudentId: sID,
@@ -473,7 +473,7 @@ export default function Grade() {
       setUserRBTgradesHard(response.data.Grades.map(Number));
     });
     //BST RANKING
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "BSTEASY",
@@ -550,7 +550,7 @@ export default function Grade() {
       }
       setBsteasyranking(tmp);
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "BSTMEDIUM",
@@ -627,7 +627,7 @@ export default function Grade() {
       }
       setBstmediumranking(tmp);
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "BSTHARD",
@@ -705,7 +705,7 @@ export default function Grade() {
       setBsthardranking(tmp);
     });
     //AVL RANKING
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "AVLEASY",
@@ -782,7 +782,7 @@ export default function Grade() {
       }
       setAvleasyranking(tmp);
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "AVLMEDIUM",
@@ -859,7 +859,7 @@ export default function Grade() {
       }
       setAvlmediumranking(tmp);
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "AVLHARD",
@@ -937,7 +937,7 @@ export default function Grade() {
       setAvlhardranking(tmp);
     });
     //RBT RANKING
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "RBTEASY",
@@ -947,7 +947,6 @@ export default function Grade() {
     }).then((response) => {
       let tmp = [];
       for (let i = 0; i < response.data.Ranking.length; i++) {
-        console.log(response.data.Ranking[i].StudentId);
         if (response.data.Ranking[i].StudentId === sID) {
           setmineRbteasyranking(i + 1);
         }
@@ -1015,7 +1014,7 @@ export default function Grade() {
       }
       setRbteasyranking(tmp);
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "RBTMEDIUM",
@@ -1092,7 +1091,7 @@ export default function Grade() {
       }
       setRbtmediumranking(tmp);
     });
-    axios({
+    await axios({
       method: "POST",
       data: {
         MajorAndType: "RBTHARD",
@@ -1169,19 +1168,7 @@ export default function Grade() {
       }
       setRbthardranking(tmp);
     });
-    //Google sheet
-    // axios({
-    //   method: "POST",
-    //   url: process.env.REACT_APP_AXIOS_GOOGLESHEET,
-    //   withCredentials: true,
-    // })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }, []);
+  }, [props.StudentId, sID]);
   //line data
   datalinebsteasy = {
     labels,
@@ -2827,6 +2814,7 @@ export default function Grade() {
       },
     ],
   };
+
   return (
     <div className="A3">
       <div className="Gradecontainer">
@@ -2842,7 +2830,9 @@ export default function Grade() {
           }}
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEs0lEQVR4nO2ba4hVVRTHf86MzuiUlaM9dCqmPlhCWVKJpB/ELDCH/GC+SFPCID9kGSiFhUREUNEDKqihJ/gheqE9hDRSYghTrBhMG3wxPbFEZrJxbOz2Ye3D2nvunTv3nHvO3nPp/uBy556791r/ve8+e6+19xmoUqVKlTCMBJYDnwHtwONAQ1BFnmgE7geOArkBry+BmnDSsqUJeAw4jtvoX4DvrM/zQgnMikuB54Ae3Ib/CKwG6oEJ1vUHw8hMn6uBN4A+3IbvARbiDvV51vd3+JWZPtcDbwP9uA3/CmgFRhSo86opcxo414/M9JkJbMVt9FlzbXqRejXAr6b81ow1pk4N8qvuxm14HzIKrirBxkyr3j3ZyEyfemAFcAC34T3AC0BzDFtPo6Pl4nRlZsNq4Dfchv8OPAKcn8Bep7GxKy2BWbIet+GHgDXA6IT2JuOuDqXcMsG4ADiFiP0JWArUlWmzGTc+OAO8CIwr024m3IYKbU3RbgvwDjIHRPb/BJal6CMVbkEFLsjA/jXkL6NvMozigkagGxG2I0M/d+LmC51I5wwLoiUrB8zI0M+FwIeWr25gbob+SmYSGtu/78HfWnRuOA0s8uBzSNrQwMXHsrUE6DU++5FEKiiT0V+lzZPPWcBfxmev+RyU99CYf5Inn7eit98JYIonvwW5EZ2gnvHodwGaZncC53j0ncd2dIb2GbltRDv/JY9+85hrCdno0W8NEofkgH+B+R5957EXzQbHePTbDPxhfB9F0vNE1JYp5CQSuTUiKfLuMu2VSrd5zUdS8BPA1558O9Qiu7s54AjFs8OlQBey/9eSgu86YL/xfRw4LwWbibgXnQvuGqRMHdJ4O+1tAy4p03erZXNDmbYSUw/8bER8T+Fd30XknwLlkOBmE+UdiXUYWwcH8e2FDWijbi/w/U50qN4EfIzbEfuBGxL6fsCyEyxCHItMiIX29qaiAp+yrs9G7+Ec8A8yGuLuMjWhucJrcYWnyZNoY262rkfJUz9w+YA6o5AYwj492gGMj+k7GlGHYqtOkYvQX2KLudYE/G2ufVCk7jTgB7QTDgPXxvBtb9b6yk0K8jIaoS0GXkGFzR6i7hhgs1X+JKVvusyw6i2JrTpFWtBRYL/aKW2GHgE8inRglGeUMrGNRJbWHPBEbNUpsxh3q7sDuCKmjVXonkMPcF0JdY6Z8q/H9JUJ45Bd5FkkD7dXop1wDNknLEa7Kbstob9hyTp0JO2ieGd+Ycrt9KDLK2+hnbC2SLnPTZntPkT5pAEJc6NJcbCT5z2mzKeedHllDjoKBpvkuob4vuKJNmJ7yY8Ux6JLZ6yssJKeyXvevDeQ/yTJVDTOOOhNUQC+RX7lvQOub0IPayb4FuWT6GyyH/dplGhv8pu4BivpFgBtYC3yHCLIyfE08/cncQ1WWgfY93e0HK4x72eRBzNjUWkdYOsdhaS+d5vPHyEhc2KDlYC9W9SHZH6jkfv/2SCKPLMCDYgeQtf+zSFF+SR6pjiHPqt4CrgspChf1FH4nyzuCynKJ8vIb/y7QRV5Zh9u4zuQHOB/wXTcxh8GJgZV5Bn7kfou4MqwcsKwEngYOWuoUqVKlVT4D0pjfHbbAVIsAAAAAElFTkSuQmCC"
         />
-        <h1>Grade</h1>
+        <h1 style={{ display: props.StudentId === "" ? "flex" : "none" }}>
+          Grade
+        </h1>
         <div>
           <Button
             variant="outline-dark"
