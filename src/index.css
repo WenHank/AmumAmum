@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
+  background-color: #5c5c5c;
   font-size: 20px;
 }
 
@@ -897,6 +897,8 @@ h2 span:nth-child(even) {
 .polar{
   height: 100%;
   width: 600px;
+  justify-content: normal;
+  align-items: normal;
 }
 .rankingtable{
   position: initial;

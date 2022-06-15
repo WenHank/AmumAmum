@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Navbar, Container, Button } from "react-bootstrap";
+import { Nav, Navbar, Container, Button ,NavDropdown} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Home from "./components/Home";
 import Tree from "./components/Treedocument";
@@ -288,7 +288,7 @@ class A3 extends React.Component {
     return (
       <div className="A3">
         <div>
-          <Navbar expand="lg" variant="dark" sticky="top" className="Header">
+          <Navbar expand="lg" variant="light" sticky="top" className="Header">
             <Container>
               <div
                 onClick={() => {
@@ -364,19 +364,66 @@ class A3 extends React.Component {
                   >
                     Red Black Tree
                   </Button>
-                  <Button
-                    variant="outline-dark"
-                    href="https://forms.gle/SQc3WPkFbmaEtG9KA"
+                  <NavDropdown
+                title="Test"
+                id="basic-nav-dropdown"
+                style={{marginRight:"20px"}}
+              >
+                 <Button
+                    href="https://forms.gle/8ScmAyEciVQ9oLYB6"
                     target="_blank"
+                    variant="light"
+                  style={{
+                    textDecoration: "none",
+                    marginRight: "20px",
+                    width: "100%",
+                  }}
+                    id="A3_Test"
+                  >
+                    BST Test
+                  </Button>
+                  <Button
+                    href="https://forms.gle/rC5MwrhMfi7yFGbr5"
+                    target="_blank"
+                    variant="light"
+                  style={{
+                    textDecoration: "none",
+                    marginRight: "20px",
+                    width: "100%",
+                  }}
+
+                    id="A3_Test"
+                  >
+                    AVL Test
+                  </Button>
+                  <Button
+                    href="https://forms.gle/QzkMeAjmp1F1Sngc7"
+                    target="_blank"
+                    variant="light"
                     style={{
                       textDecoration: "none",
-                      cursor: "pointer",
                       marginRight: "20px",
+                      width: "100%",
                     }}
                     id="A3_Test"
                   >
-                    Test
+                    RBT Test
                   </Button>
+                   <Button
+                    href="https://forms.gle/SQc3WPkFbmaEtG9KA"
+                    target="_blank"
+                    variant="light"
+                    style={{
+                      textDecoration: "none",
+                      marginRight: "20px",
+                      width: "100%",
+                    }}
+                    id="A3_Test"
+                  >
+                    Mixed Test
+                  </Button>
+                  </NavDropdown>
+                 
                   <Button
                     variant="outline-dark"
                     onClick={() => {

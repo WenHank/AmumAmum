@@ -98,19 +98,65 @@ class A1 extends React.Component{
                   >
                     Red Black Tree
                   </Button>
+                  <NavDropdown
+                title="Test"
+                id="basic-nav-dropdown"
+                style={{marginRight:"20px"}}
+              >
+                 <Button
+                    href="https://forms.gle/8ScmAyEciVQ9oLYB6"
+                    target="_blank"
+                    variant="light"
+                  style={{
+                    textDecoration: "none",
+                    marginRight: "20px",
+                    width: "100%",
+                  }}
+                    id="A1_Test"
+                  >
+                    BST Test
+                  </Button>
                   <Button
-                    variant="outline-dark"
+                    href="https://forms.gle/rC5MwrhMfi7yFGbr5"
+                    target="_blank"
+                    variant="light"
+                  style={{
+                    textDecoration: "none",
+                    marginRight: "20px",
+                    width: "100%",
+                  }}
+
+                    id="A1_Test"
+                  >
+                    AVL Test
+                  </Button>
+                  <Button
+                    href="https://forms.gle/QzkMeAjmp1F1Sngc7"
+                    target="_blank"
+                    variant="light"
+                    style={{
+                      textDecoration: "none",
+                      marginRight: "20px",
+                      width: "100%",
+                    }}
+                    id="A1_Test"
+                  >
+                    RBT Test
+                  </Button>
+                   <Button
                     href="https://forms.gle/SQc3WPkFbmaEtG9KA"
                     target="_blank"
-                     style={{
+                    variant="light"
+                    style={{
                       textDecoration: "none",
-                      cursor: "pointer",
                       marginRight: "20px",
+                      width: "100%",
                     }}
-                    id="306"
+                    id="A1_Test"
                   >
-                    Test
+                    Mixed Test
                   </Button>
+                  </NavDropdown>
                   <Button
                     variant="outline-dark"
                     onClick={() => {
