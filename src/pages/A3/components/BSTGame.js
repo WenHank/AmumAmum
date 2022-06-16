@@ -246,7 +246,7 @@ function BSTGame() {
                   for (let i = 0; i < tmpArr.length; i++) {
                     await insert(tmpArr[i]);
                   }
-                  let theorder = getRandom(0, 2);
+                  let theorder = getRandom(0, 1);
                   let orderValue = await getData(orderArr[theorder]);
                   let thenumber = getRandom(0, orderValue.length - 1);
                   title[titlecount++] = {
@@ -287,21 +287,18 @@ function BSTGame() {
                         choice: "Number " + (playnumber[j] + 1),
                         number: thenumber,
                         do: 1,
-                        time: getRandom(3, second - 3.5) * 1000,
+                        time: getRandom(2, second - 4) * 1000,
                       };
                     } else {
                       AIOP[aicount++] = {
                         choice: "Number " + (playnumber[j] + 1),
                         number: thenumber + 1,
                         do: 1,
-                        time: getRandom(3, second - 3.5) * 1000,
+                        time: getRandom(2, second - 4) * 1000,
                       };
                     }
                   }
                 }
-                console.log(AIOP);
-                console.log(playerOP);
-                console.log(title);
                 if (
                   title.length === type + 1 &&
                   playerOP.length === (type + 1) * 3 &&
@@ -403,11 +400,7 @@ function BSTGame() {
       );
     }
   }
-  console.log(change);
-  console.log(tmptype);
-  console.log(type);
   if (change || tmptype !== type) {
-    console.log("fuck");
     tmptype = type;
     title[0] = {
       title: "根據下圖，請問" + 1 + "為inorder 的第幾個",
@@ -641,20 +634,16 @@ function BSTGame() {
         Time: Date(),
       },
     };
-    console.log(Writegrade);
-    console.log(WritegradeRanking);
     ////////////////////////////////
     //////////送出請求///////////////
     if (gradefunction) {
-      console.log(Writegrade);
-      console.log(WritegradeRanking);
       await axios.post(post, Writegrade).then((response) => {
-        console.log(response);
+        // console.log(response);
       });
       await axios
         .post(process.env.REACT_APP_AXIOS_GRADESRANKING, WritegradeRanking)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         });
       gradefunction = 0;
     }
@@ -714,7 +703,6 @@ function BSTGame() {
                   let playercontainer = document.querySelector(".playtitle");
                   playercontainer.classList.add("myturn");
                   setRound(1);
-                  console.log(title);
                   for (let i = 0; i < title[0].Arr.length; i++) {
                     insert(title[0].Arr[i]);
                   }
@@ -730,6 +718,7 @@ function BSTGame() {
               style={{ marginTop: "20px" }}
               disabled={restart}
               onClick={() => {
+                setAigrade(0);
                 setTimerPlay(false);
                 let btn = document.querySelector(".startbtn");
                 btn.disabled = 0;

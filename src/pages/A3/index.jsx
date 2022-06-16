@@ -9,6 +9,7 @@ import RBT from "./components/RBTGame";
 import Robots from "./components/Robots";
 import Grade from "../Grade/components/Grade";
 import axios from "axios";
+import Note from "./components/Note";
 
 class A3 extends React.Component {
   constructor(props) {
@@ -118,6 +119,9 @@ class A3 extends React.Component {
       case "第三章:RBT 紅黑樹":
         this.handle(<RBT />);
         break;
+      case "從網頁修改筆記":
+        this.handle(<Note />);
+          break;
       default:
         break;
     }
@@ -436,6 +440,19 @@ class A3 extends React.Component {
                     id="A3_Grade"
                   >
                     Grade
+                  </Button>
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => {
+                      this.handle(<Note />);
+                    }}
+                    style={{
+                      textDecoration: "none",
+                      cursor: "pointer",
+                    }}
+                    id="A3_Note"
+                  >
+                    Note
                   </Button>
                 </Nav>
               </Navbar.Collapse>

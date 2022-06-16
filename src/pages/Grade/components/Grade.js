@@ -191,10 +191,8 @@ export default function Grade(props) {
     }).then((response) => {
       setUserData(response.data);
       sID = response.data.StudentId;
-      console.log(sID);
       if (props.StudentId !== undefined) {
         sID = props.StudentId;
-        console.log(sID);
         axios({
           method: "POST",
           data: {
@@ -207,7 +205,6 @@ export default function Grade(props) {
         });
       }
     });
-    console.log(sID);
     //BST AVL RBT EASYINFO
     await axios({
       method: "POST",
@@ -1265,7 +1262,6 @@ export default function Grade(props) {
             let total = 0;
             if (tmpgooglesheetdataMixed[i].學號 === sID) {
               let user = tmpgooglesheetdataMixed[i];
-              console.log(user);
               if (ans.第一題 === user.第一題) {
                 knowledge += 10;
               }
@@ -1347,7 +1343,6 @@ export default function Grade(props) {
             let total = 0;
             if (tmpgooglesheetdataBST[i].學號 === sID) {
               let user = tmpgooglesheetdataBST[i];
-              console.log(user);
               if (ans.第一題 === user.第一題) {
                 knowledge += 10;
               }
@@ -1419,7 +1414,6 @@ export default function Grade(props) {
         header: true,
         complete: (results) => {
           tmpgooglesheetdataAVL = results.data;
-          console.log(tmpgooglesheetdataAVL);
           let ans = tmpgooglesheetdataAVL[0];
           let tmpdatasets = [];
           let count = 0;
@@ -1430,7 +1424,6 @@ export default function Grade(props) {
             let total = 0;
             if (tmpgooglesheetdataAVL[i].學號 === sID) {
               let user = tmpgooglesheetdataAVL[i];
-              console.log(user);
               if (ans.第一題 === user.第一題) {
                 knowledge += 10;
               }
@@ -1512,7 +1505,6 @@ export default function Grade(props) {
             let total = 0;
             if (tmpgooglesheetdataRBT[i].學號 === sID) {
               let user = tmpgooglesheetdataRBT[i];
-              console.log(user);
               if (ans.第一題 === user.第一題) {
                 knowledge += 10;
               }
@@ -3188,7 +3180,6 @@ export default function Grade(props) {
   function RadarChart(params) {
     const [rendertype, setRendertype] = useState(4);
     const [typechecked, setTypechecked] = useState(4);
-    console.log(radarDataAVL);
     if (rendertype === 1) {
       return (
         <Tilt className="polar" options={options}>
@@ -3463,7 +3454,7 @@ export default function Grade(props) {
               setRenderF(<RadarChart />);
             }}
           >
-            Test Radar Chart
+            Google Sheet Radar Chart
           </Button>
         </div>
         <div className="chart">{renderF}</div>

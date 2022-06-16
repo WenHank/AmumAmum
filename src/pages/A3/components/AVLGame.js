@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
 import { AVLTree, useAVLTree } from "react-tree-vis";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import VanillaTilt from "vanilla-tilt";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import axios from "axios";
@@ -344,14 +343,14 @@ function AVLGame() {
             IR: "Remove",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, second - 3) * 1000,
+            time: getRandom(2, second - 4) * 1000,
           };
         } else if (arN === 2) {
           AIOP[aicount++] = {
             IR: "Insert",
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, second - 3) * 1000,
+            time: getRandom(2, second - 4) * 1000,
           };
         } else {
           let title = tmp2 ? "Insert" : "Remove";
@@ -359,7 +358,7 @@ function AVLGame() {
             IR: title,
             number: getRandom(1, 70),
             do: 0,
-            time: getRandom(3, second - 3) * 1000,
+            time: getRandom(2, second - 4) * 1000,
           };
         }
       }
@@ -370,7 +369,6 @@ function AVLGame() {
     });
     for (let i = 0; i < type + 1; i++) {
       let havendo = 0;
-      console.log(aiAns);
       for (let j = 0; j < 3; j++) {
         if (aiAns[i] && !havendo) {
           if (AIOP[aicount].IR === "Insert") {
@@ -390,9 +388,7 @@ function AVLGame() {
   }
   let playercontainer = document.querySelector(".playtitle");
   let aicontainer = document.querySelector(".aititle");
-  console.log(AIOP);
   if (round > type) {
-    console.log("this1");
     writegrade();
     gradefunction = 1;
     setPlaybtn1(1);
@@ -411,7 +407,6 @@ function AVLGame() {
       if (AIOP[opArr[round - 1] + i].do === 1) {
         if (AIOP[opArr[round - 1] + i].IR === "Insert") {
           setTimeout(() => {
-            console.log("insert");
             insert(AIOP[opArr[round - 1] + i].number);
             search(AIOP[opArr[round - 1] + i].number);
             setPlaybtn1(0);
@@ -435,15 +430,12 @@ function AVLGame() {
             }
             if (reset) {
               setReset(0);
-              console.log("reset2");
             } else {
               setReset(1);
-              console.log("reset2");
             }
           }, AIOP[opArr[round - 1] + i].time);
         } else {
           setTimeout(() => {
-            console.log("Remove");
             let orderValue = getData("inorder");
             let tmp = 0;
             orderValue.forEach((e) => {
@@ -475,10 +467,8 @@ function AVLGame() {
               }
               if (reset) {
                 setReset(0);
-                console.log("reset2");
               } else {
                 setReset(1);
-                console.log("reset2");
               }
             } else {
               // setAigrade(aigrade - 3);
@@ -486,10 +476,8 @@ function AVLGame() {
               timer.classList.remove("toolate");
               if (reset) {
                 setReset(0);
-                console.log("reset2");
               } else {
                 setReset(1);
-                console.log("reset2");
               }
               setPlaybtn1(0);
               setPlaybtn2(0);
@@ -641,20 +629,17 @@ function AVLGame() {
         Time: Date(),
       },
     };
-    console.log(Writegrade);
 
     ////////////////////////////////
     //////////送出請求///////////////
     if (gradefunction) {
-      console.log(Writegrade);
-      console.log(WritegradeRanking);
       await axios.post(post, Writegrade).then((response) => {
-        console.log(response);
+        // console.log(response);
       });
       await axios
         .post(process.env.REACT_APP_AXIOS_GRADESRANKING, WritegradeRanking)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         });
       gradefunction = 0;
     }
@@ -721,6 +706,8 @@ function AVLGame() {
               style={{ marginTop: "20px" }}
               disabled={restart}
               onClick={() => {
+                setAigrade(0);
+                setPlayergrade(0);
                 setTimerPlay(false);
                 let btn = document.querySelector(".startbtn");
                 btn.disabled = 0;
@@ -791,9 +778,7 @@ function AVLGame() {
                         timer.classList.remove("toolate");
                       }
                     }
-                    console.log("reset1");
                     setReset(!reset);
-                    console.log("AI");
                     AIplay();
                   }}
                 >
@@ -843,9 +828,7 @@ function AVLGame() {
                         timer.classList.remove("toolate");
                       }
                     }
-                    console.log("reset1");
                     setReset(!reset);
-                    console.log("AI");
                     AIplay();
                   }}
                 >
@@ -895,9 +878,7 @@ function AVLGame() {
                         timer.classList.remove("toolate");
                       }
                     }
-                    console.log("reset1");
                     setReset(!reset);
-                    console.log("AI");
                     AIplay();
                   }}
                 >
