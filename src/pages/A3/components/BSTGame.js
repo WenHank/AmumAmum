@@ -59,9 +59,7 @@ function Gamerule(props) {
         <p>Step 3 按下Start 即可開始玩</p>
         <p>若想重新開始則按下Restart 即可</p>
         <h3>How to win?</h3>
-        <p>新增或刪除節點來達到該樹的平衡</p>
-        <p>在時間內，答對的速度愈快分數愈高，答錯則會扣３分</p>
-        <p>若超時則不扣分，並換對方答題</p>
+        <p>判斷該樹的order順序，越快答對越高分</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -126,6 +124,7 @@ function BSTGame() {
   const [restart, setRestart] = useState(1);
   const [UserData, setUserData] = useState("");
   let GetSid = sessionStorage.getItem("Sid");
+  let DifficultyWord = "Easy";
   useEffect(() => {
     axios({
       method: "POST",
@@ -146,18 +145,37 @@ function BSTGame() {
   let aicount = 0;
   let tmptype = 4;
   let orderArr = ["inorder", "preorder", "postorder"];
+  let roundStyle = {
+    boxShadow: "-5px -5px 20px #004777, 5px 5px 20px #004777",
+    marginRight: "500px",
+  };
   if (type === 4) {
     second = 10;
     aiAns = [1, 1, 0, 0];
     tmptype = 4;
+    DifficultyWord = "Easy";
+    roundStyle = {
+      boxShadow: "-5px -5px 20px #004777, 5px 5px 20px #004777",
+      marginRight: "500px",
+    };
   } else if (type === 6) {
     second = 8;
     aiAns = [1, 1, 1, 1, 0, 0];
     tmptype = 6;
+    DifficultyWord = "Medium";
+    roundStyle = {
+      boxShadow: "-5px -5px 20px #7b7f3d, 5px 5px 20px #7b7f3d",
+      marginRight: "500px",
+    };
   } else {
     second = 6;
     aiAns = [1, 1, 1, 1, 1, 1, 0, 0];
     tmptype = 8;
+    DifficultyWord = "Hard";
+    roundStyle = {
+      boxShadow: "-5px -5px 20px #f7b801, 5px 5px 20px #f7b801",
+      marginRight: "500px",
+    };
   }
   const options = {
     scale: 1,
@@ -669,7 +687,8 @@ function BSTGame() {
             onClick={() => setdocumentModalShow(true)}
           />
         </div>
-        <div className="roundContainer" style={{ marginRight: "500px" }}>
+        <div className="roundContainer" style={roundStyle}>
+          <h2>{DifficultyWord}</h2>
           <h2>Round {round}</h2>
         </div>
         <div className="controlContainer">

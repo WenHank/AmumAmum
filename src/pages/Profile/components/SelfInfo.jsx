@@ -147,7 +147,9 @@ const SelfInfo = ({ Logout, UserToken }) => {
         break;
     }
   };
-  const goCheck = () => {};
+  const goCheck = () => {
+    Refresh("/AdminGrade")
+  };
   return (
     <>
       <div className="PasswordChange" id="PasswordChangeDiv">

@@ -13,6 +13,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+iframe{
+  height: 1000px;
+}
 /****************************************************************/
 /**************************LoginPage*****************************/
 .Outline{
@@ -114,6 +117,12 @@ pre {
 }
 .red {
   color: red;
+}
+.green{
+  color: #6fa41e;
+}
+.blue{
+  color: #2a77c2;
 }
 .center {
   /* align-items: center; */
@@ -817,11 +826,11 @@ h2 span:nth-child(even) {
   box-shadow: -5px -5px 20px #0dcaf0, 5px 5px 20px #ff0081;
 }
 .roundContainer{
-  display: flex;
+  display: block;
+  text-align: left;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
   padding: 10px;
   border-radius: 10px;
   left: 400px;
@@ -916,9 +925,10 @@ h2 span:nth-child(even) {
 .rankingtable{
   position: initial;
   margin-top: 30px;
+  margin-left: 20px;
 }
 .linearbody{
-  width: 400px;
+  width: 450px;
   height: 500px;
   border-radius: 10px;
   box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;;
@@ -945,6 +955,12 @@ h2 span:nth-child(even) {
 }
 .rankingImg{
   width: 40px;
+}
+/****************************************************************/
+/*************************Test**********************************/
+.testContainer{
+  display: flex;
+  justify-content: center;
 }
 /****************************************************************/
 /*************************Admin**********************************/

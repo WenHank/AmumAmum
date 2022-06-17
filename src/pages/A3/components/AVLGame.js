@@ -119,6 +119,7 @@ function AVLGame() {
   const [UserData, setUserData] = useState("");
   const [restart, setRestart] = useState(1);
   let GetSid = sessionStorage.getItem("Sid");
+  let DifficultyWord = "Easy";
   useEffect(() => {
     axios({
       method: "POST",
@@ -135,15 +136,34 @@ function AVLGame() {
   let whowin = playergrade > aigrade ? "You win" : "You lose";
   let second = 10;
   let timer;
+  let roundStyle = {
+    boxShadow: "-5px -5px 20px #004777, 5px 5px 20px #004777",
+    marginRight: "500px",
+  };
   if (type === 4) {
     second = 10;
     aiAns = [1, 1, 0, 0];
+    DifficultyWord = "Easy";
+    roundStyle = {
+      boxShadow: "-5px -5px 20px #004777, 5px 5px 20px #004777",
+      marginRight: "500px",
+    };
   } else if (type === 6) {
     second = 8;
     aiAns = [1, 1, 1, 1, 0, 0];
+    DifficultyWord = "Medium";
+    roundStyle = {
+      boxShadow: "-5px -5px 20px #7b7f3d, 5px 5px 20px #7b7f3d",
+      marginRight: "500px",
+    };
   } else {
     second = 6;
     aiAns = [1, 1, 1, 1, 1, 1, 0, 0];
+    DifficultyWord = "Hard";
+    roundStyle = {
+      boxShadow: "-5px -5px 20px #f7b801, 5px 5px 20px #f7b801",
+      marginRight: "500px",
+    };
   }
   const options = {
     scale: 1,
@@ -665,7 +685,8 @@ function AVLGame() {
             onClick={() => setdocumentModalShow(true)}
           />
         </div>
-        <div className="roundContainer" style={{ marginRight: "500px" }}>
+        <div className="roundContainer" style={roundStyle}>
+          <h2>{DifficultyWord}</h2>
           <h2>Round {round}</h2>
         </div>
         <div className="controlContainer">

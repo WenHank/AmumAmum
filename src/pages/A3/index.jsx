@@ -2,7 +2,7 @@ import React from "react";
 import { Nav, Navbar, Container, Button ,NavDropdown} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Home from "./components/Home";
-import Tree from "./components/Treedocument";
+import Tree from "../A1/components/Treedocument";
 import BST from "./components/BSTGame";
 import AVL from "./components/AVLGame";
 import RBT from "./components/RBTGame";
@@ -11,6 +11,34 @@ import Grade from "../Grade/components/Grade";
 import axios from "axios";
 import Note from "./components/Note";
 
+function BSTTEST(params) {
+  return(
+    <div className="testContainer">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfQiQz29af9rDxC0XJw65MTlgGa0ARVTRVYK8L6I95IQZv8Hw/viewform?embedded=true" width="640" height="2288" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
+    </div>
+  )
+}
+function AVLTEST(params) {
+  return(
+    <div className="testContainer">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeOS0jLLO6VG-Gb9XUJ73rMhr8qBBk5DoCj3XmdSJVxbWA1Yw/viewform?embedded=true" width="640" height="2183" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
+    </div>
+  )
+}
+function RBTTEST(params) {
+  return(
+    <div className="testContainer">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd6BogVec0_Fnkit5c-oZOiTzXn8e7480LzbM-cdezgeOMi8g/viewform?embedded=true" width="640" height="2288" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
+    </div>
+  )
+}
+function MIXEDTEST(params) {
+  return(
+    <div className="testContainer">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd6e6BWDc7ePfG_5hgO3SzLOq6at3_WawwnGlIjkQdQgu9rtg/viewform?embedded=true" width="640" height="1693" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
+    </div>
+  )
+}
 class A3 extends React.Component {
   constructor(props) {
     super(props);
@@ -374,8 +402,6 @@ class A3 extends React.Component {
                 style={{marginRight:"20px"}}
               >
                  <Button
-                    href="https://forms.gle/8ScmAyEciVQ9oLYB6"
-                    target="_blank"
                     variant="light"
                   style={{
                     textDecoration: "none",
@@ -383,26 +409,30 @@ class A3 extends React.Component {
                     width: "100%",
                   }}
                     id="A3_Test"
+                    onClick={()=>{
+                      this.handle(<BSTTEST />);
+                    }}
                   >
                     BST Test
                   </Button>
                   <Button
-                    href="https://forms.gle/rC5MwrhMfi7yFGbr5"
-                    target="_blank"
+                    onClick={()=>{
+                      this.handle(<AVLTEST />);
+                    }}
                     variant="light"
                   style={{
                     textDecoration: "none",
                     marginRight: "20px",
                     width: "100%",
                   }}
-
                     id="A3_Test"
                   >
                     AVL Test
                   </Button>
                   <Button
-                    href="https://forms.gle/QzkMeAjmp1F1Sngc7"
-                    target="_blank"
+                     onClick={()=>{
+                      this.handle(<RBTTEST />);
+                    }}
                     variant="light"
                     style={{
                       textDecoration: "none",
@@ -414,8 +444,9 @@ class A3 extends React.Component {
                     RBT Test
                   </Button>
                    <Button
-                    href="https://forms.gle/SQc3WPkFbmaEtG9KA"
-                    target="_blank"
+                    onClick={()=>{
+                      this.handle(<MIXEDTEST />);
+                    }}
                     variant="light"
                     style={{
                       textDecoration: "none",

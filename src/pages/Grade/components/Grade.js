@@ -79,8 +79,8 @@ const radarData = {
   labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
   datasets: [
     {
-      label: "My First Dataset",
-      data: [65, 59, 90, 81, 76],
+      label: "Test 1",
+      data: [0, 0, 0, 0, 0],
       fill: true,
       backgroundColor: "rgba(255, 99, 132, 0.2)",
       borderColor: "rgb(255, 99, 132)",
@@ -88,17 +88,6 @@ const radarData = {
       pointBorderColor: "#fff",
       pointHoverBackgroundColor: "#fff",
       pointHoverBorderColor: "rgb(255, 99, 132)",
-    },
-    {
-      label: "My Second Dataset",
-      data: [28, 48, 40, 19, 61],
-      fill: true,
-      backgroundColor: "rgba(54, 162, 235, 0.2)",
-      borderColor: "rgb(54, 162, 235)",
-      pointBackgroundColor: "rgb(54, 162, 235)",
-      pointBorderColor: "#fff",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgb(54, 162, 235)",
     },
   ],
 };
@@ -236,7 +225,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -273,7 +265,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -309,7 +304,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -346,7 +344,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -382,7 +383,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -418,7 +422,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -455,7 +462,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -491,7 +501,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -527,7 +540,10 @@ export default function Grade(props) {
             label={i}
           >
             <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px" }}>{response.data.Grades[i]}分</div>
+            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+              {response.data.Grades[i]}分
+            </div>
+            <div style={{ margin: "0 10px 0 0 " }}>/</div>
             <div style={{ fontSize: "20px" }}>{time}</div>
           </div>
         );
@@ -2264,6 +2280,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">EASY</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userBSTgradesEasyTable}
                   </div>
                 </div>
@@ -2376,6 +2396,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">EASY</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userAVLgradesEasyTable}
                   </div>
                 </div>
@@ -2488,6 +2512,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">EASY</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userRBTgradesEasyTable}
                   </div>
                 </div>
@@ -2602,6 +2630,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">MEDIUM</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userBSTgradesMediumTable}
                   </div>
                 </div>
@@ -2717,6 +2749,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">MEDIUM</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userAVLgradesMediumTable}
                   </div>
                 </div>
@@ -2829,6 +2865,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">MEDIUM</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userRBTgradesMediumTable}
                   </div>
                 </div>
@@ -2943,6 +2983,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">HARD</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userBSTgradesHardTable}
                   </div>
                 </div>
@@ -3055,6 +3099,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">HARD</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userAVLgradesHardTable}
                   </div>
                 </div>
@@ -3167,6 +3215,10 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">HARD</div>
+                    <div style={{ display: "flex", flexDuraction: "row" }}>
+                      <div style={{ margin: "0 200px 0 0" }}>成績</div>
+                      <div>時間</div>
+                    </div>
                     {userRBTgradesHardTable}
                   </div>
                 </div>

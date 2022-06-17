@@ -2,7 +2,7 @@ import React from "react";
 import { Nav, Navbar,NavDropdown, Container,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Home from "./components/Home";
-import Tree from "./components/Treedocument";
+import Tree from "../A1/components/Treedocument";
 import BST from "./components/BST";
 import BSTInteractive from "./components/BSTInteractive";
 import AVL from "./components/AVL";
