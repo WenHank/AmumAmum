@@ -701,9 +701,6 @@ h2 span:nth-child(even) {
 }
 .winlose{
   animation: zy 2.5s .15s linear infinite;
-  animation: zy 2.5s .15s linear infinite;
-  animation: zy 2.5s .15s linear infinite;
-  animation: zy 2.5s .15s linear infinite;
 }
 @keyframes zy{
   10%{
@@ -836,6 +833,22 @@ h2 span:nth-child(even) {
   left: 400px;
   position: absolute;
   top: 150px;
+  animation: zy 2.5s .15s linear infinite;
+}
+@media (max-width:1440px) {
+  .roundContainer{
+    display: block;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    left: 100px;
+    position: absolute;
+    top: 150px;
+    animation: zy 2.5s .15s linear infinite;
+  }
 }
 .roundContainer h2{
   margin: 0;
@@ -1099,7 +1112,8 @@ h2 span:nth-child(even) {
   background-color: #424141;
   opacity: 0.5;
 }
-.PasswordChange, .EmailChange {
+.PasswordChange,
+.EmailChange {
   visibility: hidden;
   position: absolute;
   z-index: 101;
@@ -1111,63 +1125,108 @@ h2 span:nth-child(even) {
   border: 1px solid #424141;
   border-radius: 20px 20px;
 }
-.PasswordChange_Title, .EmailChange_Title {
+.ChooseClass {
+  visibility: hidden;
+  position: absolute;
+  z-index: 101;
+  top: 10%;
+  left: 15%;
+  width: 1000px;
+  height: 500px;
+  background-color: whitesmoke;
+  border: 1px solid #424141;
+  border-radius: 20px 20px;
+}
+.PasswordChange_Title,
+.EmailChange_Title,
+.ChooseClass_Title {
   text-align: center;
   color: #292929;
   font-size: 2.5em;
   margin-top: 20px;
 }
-.PasswordLine, .EmailLine {
+.ChooseClassLine {
+  text-align: center;
+}
+.ChooseClassBox {
+  width: 90%;
+  height: 300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.ChooseClassBox_DIV {
+  /* transition-duration: .5s; */
+  border: 1px solid;
+  width: 20%;
+  height: 80%;
+  border-radius: 10px;
+  background-image: url(../public/Img/amumamum.PNG);
+  background-position: top;
+  background-size: 70%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  text-align: center;
+  font-size: 30px;
+  line-height: 400px;
+}
+.ChooseClassBox_DIV:hover {
+  /* transition-duration: .5s; */
+  opacity: 1;
+}
+.PasswordLine,
+.EmailLine {
   display: flex;
   justify-content: space-between;
   margin: 30px 100px 10px 100px;
   border-bottom: 1px dashed #2559bb;
   padding-bottom: 8px;
 }
-.PasswordLine_Title, .EmailLine_Title {
+.PasswordLine_Title,
+.EmailLine_Title {
   margin-top: 15px;
 }
-.PasswordBtn, .EmailBtn {
+.PasswordBtn,
+.EmailBtn {
   margin-top: 70px;
   text-align: center;
 }
-#submitPassword, #submitEmail {
+#submitPassword,
+#submitEmail {
   margin-right: 50px;
 }
-.Classroom{
+.Classroom {
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
   margin: 50px 150px 10px 150px;
 }
-.GoStudy, .GoCheck{
-  transition-duration: .5s;
+.GoStudy,
+.GoCheck {
+  transition-duration: 0.5s;
   background-image: url(../public/Img/amumamum.PNG);
   opacity: 0.5;
-  background-size:50%;
+  background-size: 50%;
   background-position: center;
   background-repeat: no-repeat;
   font-size: 2em;
-  color:black;
-  width:300px;
-  height:300px;
+  color: black;
+  width: 300px;
+  height: 300px;
   text-align: center;
-  line-height:500px;
-  border:1px solid black;
+  line-height: 500px;
+  border: 1px solid black;
   border-radius: 20px 20px;
 }
 
-.GoStudy:hover, .GoCheck:hover{
-  transition-duration: .5s;
+.GoStudy:hover,
+.GoCheck:hover {
+  transition-duration: 0.5s;
   opacity: 1;
-  width:350px;
+  width: 350px;
   margin-left: -20px;
-  height:350px;
-  line-height:600px;
-  border:1px dashed black;
-}
-
-#GoStudy_Title, #GoCheck_Title{
-
+  height: 350px;
+  line-height: 600px;
+  border: 1px dashed black;
 }
 @keyframes typingProfile {
   25% {

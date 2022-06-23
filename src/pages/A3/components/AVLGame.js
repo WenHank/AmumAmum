@@ -140,6 +140,9 @@ function AVLGame() {
     boxShadow: "-5px -5px 20px #004777, 5px 5px 20px #004777",
     marginRight: "500px",
   };
+  let fontcolor = {
+    color: "#004777",
+  };
   if (type === 4) {
     second = 10;
     aiAns = [1, 1, 0, 0];
@@ -147,6 +150,9 @@ function AVLGame() {
     roundStyle = {
       boxShadow: "-5px -5px 20px #004777, 5px 5px 20px #004777",
       marginRight: "500px",
+    };
+    fontcolor = {
+      color: "#004777",
     };
   } else if (type === 6) {
     second = 8;
@@ -156,6 +162,9 @@ function AVLGame() {
       boxShadow: "-5px -5px 20px #7b7f3d, 5px 5px 20px #7b7f3d",
       marginRight: "500px",
     };
+    fontcolor = {
+      color: "#7b7f3d",
+    };
   } else {
     second = 6;
     aiAns = [1, 1, 1, 1, 1, 1, 0, 0];
@@ -163,6 +172,9 @@ function AVLGame() {
     roundStyle = {
       boxShadow: "-5px -5px 20px #f7b801, 5px 5px 20px #f7b801",
       marginRight: "500px",
+    };
+    fontcolor = {
+      color: "#f7b801",
     };
   }
   const options = {
@@ -686,7 +698,7 @@ function AVLGame() {
           />
         </div>
         <div className="roundContainer" style={roundStyle}>
-          <h2>{DifficultyWord}</h2>
+          <h2 style={fontcolor}>{DifficultyWord}</h2>
           <h2>Round {round}</h2>
         </div>
         <div className="controlContainer">

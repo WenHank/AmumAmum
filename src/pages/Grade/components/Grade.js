@@ -1262,7 +1262,7 @@ export default function Grade(props) {
     let tmpgooglesheetdataAVL;
     let tmpgooglesheetdataRBT;
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTE0B5oFWu7nHAy_KtOgghtvqRaxcvSERDENdnUP17b6A1yPG_wIu4OiIo8gSn1UvXvfQU7g1dsjLyr/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRm8diVHMoMfZLM_YYP7LR3GjPB6SN6Qwymuq3mXPog7ItJLRPusEB63uc-eTwOoiJnltpPkCQK7ZZk/pub?output=csv",
       {
         download: true,
         header: true,
@@ -1271,79 +1271,88 @@ export default function Grade(props) {
           let ans = tmpgooglesheetdataMixed[0];
           let tmpdatasets = [];
           let count = 0;
-          for (let i = 1; i < tmpgooglesheetdataMixed.length; i++) {
-            let knowledge = 0;
-            let decision = 0;
-            let analysis = 0;
-            let total = 0;
-            if (tmpgooglesheetdataMixed[i].學號 === sID) {
-              let user = tmpgooglesheetdataMixed[i];
-              if (ans.第一題 === user.第一題) {
-                knowledge += 10;
+          if (tmpgooglesheetdataMixed.length > 1) {
+            for (let i = 1; i < tmpgooglesheetdataMixed.length; i++) {
+              let knowledge = 0;
+              let decision = 0;
+              let analysis = 0;
+              let total = 0;
+              if (tmpgooglesheetdataMixed[i].學號 === sID) {
+                let user = tmpgooglesheetdataMixed[i];
+                let ansValues = Object.values(ans);
+                let ansKeys = Object.keys(ans);
+                let userValues = Object.values(user);
+                // console.log(ans);
+                console.log(ansValues);
+                // console.log(ansKeys);
+                // console.log(userValues);
+                for (let i = 5; i < ansValues.length; i++) {
+                  if (ansValues[i] === userValues[i]) {
+                    if (ansKeys[i][0] === "K") {
+                      knowledge += 10;
+                    }
+                    if (ansKeys[i][0] === "D") {
+                      decision += 10;
+                    }
+                    if (ansKeys[i][0] === "A") {
+                      analysis += 10;
+                    }
+                  }
+                }
+                let tmptotal = 20;
+                console.log(userValues[1].length);
+                if (userValues[1].length === 9) {
+                  tmptotal += parseInt(userValues[1][0]) * 100;
+                  tmptotal += parseInt(userValues[1][1]) * 10;
+                  tmptotal += parseInt(userValues[1][2]);
+                  console.log(tmptotal);
+                } else {
+                  tmptotal += parseInt(userValues[1][0]) * 10;
+                  console.log(tmptotal);
+                  tmptotal += parseInt(userValues[1][1]);
+                  console.log(tmptotal);
+                }
+                total = tmptotal;
+                let tmp = {
+                  label: "Test " + `${count + 1}`,
+                  data: [knowledge, decision, analysis, 20, total],
+                  fill: true,
+                  backgroundColor: color[count],
+                  borderColor: color[count],
+                  pointBackgroundColor: color[count],
+                  pointBorderColor: "#fff",
+                  pointHoverBackgroundColor: "#fff",
+                  pointHoverBorderColor: color[count],
+                };
+                tmpdatasets[count] = tmp;
+                count++;
               }
-              if (ans.第二題 === user.第二題) {
-                knowledge += 10;
-              }
-              if (ans.第三題 === user.第三題) {
-                knowledge += 10;
-              }
-              if (ans.第四題 === user.第四題) {
-                decision += 10;
-              }
-              if (ans.第五題 === user.第五題) {
-                decision += 10;
-              }
-              if (ans.第六題 === user.第六題) {
-                decision += 10;
-              }
-              if (ans.第七題 === user.第七題) {
-                analysis += 10;
-              }
-              if (ans.第八題 === user.第八題) {
-                analysis += 10;
-              }
-              let tmptotal = 20;
-              if (user.分數[0] !== "0") {
-                tmptotal =
-                  parseInt(user.分數[0]) * 10 + parseInt(user.分數[1]) + 20;
-              }
-
-              total = tmptotal;
-              let tmp = {
-                label: "Test " + `${count + 1}`,
-                data: [knowledge, decision, analysis, 20, total],
-                fill: true,
-                backgroundColor: color[count],
-                borderColor: color[count],
-                pointBackgroundColor: color[count],
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: color[count],
-              };
-              tmpdatasets[count] = tmp;
-              count++;
             }
+            const radarData = {
+              labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
+              datasets: tmpdatasets,
+            };
+            setRadarDataMixed(radarData);
+            setGoogledataMixed(results.data);
+            const tmpGoogleSheet = {
+              MajorAndType: "MIXED",
+              Grades: tmpgooglesheetdataMixed,
+            };
+            console.log(tmpGoogleSheet);
+            axios
+              .post(
+                process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES,
+                tmpGoogleSheet
+              )
+              .then((response) => {
+                console.log(response);
+              });
           }
-          const radarData = {
-            labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
-            datasets: tmpdatasets,
-          };
-          setRadarDataMixed(radarData);
-          setGoogledataMixed(results.data);
-          const tmpGoogleSheet = {
-            MajorAndType: "MIXED",
-            Grades: tmpgooglesheetdataMixed,
-          };
-          axios
-            .post(process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES, tmpGoogleSheet)
-            .then((response) => {
-              // console.log(response);
-            });
         },
       }
     );
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSU633L-Ekea5DM49jgoqdSMg5VEkcsSLpblm6C6wQMUw9rrToX04qHIWMoH8CQIuPJUPE_VVGDSEE9/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTh2iDXz07-oaE4nbrRc6MKhTRVnOROeboH8mGKlyvq_TGxMHZ-4rnPOIQaymdi_pgyt4764BXsFuAR/pub?output=csv",
       {
         download: true,
         header: true,
@@ -1352,79 +1361,88 @@ export default function Grade(props) {
           let ans = tmpgooglesheetdataBST[0];
           let tmpdatasets = [];
           let count = 0;
-          for (let i = 1; i < tmpgooglesheetdataBST.length; i++) {
-            let knowledge = 0;
-            let decision = 0;
-            let analysis = 0;
-            let total = 0;
-            if (tmpgooglesheetdataBST[i].學號 === sID) {
-              let user = tmpgooglesheetdataBST[i];
-              if (ans.第一題 === user.第一題) {
-                knowledge += 10;
+          if (tmpgooglesheetdataBST.length > 1) {
+            for (let i = 1; i < tmpgooglesheetdataBST.length; i++) {
+              let knowledge = 0;
+              let decision = 0;
+              let analysis = 0;
+              let total = 0;
+              if (tmpgooglesheetdataBST[i].學號 === sID) {
+                let user = tmpgooglesheetdataBST[i];
+                let ansValues = Object.values(ans);
+                let ansKeys = Object.keys(ans);
+                let userValues = Object.values(user);
+                // console.log(ans);
+                console.log(ansValues);
+                // console.log(ansKeys);
+                // console.log(userValues);
+                for (let i = 5; i < ansValues.length; i++) {
+                  if (ansValues[i] === userValues[i]) {
+                    if (ansKeys[i][0] === "K") {
+                      knowledge += 10;
+                    }
+                    if (ansKeys[i][0] === "D") {
+                      decision += 10;
+                    }
+                    if (ansKeys[i][0] === "A") {
+                      analysis += 10;
+                    }
+                  }
+                }
+                let tmptotal = 20;
+                console.log(userValues[1].length);
+                if (userValues[1].length === 9) {
+                  tmptotal += parseInt(userValues[1][0]) * 100;
+                  tmptotal += parseInt(userValues[1][1]) * 10;
+                  tmptotal += parseInt(userValues[1][2]);
+                  console.log(tmptotal);
+                } else {
+                  tmptotal += parseInt(userValues[1][0]) * 10;
+                  console.log(tmptotal);
+                  tmptotal += parseInt(userValues[1][1]);
+                  console.log(tmptotal);
+                }
+                total = tmptotal;
+                let tmp = {
+                  label: "Test " + `${count + 1}`,
+                  data: [knowledge, decision, analysis, 20, total],
+                  fill: true,
+                  backgroundColor: color[count],
+                  borderColor: color[count],
+                  pointBackgroundColor: color[count],
+                  pointBorderColor: "#fff",
+                  pointHoverBackgroundColor: "#fff",
+                  pointHoverBorderColor: color[count],
+                };
+                tmpdatasets[count] = tmp;
+                count++;
               }
-              if (ans.第二題 === user.第二題) {
-                knowledge += 10;
-              }
-              if (ans.第三題 === user.第三題) {
-                knowledge += 10;
-              }
-              if (ans.第四題 === user.第四題) {
-                decision += 10;
-              }
-              if (ans.第五題 === user.第五題) {
-                decision += 10;
-              }
-              if (ans.第六題 === user.第六題) {
-                decision += 10;
-              }
-              if (ans.第七題 === user.第七題) {
-                analysis += 10;
-              }
-              if (ans.第八題 === user.第八題) {
-                analysis += 10;
-              }
-              let tmptotal = 20;
-              if (user.分數[0] !== "0") {
-                tmptotal =
-                  parseInt(user.分數[0]) * 10 + parseInt(user.分數[1]) + 20;
-              }
-
-              total = tmptotal;
-              let tmp = {
-                label: "Test " + `${count + 1}`,
-                data: [knowledge, decision, analysis, 20, total],
-                fill: true,
-                backgroundColor: color[count],
-                borderColor: color[count],
-                pointBackgroundColor: color[count],
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: color[count],
-              };
-              tmpdatasets[count] = tmp;
-              count++;
             }
+            const radarData = {
+              labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
+              datasets: tmpdatasets,
+            };
+            setRadarDataBST(radarData);
+            setGoogledataBST(results.data);
+            const tmpGoogleSheet = {
+              MajorAndType: "BST",
+              Grades: tmpgooglesheetdataBST,
+            };
+            console.log(tmpGoogleSheet);
+            axios
+              .post(
+                process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES,
+                tmpGoogleSheet
+              )
+              .then((response) => {
+                console.log(response);
+              });
           }
-          const radarData = {
-            labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
-            datasets: tmpdatasets,
-          };
-          setRadarDataBST(radarData);
-          setGoogledataBST(results.data);
-          const tmpGoogleSheet = {
-            MajorAndType: "BST",
-            Grades: tmpgooglesheetdataBST,
-          };
-          axios
-            .post(process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES, tmpGoogleSheet)
-            .then((response) => {
-              // console.log(response);
-            });
         },
       }
     );
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vThodtjwv19LHi1f72y406_873_3hpx-xo4vGnGuTwoZRKcuYj_xINd5KA-LGRM5-macctiFqJ2QQrh/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTU3YJaVPUUmij5OYgSAV1ZFswhIU_8kZS448L8QhrkJ9frCOu2l3QbvbFfXoj4py4XQ_VbOy_NN8GU/pub?output=csv",
       {
         download: true,
         header: true,
@@ -1433,79 +1451,87 @@ export default function Grade(props) {
           let ans = tmpgooglesheetdataAVL[0];
           let tmpdatasets = [];
           let count = 0;
-          for (let i = 1; i < tmpgooglesheetdataAVL.length; i++) {
-            let knowledge = 0;
-            let decision = 0;
-            let analysis = 0;
-            let total = 0;
-            if (tmpgooglesheetdataAVL[i].學號 === sID) {
-              let user = tmpgooglesheetdataAVL[i];
-              if (ans.第一題 === user.第一題) {
-                knowledge += 10;
+          if (tmpgooglesheetdataAVL.length > 1) {
+            for (let i = 1; i < tmpgooglesheetdataAVL.length; i++) {
+              let knowledge = 0;
+              let decision = 0;
+              let analysis = 0;
+              let total = 0;
+              if (tmpgooglesheetdataAVL[i].學號 === sID) {
+                let user = tmpgooglesheetdataAVL[i];
+                let ansValues = Object.values(ans);
+                let ansKeys = Object.keys(ans);
+                let userValues = Object.values(user);
+                // console.log(ans);
+                // console.log(ansValues);
+                // console.log(ansKeys);
+                console.log(userValues);
+                for (let i = 5; i < ansValues.length; i++) {
+                  if (ansValues[i] === userValues[i]) {
+                    if (ansKeys[i][0] === "K") {
+                      knowledge += 10;
+                    }
+                    if (ansKeys[i][0] === "D") {
+                      decision += 10;
+                    }
+                    if (ansKeys[i][0] === "A") {
+                      analysis += 10;
+                    }
+                  }
+                }
+                let tmptotal = 20;
+                if (userValues[1].length === 9) {
+                  tmptotal += parseInt(userValues[1][0]) * 100;
+                  tmptotal += parseInt(userValues[1][1]) * 10;
+                  tmptotal += parseInt(userValues[1][2]);
+                  console.log(tmptotal);
+                } else {
+                  tmptotal += parseInt(userValues[1][0]) * 10;
+                  console.log(tmptotal);
+                  tmptotal += parseInt(userValues[1][1]);
+                  console.log(tmptotal);
+                }
+                total = tmptotal;
+                let tmp = {
+                  label: "Test " + `${count + 1}`,
+                  data: [knowledge, decision, analysis, 20, total],
+                  fill: true,
+                  backgroundColor: color[count],
+                  borderColor: color[count],
+                  pointBackgroundColor: color[count],
+                  pointBorderColor: "#fff",
+                  pointHoverBackgroundColor: "#fff",
+                  pointHoverBorderColor: color[count],
+                };
+                tmpdatasets[count] = tmp;
+                count++;
               }
-              if (ans.第二題 === user.第二題) {
-                knowledge += 10;
-              }
-              if (ans.第三題 === user.第三題) {
-                knowledge += 10;
-              }
-              if (ans.第四題 === user.第四題) {
-                decision += 10;
-              }
-              if (ans.第五題 === user.第五題) {
-                decision += 10;
-              }
-              if (ans.第六題 === user.第六題) {
-                decision += 10;
-              }
-              if (ans.第七題 === user.第七題) {
-                analysis += 10;
-              }
-              if (ans.第八題 === user.第八題) {
-                analysis += 10;
-              }
-              let tmptotal = 20;
-              if (user.分數[0] !== "0") {
-                tmptotal =
-                  parseInt(user.分數[0]) * 10 + parseInt(user.分數[1]) + 20;
-              }
-
-              total = tmptotal;
-              let tmp = {
-                label: "Test " + `${count + 1}`,
-                data: [knowledge, decision, analysis, 20, total],
-                fill: true,
-                backgroundColor: color[count],
-                borderColor: color[count],
-                pointBackgroundColor: color[count],
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: color[count],
-              };
-              tmpdatasets[count] = tmp;
-              count++;
             }
+            const radarData = {
+              labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
+              datasets: tmpdatasets,
+            };
+            setRadarDataAVL(radarData);
+            setGoogledataAVL(results.data);
+            const tmpGoogleSheet = {
+              MajorAndType: "AVL",
+              Grades: tmpgooglesheetdataAVL,
+            };
+            console.log(tmpGoogleSheet);
+            axios
+              .post(
+                process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES,
+                tmpGoogleSheet
+              )
+              .then((response) => {
+                console.log(response);
+              });
           }
-          const radarData = {
-            labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
-            datasets: tmpdatasets,
-          };
-          setRadarDataAVL(radarData);
-          setGoogledataAVL(results.data);
-          const tmpGoogleSheet = {
-            MajorAndType: "AVL",
-            Grades: tmpgooglesheetdataAVL,
-          };
-          axios
-            .post(process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES, tmpGoogleSheet)
-            .then((response) => {
-              // console.log(response);
-            });
         },
       }
     );
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRIy6H_WuEd1E4mqPKB_z8DvCZ34oA6jzPDshFIrop2p4V0OpuoOlmNF_xFU1HuY5DDrzTscUPbsAA8/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRDsNKG1JDZGxEFdHNrvo2AOVpOW2cqq6h2N2dsma19Clwce9yg-RvH6jETqmFc3so_5YNSrsugISOb/pub?output=csv",
       {
         download: true,
         header: true,
@@ -1514,74 +1540,80 @@ export default function Grade(props) {
           let ans = tmpgooglesheetdataRBT[0];
           let tmpdatasets = [];
           let count = 0;
-          for (let i = 1; i < tmpgooglesheetdataRBT.length; i++) {
-            let knowledge = 0;
-            let decision = 0;
-            let analysis = 0;
-            let total = 0;
-            if (tmpgooglesheetdataRBT[i].學號 === sID) {
-              let user = tmpgooglesheetdataRBT[i];
-              if (ans.第一題 === user.第一題) {
-                knowledge += 10;
+          if (tmpgooglesheetdataRBT.length > 1) {
+            for (let i = 1; i < tmpgooglesheetdataRBT.length; i++) {
+              let knowledge = 0;
+              let decision = 0;
+              let analysis = 0;
+              let total = 0;
+              if (tmpgooglesheetdataRBT[i].學號 === sID) {
+                let user = tmpgooglesheetdataRBT[i];
+                let ansValues = Object.values(ans);
+                let ansKeys = Object.keys(ans);
+                let userValues = Object.values(user);
+                // console.log(ans);
+                console.log(ansValues);
+                // console.log(ansKeys);
+                // console.log(userValues);
+                for (let i = 5; i < ansValues.length; i++) {
+                  console.log(ansKeys[i][0]);
+                  if (ansValues[i] === userValues[i]) {
+                    if (ansKeys[i][0] === "K") {
+                      knowledge += 10;
+                    }
+                    if (ansKeys[i][0] === "D") {
+                      decision += 10;
+                    }
+                    if (ansKeys[i][0] === "A") {
+                      analysis += 10;
+                    }
+                  }
+                }
+                let tmptotal = 20;
+                if (userValues[1].length === 9) {
+                  tmptotal += parseInt(userValues[1][0]) * 100;
+                  tmptotal += parseInt(userValues[1][1]) * 10;
+                  tmptotal += parseInt(userValues[1][2]);
+                } else {
+                  tmptotal += parseInt(userValues[1][0]) * 10;
+                  tmptotal += parseInt(userValues[1][1]);
+                }
+                total = tmptotal;
+                let tmp = {
+                  label: "Test " + `${count + 1}`,
+                  data: [knowledge, decision, analysis, 20, total],
+                  fill: true,
+                  backgroundColor: color[count],
+                  borderColor: color[count],
+                  pointBackgroundColor: color[count],
+                  pointBorderColor: "#fff",
+                  pointHoverBackgroundColor: "#fff",
+                  pointHoverBorderColor: color[count],
+                };
+                tmpdatasets[count] = tmp;
+                count++;
               }
-              if (ans.第二題 === user.第二題) {
-                knowledge += 10;
-              }
-              if (ans.第三題 === user.第三題) {
-                knowledge += 10;
-              }
-              if (ans.第四題 === user.第四題) {
-                decision += 10;
-              }
-              if (ans.第五題 === user.第五題) {
-                decision += 10;
-              }
-              if (ans.第六題 === user.第六題) {
-                decision += 10;
-              }
-              if (ans.第七題 === user.第七題) {
-                analysis += 10;
-              }
-              if (ans.第八題 === user.第八題) {
-                analysis += 10;
-              }
-              let tmptotal = 20;
-              if (user.分數[0] !== "0") {
-                tmptotal =
-                  parseInt(user.分數[0]) * 10 + parseInt(user.分數[1]) + 20;
-              }
-
-              total = tmptotal;
-              let tmp = {
-                label: "Test " + `${count + 1}`,
-                data: [knowledge, decision, analysis, 20, total],
-                fill: true,
-                backgroundColor: color[count],
-                borderColor: color[count],
-                pointBackgroundColor: color[count],
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: color[count],
-              };
-              tmpdatasets[count] = tmp;
-              count++;
             }
+            const radarData = {
+              labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
+              datasets: tmpdatasets,
+            };
+            setRadarDataRBT(radarData);
+            setGoogledataRBT(results.data);
+            const tmpGoogleSheet = {
+              MajorAndType: "RBT",
+              Grades: tmpgooglesheetdataRBT,
+            };
+            console.log(tmpGoogleSheet);
+            axios
+              .post(
+                process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES,
+                tmpGoogleSheet
+              )
+              .then((response) => {
+                console.log(response);
+              });
           }
-          const radarData = {
-            labels: ["知識型", "判斷型", "分析型", "應用型", "總分"],
-            datasets: tmpdatasets,
-          };
-          setRadarDataRBT(radarData);
-          setGoogledataRBT(results.data);
-          const tmpGoogleSheet = {
-            MajorAndType: "RBT",
-            Grades: tmpgooglesheetdataRBT,
-          };
-          axios
-            .post(process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES, tmpGoogleSheet)
-            .then((response) => {
-              // console.log(response);
-            });
         },
       }
     );
