@@ -5,7 +5,7 @@ import { MDBContainer } from "mdbreact";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
-import TaskCard from "../../A3/components/TaskCard";
+import TaskCard from "./TaskCard";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -196,7 +196,10 @@ const Kanban = () => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     style={{
-                      height: `${(column.items.length - 1) * 65 + 120}px`,
+                      height:
+                        index === 7
+                          ? "570px"
+                          : `${(column.items.length - 1) * 65 + 120}px`,
                       position: "relative",
                       top: `${Treestyle[index]}`,
                       marginLeft: "10px",

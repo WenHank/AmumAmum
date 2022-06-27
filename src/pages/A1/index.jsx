@@ -132,62 +132,40 @@ class A1 extends React.Component{
                 id="basic-nav-dropdown"
                 style={{marginRight:"20px"}}
               >
-                 <Button
-                    variant="light"
-                  style={{
-                    textDecoration: "none",
-                    marginRight: "20px",
-                    width: "100%",
-                  }}
+                 <NavDropdown.Item
+               
                     id="A3_Test"
                     onClick={()=>{
                       this.handle(<BSTTEST />);
                     }}
                   >
                     BST Test
-                  </Button>
-                  <Button
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
                     onClick={()=>{
                       this.handle(<AVLTEST />);
                     }}
-                    variant="light"
-                  style={{
-                    textDecoration: "none",
-                    marginRight: "20px",
-                    width: "100%",
-                  }}
+                  
                     id="A3_Test"
                   >
                     AVL Test
-                  </Button>
-                  <Button
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
                      onClick={()=>{
                       this.handle(<RBTTEST />);
-                    }}
-                    variant="light"
-                    style={{
-                      textDecoration: "none",
-                      marginRight: "20px",
-                      width: "100%",
-                    }}
+                    }}                   
                     id="A3_Test"
                   >
                     RBT Test
-                  </Button>
-                   <Button
+                  </NavDropdown.Item>
+                   <NavDropdown.Item
                     onClick={()=>{
                       this.handle(<MIXEDTEST />);
-                    }}
-                    variant="light"
-                    style={{
-                      textDecoration: "none",
-                      marginRight: "20px",
-                      width: "100%",
                     }}
                     id="A3_Test"
                   >
                     Mixed Test
-                  </Button>
+                  </NavDropdown.Item>
                   </NavDropdown>
                   <Button
                     variant="outline-dark"
@@ -212,11 +190,7 @@ class A1 extends React.Component{
                     marginRight: "20px",
                   }}
                 >
-                  <img
-                    src="https://img.icons8.com/ios/50/000000/user--v2.png"
-                    id="307"
-                    alt="Profile"
-                  />
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEpElEQVR4nO2bbYhVRRjHf9fdjWXR0lxRaTPfwkwJV8TCSnRVVKywNEIlXfSLoJUGWRSIvXwoiEgTUlcRFdECe0XUb75QoSAqlIjWaopaJqLoqtvL3j485/DM2Ze795x7ZmZd7w8ue++cOfP8Z86cmWeemYUiRYrczWQ82OwOvAIMB34DNgR/7wp6AKeArPH5F9gGjPCoyxkfoBU/AzQZv5uAXcA4b+ocsBOp7C/I6zcc2AL8Q7RX/ARMB7r4kWmPtUgFrwPlRvpDwCqggWhDHAdqgXvcyrTH82jlnm3leiWwArhMtCEuBun3uZFpjwr0Ka/Pka8r8BpwlmhDXANWAn3tyrTLN0hl/gJK28lbBsxFxgyzIW4Dm4HB9mTaoxatyNg87+mCvDI/Em2Iv5GGGJa+THv0REf9TxLcPx7YTbQhmpCe9XBKGq3yGHAJEf5rAeVUA9sRRypsiCvA0EIF2qI3sI6o4JMplDsIqEOdqp0plJkqGWAxMoKb7u8G4IEU7awPym4ESlIstyB6Ad8TfVd3YKebfow2bpmF8mMzDriAVv4sMMmSrQrgz8DOD5ZsxGIGcAut/JfA/RbtLTZsvWTRTl4sBf5D38d5lu2VAvXorOL1/X+H6JTkYmk7x7C50IG9NqlFp6JzwCMObGaAY+iCqTx3dnvUIN09i6zkHnVk9xn06b/pyGYL+gNX0XX+4w5t70NXiV6WyiXAfnSOn+7Q9hj06X/o0G6Etw0Rnzm2/R26NPYSHxiIvvdHcTsADUMH3DUO7UbYinb9UY5tb0LdXi9BkWrU2dmaUpmDkNXiHqAqR75+SCAkC3yRku3YfB0IuIVEdAuhP/JEzdD45znyf2rkG1mg7UT0QcXWFVBOBfAucJNodCcL3EC20JpTGVzLIj3FC8tQoaMTllEDnDbKaUJ6lbmoWdrKfSuM6zUJbRfMcXTkj0sFEtY2t8QOA08E1zPAiSD9FNGdoa7ofsHBJMLToAoVvizmvQNQvz30Gl+l5erN7AXTjPQlRvoLcYWnxSxDRByX9yngD+PeQ7Qdwe2Guta7g7Qy4Pcg7QQe9wxXByIayH+/biY6bWWR0FV7IatV6NgwHnjduH9BbNUpciAQsS/P/LPRGaMRmJ/nfYMRF7f57HAGzxul4ci9MY+8M9AQeAMwMaatBUR7zhXgyZhlpEoGfSrvtZN3BDpf30C6cRIGIg0xF/EBvFKOPo23cuSrRLpq6KtPtS/NDSVoA7yRI9+mPPPdkYQD2vttXK9BnZxvXYlyyUWkcutauZYBfkadnAcd6nJGGIPb28q1iXSAAKVt6pAKXqXlIcuvyL2S6xTMR59ytZF+Lzo+rPWgKzFxfepdSCUhesrrafS8T4fbn0+bI+iiJHwNzC2xO+oEV5JVVegGDwEmBN/DGN5lZKbo1HRDT3uEi6LQ+bnkS1RSkvSA62gvGIu4uo3B7/bO/XUaeqDhqXrgI3T93tOjLqeYoat64/tzPkW5pBQNkJif1T5FuaYKOfPbPKbvfe3ukim0/IeH5V4VeeBldK8wC5ynAx1WdMUiNBZwm070Xx5xmIwcX3/Rt5AiRYoUyYf/Afajg+opGChMAAAAAElFTkSuQmCC"/>
                 </Link>
               </Nav>
             </Container>
