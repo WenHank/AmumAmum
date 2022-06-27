@@ -173,7 +173,9 @@ const SelfInfo = ({ Logout, UserToken }) => {
     Class_A3.style.visibility = "hidden";
   };
 
-  const goCheck = () => {};
+  const goCheck = () => {
+    Refresh("/AdminGrade")
+  };
   return (
     <>
       <div className="PasswordChange" id="PasswordChangeDiv">
@@ -471,27 +473,16 @@ const SelfInfo = ({ Logout, UserToken }) => {
           >
             登出
           </Button>
-          <Button
-            variant="contained"
-            style={{
-              display: UserData.Access === "4" ? "flex" : "none",
-              marginLeft: "1em",
-              marginTop: "1em",
-              height: "1.5em",
-              fontSize: "1em",
-              backgroundColor: "black",
-            }}
-            onClick={goCheck}
-          >
-            查看成績
-          </Button>
         </div>
         <div className="Classroom" style={{ userSelect: "none" }}>
           <div className="GoStudy" onClick={goStudy}>
             進入課程
           </div>
-          <div className="GoCheck" onClick={goCheck}>
-            成績
+          <div className="GoCheck" style={{
+              display: UserData.Access === "Admin" ? "flex" : "none",
+              justifyContent:"center",
+            }} onClick={goCheck}>
+            查看成績
           </div>
         </div>
       </div>

@@ -13,9 +13,8 @@ import {
   Legend,
   RadialLinearScale,
   ArcElement,
-  RadarController,
 } from "chart.js";
-import { Line, PolarArea, Radar } from "react-chartjs-2";
+import { Line, Radar } from "react-chartjs-2";
 import axios from "axios";
 import Papa from "papaparse";
 ChartJS.register(
@@ -39,9 +38,7 @@ let labels = [];
 for (let i = 0; i < 10; i++) {
   labels[i] = "第" + (i + 1) + "次";
 }
-function getRandom(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+
 let datalinebsteasy;
 let datalineavleasy;
 let datalinerbteasy;
@@ -51,6 +48,10 @@ let datalinerbtmedium;
 let datalinebsthard;
 let datalineavlhard;
 let datalinerbthard;
+let googledataBSTAnsType;
+let googledataAVLAnsType;
+let googledataRBTAnsType;
+let googledataMIXEDAnsType;
 let color = [
   "rgb(255, 99, 132)",
   "rgb(54, 162, 235)",
@@ -133,10 +134,6 @@ export default function Grade(props) {
   const [minerbtmediumranking, setmineRbtmediumranking] = useState("XX");
   const [minerbthardranking, setmineRbthardranking] = useState("XX");
 
-  const [googledataMixed, setGoogledataMixed] = useState({});
-  const [googledataBST, setGoogledataBST] = useState({});
-  const [googledataAVL, setGoogledataAVL] = useState({});
-  const [googledataRBT, setGoogledataRBT] = useState({});
   const [radarDataBST, setRadarDataBST] = useState(radarData);
   const [radarDataAVL, setRadarDataAVL] = useState(radarData);
   const [radarDataRBT, setRadarDataRBT] = useState(radarData);
@@ -167,7 +164,7 @@ export default function Grade(props) {
   for (let i = 0; i < maxlength; i++) {
     labels[i] = "第" + (i + 1) + "次";
   }
-  let sID = "1082015";
+  let sID;
 
   useEffect(async () => {
     await axios({
@@ -181,6 +178,7 @@ export default function Grade(props) {
       setUserData(response.data);
       sID = response.data.StudentId;
       if (props.StudentId !== undefined) {
+        console.log(props.StudentId);
         sID = props.StudentId;
         axios({
           method: "POST",
@@ -193,6 +191,47 @@ export default function Grade(props) {
           setUserData(response.data);
         });
       }
+    });
+    //Google sheet AnsType
+    await axios({
+      method: "POST",
+      data: {
+        MajorAndType: "BST",
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
+    }).then((response) => {
+      googledataBSTAnsType = response.data.AnsType;
+    });
+    await axios({
+      method: "POST",
+      data: {
+        MajorAndType: "AVL",
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
+    }).then((response) => {
+      googledataAVLAnsType = response.data.AnsType;
+    });
+    await axios({
+      method: "POST",
+      data: {
+        MajorAndType: "RBT",
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
+    }).then((response) => {
+      googledataRBTAnsType = response.data.AnsType;
+    });
+    await axios({
+      method: "POST",
+      data: {
+        MajorAndType: "MIXED",
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
+    }).then((response) => {
+      googledataMIXEDAnsType = response.data.AnsType;
     });
     //BST AVL RBT EASYINFO
     await axios({
@@ -1262,7 +1301,7 @@ export default function Grade(props) {
     let tmpgooglesheetdataAVL;
     let tmpgooglesheetdataRBT;
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRm8diVHMoMfZLM_YYP7LR3GjPB6SN6Qwymuq3mXPog7ItJLRPusEB63uc-eTwOoiJnltpPkCQK7ZZk/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vS5yah5_63sKWfdENHdEHxc_R4VDsiF5DnSbU9giVrPY0692wua_vZy92QZdKYaSxuADJ2sQctF1q2r/pub?output=csv",
       {
         download: true,
         header: true,
@@ -1280,37 +1319,35 @@ export default function Grade(props) {
               if (tmpgooglesheetdataMixed[i].學號 === sID) {
                 let user = tmpgooglesheetdataMixed[i];
                 let ansValues = Object.values(ans);
-                let ansKeys = Object.keys(ans);
                 let userValues = Object.values(user);
-                // console.log(ans);
-                console.log(ansValues);
-                // console.log(ansKeys);
-                // console.log(userValues);
                 for (let i = 5; i < ansValues.length; i++) {
                   if (ansValues[i] === userValues[i]) {
-                    if (ansKeys[i][0] === "K") {
+                    if (
+                      i > parseInt(googledataMIXEDAnsType[0]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[1])
+                    ) {
                       knowledge += 10;
-                    }
-                    if (ansKeys[i][0] === "D") {
+                    } else if (
+                      i > parseInt(googledataMIXEDAnsType[1]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[2])
+                    ) {
                       decision += 10;
-                    }
-                    if (ansKeys[i][0] === "A") {
+                    } else if (
+                      i > parseInt(googledataMIXEDAnsType[2]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[3])
+                    ) {
                       analysis += 10;
                     }
                   }
                 }
                 let tmptotal = 20;
-                console.log(userValues[1].length);
                 if (userValues[1].length === 9) {
                   tmptotal += parseInt(userValues[1][0]) * 100;
                   tmptotal += parseInt(userValues[1][1]) * 10;
                   tmptotal += parseInt(userValues[1][2]);
-                  console.log(tmptotal);
                 } else {
                   tmptotal += parseInt(userValues[1][0]) * 10;
-                  console.log(tmptotal);
                   tmptotal += parseInt(userValues[1][1]);
-                  console.log(tmptotal);
                 }
                 total = tmptotal;
                 let tmp = {
@@ -1333,26 +1370,23 @@ export default function Grade(props) {
               datasets: tmpdatasets,
             };
             setRadarDataMixed(radarData);
-            setGoogledataMixed(results.data);
             const tmpGoogleSheet = {
               MajorAndType: "MIXED",
               Grades: tmpgooglesheetdataMixed,
+              AnsType: googledataMIXEDAnsType,
             };
-            console.log(tmpGoogleSheet);
             axios
               .post(
                 process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES,
                 tmpGoogleSheet
               )
-              .then((response) => {
-                console.log(response);
-              });
+              .then((response) => {});
           }
         },
       }
     );
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTh2iDXz07-oaE4nbrRc6MKhTRVnOROeboH8mGKlyvq_TGxMHZ-4rnPOIQaymdi_pgyt4764BXsFuAR/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYGNRHQJDBDO6xom25zo-1t5ZeXE0Ib_N6xJLbpCcIHq5GWKSwPZTerWv8nut_yXP-H6Sw50y0tTm0/pub?output=csv",
       {
         download: true,
         header: true,
@@ -1370,37 +1404,35 @@ export default function Grade(props) {
               if (tmpgooglesheetdataBST[i].學號 === sID) {
                 let user = tmpgooglesheetdataBST[i];
                 let ansValues = Object.values(ans);
-                let ansKeys = Object.keys(ans);
                 let userValues = Object.values(user);
-                // console.log(ans);
-                console.log(ansValues);
-                // console.log(ansKeys);
-                // console.log(userValues);
                 for (let i = 5; i < ansValues.length; i++) {
                   if (ansValues[i] === userValues[i]) {
-                    if (ansKeys[i][0] === "K") {
+                    if (
+                      i > parseInt(googledataMIXEDAnsType[0]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[1])
+                    ) {
                       knowledge += 10;
-                    }
-                    if (ansKeys[i][0] === "D") {
+                    } else if (
+                      i > parseInt(googledataMIXEDAnsType[1]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[2])
+                    ) {
                       decision += 10;
-                    }
-                    if (ansKeys[i][0] === "A") {
+                    } else if (
+                      i > parseInt(googledataMIXEDAnsType[2]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[3])
+                    ) {
                       analysis += 10;
                     }
                   }
                 }
                 let tmptotal = 20;
-                console.log(userValues[1].length);
                 if (userValues[1].length === 9) {
                   tmptotal += parseInt(userValues[1][0]) * 100;
                   tmptotal += parseInt(userValues[1][1]) * 10;
                   tmptotal += parseInt(userValues[1][2]);
-                  console.log(tmptotal);
                 } else {
                   tmptotal += parseInt(userValues[1][0]) * 10;
-                  console.log(tmptotal);
                   tmptotal += parseInt(userValues[1][1]);
-                  console.log(tmptotal);
                 }
                 total = tmptotal;
                 let tmp = {
@@ -1423,26 +1455,23 @@ export default function Grade(props) {
               datasets: tmpdatasets,
             };
             setRadarDataBST(radarData);
-            setGoogledataBST(results.data);
             const tmpGoogleSheet = {
               MajorAndType: "BST",
               Grades: tmpgooglesheetdataBST,
+              AnsType: googledataBSTAnsType,
             };
-            console.log(tmpGoogleSheet);
             axios
               .post(
                 process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES,
                 tmpGoogleSheet
               )
-              .then((response) => {
-                console.log(response);
-              });
+              .then((response) => {});
           }
         },
       }
     );
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTU3YJaVPUUmij5OYgSAV1ZFswhIU_8kZS448L8QhrkJ9frCOu2l3QbvbFfXoj4py4XQ_VbOy_NN8GU/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCwbyVQb9sclPQ_OOg07K2_i3QHmH5T2dWLVOVg8i6pSjW93P26dBtOuw2J0iOYb8H_z-dUC-P_nJ3/pub?output=csv",
       {
         download: true,
         header: true,
@@ -1460,21 +1489,23 @@ export default function Grade(props) {
               if (tmpgooglesheetdataAVL[i].學號 === sID) {
                 let user = tmpgooglesheetdataAVL[i];
                 let ansValues = Object.values(ans);
-                let ansKeys = Object.keys(ans);
                 let userValues = Object.values(user);
-                // console.log(ans);
-                // console.log(ansValues);
-                // console.log(ansKeys);
-                console.log(userValues);
                 for (let i = 5; i < ansValues.length; i++) {
                   if (ansValues[i] === userValues[i]) {
-                    if (ansKeys[i][0] === "K") {
+                    if (
+                      i > parseInt(googledataMIXEDAnsType[0]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[1])
+                    ) {
                       knowledge += 10;
-                    }
-                    if (ansKeys[i][0] === "D") {
+                    } else if (
+                      i > parseInt(googledataMIXEDAnsType[1]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[2])
+                    ) {
                       decision += 10;
-                    }
-                    if (ansKeys[i][0] === "A") {
+                    } else if (
+                      i > parseInt(googledataMIXEDAnsType[2]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[3])
+                    ) {
                       analysis += 10;
                     }
                   }
@@ -1484,12 +1515,9 @@ export default function Grade(props) {
                   tmptotal += parseInt(userValues[1][0]) * 100;
                   tmptotal += parseInt(userValues[1][1]) * 10;
                   tmptotal += parseInt(userValues[1][2]);
-                  console.log(tmptotal);
                 } else {
                   tmptotal += parseInt(userValues[1][0]) * 10;
-                  console.log(tmptotal);
                   tmptotal += parseInt(userValues[1][1]);
-                  console.log(tmptotal);
                 }
                 total = tmptotal;
                 let tmp = {
@@ -1512,26 +1540,23 @@ export default function Grade(props) {
               datasets: tmpdatasets,
             };
             setRadarDataAVL(radarData);
-            setGoogledataAVL(results.data);
             const tmpGoogleSheet = {
               MajorAndType: "AVL",
               Grades: tmpgooglesheetdataAVL,
+              AnsType: googledataAVLAnsType,
             };
-            console.log(tmpGoogleSheet);
             axios
               .post(
                 process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES,
                 tmpGoogleSheet
               )
-              .then((response) => {
-                console.log(response);
-              });
+              .then((response) => {});
           }
         },
       }
     );
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRDsNKG1JDZGxEFdHNrvo2AOVpOW2cqq6h2N2dsma19Clwce9yg-RvH6jETqmFc3so_5YNSrsugISOb/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNFLfg530gdTlL_quU5pXIsMeSGE39YgNoBcYuxU49lZSjeUGbHafW2E7q4g0u4cs9lR6jeomIl-eN/pub?output=csv",
       {
         download: true,
         header: true,
@@ -1551,20 +1576,22 @@ export default function Grade(props) {
                 let ansValues = Object.values(ans);
                 let ansKeys = Object.keys(ans);
                 let userValues = Object.values(user);
-                // console.log(ans);
-                console.log(ansValues);
-                // console.log(ansKeys);
-                // console.log(userValues);
                 for (let i = 5; i < ansValues.length; i++) {
-                  console.log(ansKeys[i][0]);
                   if (ansValues[i] === userValues[i]) {
-                    if (ansKeys[i][0] === "K") {
+                    if (
+                      i > parseInt(googledataMIXEDAnsType[0]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[1])
+                    ) {
                       knowledge += 10;
-                    }
-                    if (ansKeys[i][0] === "D") {
+                    } else if (
+                      i > parseInt(googledataMIXEDAnsType[1]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[2])
+                    ) {
                       decision += 10;
-                    }
-                    if (ansKeys[i][0] === "A") {
+                    } else if (
+                      i > parseInt(googledataMIXEDAnsType[2]) - 1 &&
+                      i < parseInt(googledataMIXEDAnsType[3])
+                    ) {
                       analysis += 10;
                     }
                   }
@@ -1599,20 +1626,17 @@ export default function Grade(props) {
               datasets: tmpdatasets,
             };
             setRadarDataRBT(radarData);
-            setGoogledataRBT(results.data);
             const tmpGoogleSheet = {
               MajorAndType: "RBT",
               Grades: tmpgooglesheetdataRBT,
+              AnsType: googledataRBTAnsType,
             };
-            console.log(tmpGoogleSheet);
             axios
               .post(
                 process.env.REACT_APP_AXIOS_GOOGLESHEETGRADES,
                 tmpGoogleSheet
               )
-              .then((response) => {
-                console.log(response);
-              });
+              .then((response) => {});
           }
         },
       }
@@ -3262,8 +3286,8 @@ export default function Grade(props) {
     }
   }
   function RadarChart(params) {
-    const [rendertype, setRendertype] = useState(4);
-    const [typechecked, setTypechecked] = useState(4);
+    const [rendertype, setRendertype] = useState(1);
+    const [typechecked, setTypechecked] = useState(1);
     if (rendertype === 1) {
       return (
         <Tilt className="polar" options={options}>

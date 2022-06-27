@@ -14,28 +14,28 @@ import Note from "./components/Note";
 function BSTTEST(params) {
   return(
     <div className="testContainer">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfQiQz29af9rDxC0XJw65MTlgGa0ARVTRVYK8L6I95IQZv8Hw/viewform?embedded=true" width="640" height="4091" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfQiQz29af9rDxC0XJw65MTlgGa0ARVTRVYK8L6I95IQZv8Hw/viewform?embedded=true" width="640" height="4556" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
     </div>
   )
 }
 function AVLTEST(params) {
   return(
     <div className="testContainer">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeOS0jLLO6VG-Gb9XUJ73rMhr8qBBk5DoCj3XmdSJVxbWA1Yw/viewform?embedded=true" width="640" height="4091" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeOS0jLLO6VG-Gb9XUJ73rMhr8qBBk5DoCj3XmdSJVxbWA1Yw/viewform?embedded=true" width="640" height="4556" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
     </div>
   )
 }
 function RBTTEST(params) {
   return(
     <div className="testContainer">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd6BogVec0_Fnkit5c-oZOiTzXn8e7480LzbM-cdezgeOMi8g/viewform?embedded=true" width="640" height="4091" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd6BogVec0_Fnkit5c-oZOiTzXn8e7480LzbM-cdezgeOMi8g/viewform?embedded=true" width="640" height="4556" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
     </div>
   )
 }
 function MIXEDTEST(params) {
   return(
     <div className="testContainer">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd6e6BWDc7ePfG_5hgO3SzLOq6at3_WawwnGlIjkQdQgu9rtg/viewform?embedded=true" width="640" height="4091" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd6e6BWDc7ePfG_5hgO3SzLOq6at3_WawwnGlIjkQdQgu9rtg/viewform?embedded=true" width="640" height="4556" frameBorder="0" marginHeight="0" marginWidth="0">載入中…</iframe>
     </div>
   )
 }
@@ -401,62 +401,40 @@ class A3 extends React.Component {
                 id="basic-nav-dropdown"
                 style={{marginRight:"20px"}}
               >
-                 <Button
-                    variant="light"
-                  style={{
-                    textDecoration: "none",
-                    marginRight: "20px",
-                    width: "100%",
-                  }}
+                 <NavDropdown.Item
+               
                     id="A3_Test"
                     onClick={()=>{
                       this.handle(<BSTTEST />);
                     }}
                   >
                     BST Test
-                  </Button>
-                  <Button
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
                     onClick={()=>{
                       this.handle(<AVLTEST />);
                     }}
-                    variant="light"
-                  style={{
-                    textDecoration: "none",
-                    marginRight: "20px",
-                    width: "100%",
-                  }}
+                  
                     id="A3_Test"
                   >
                     AVL Test
-                  </Button>
-                  <Button
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
                      onClick={()=>{
                       this.handle(<RBTTEST />);
-                    }}
-                    variant="light"
-                    style={{
-                      textDecoration: "none",
-                      marginRight: "20px",
-                      width: "100%",
-                    }}
+                    }}                   
                     id="A3_Test"
                   >
                     RBT Test
-                  </Button>
-                   <Button
+                  </NavDropdown.Item>
+                   <NavDropdown.Item
                     onClick={()=>{
                       this.handle(<MIXEDTEST />);
-                    }}
-                    variant="light"
-                    style={{
-                      textDecoration: "none",
-                      marginRight: "20px",
-                      width: "100%",
                     }}
                     id="A3_Test"
                   >
                     Mixed Test
-                  </Button>
+                  </NavDropdown.Item>
                   </NavDropdown>
                  
                   <Button
