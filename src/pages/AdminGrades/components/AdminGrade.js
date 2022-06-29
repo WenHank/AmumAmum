@@ -65,7 +65,6 @@ function AdminGrade() {
                   checked={checked === key}
                   onClick={() => {
                     let tmp = Member[key].StudentId.toString();
-                    console.log(Member[key].StudentId.toString());
                     setSearchID(tmp);
                     setChecked(key);
                     setSearching(0);

@@ -1001,6 +1001,13 @@ svg {
 }
 /****************************************************************/
 /*************************AboutUs*********************************/
+.AnoutUscontainerThePlan{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 800px;
+  text-align: left;
+}
 .AnoutUscontainer{
   display: flex;
   justify-content: center;
@@ -1022,17 +1029,18 @@ svg {
   margin-right: 20px;
   box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;;
   border-radius: 15px;
-  padding: 20px;
+  padding: 10px 20px;
   display: flex;
   position: relative;    
   display: inline-block;
   width: 20rem;
 }
 .card-text{
-  color: darkgrey;
+  color: #6e6d6d;
 }
 .card-img-top{
   border-radius: 15px;
+  height: 200px;
 }
 .contactImg img{
   margin-right: 5px;
@@ -1046,10 +1054,10 @@ svg {
 }
 .aboutusButton{
   width: 150px;
-  margin-right: 20px;
+  margin-right: 15px;
 }
 .AboutUsChildContainer{
-  margin-top: 65px;
+  margin-top: 15px;
   display: flex;
   justify-content: center;
   text-align: left;
@@ -1167,7 +1175,7 @@ svg {
   font-size: 30px;
   line-height: 400px;
 }
-@media screen and (max-width:1920px) {
+@media screen and (min-width:1920px) {
   .ChooseClass{
     left: 23%;
   }

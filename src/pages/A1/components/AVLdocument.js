@@ -501,7 +501,6 @@ function AVLdocument() {
             onClick={() => {
               if (page > 1) {
                 setPage(page - 1);
-                console.log(page);
               }
             }}
           >
@@ -512,7 +511,6 @@ function AVLdocument() {
             onClick={() => {
               if (page < 13) {
                 setPage(page + 1);
-                console.log(page);
               }
             }}
           >

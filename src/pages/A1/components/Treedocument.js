@@ -94,7 +94,6 @@ function Treedocument() {
             onClick={() => {
               if (page > 1) {
                 setPage(page - 1);
-                console.log(page);
               }
             }}
           >
@@ -105,7 +104,6 @@ function Treedocument() {
             onClick={() => {
               if (page < 8) {
                 setPage(page + 1);
-                console.log(page);
               }
             }}
           >

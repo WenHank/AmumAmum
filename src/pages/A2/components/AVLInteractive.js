@@ -304,11 +304,9 @@ function AVLinteractive() {
                         let b = document
                           .getElementById(i.toString())
                           .getElementsByClassName("theItem");
-                        console.log(b);
                         if (b.length > 1 || b.length === 0) {
                           correctS.style.visibility = "hidden";
                           wrongS.style.visibility = "visible";
-                          console.log(1);
                           break;
                         } else {
                           ans.push(b[0].innerText);
@@ -318,24 +316,19 @@ function AVLinteractive() {
                     catchItems();
                   }
                   check();
-                  console.log(ans);
                   if (ans.length === 7) {
                     for (let i = 0; i < 6; i++) {
                       if (ans[i] > ans[i + 1]) {
-                        console.log(ans[i]);
                         correctS.style.visibility = "hidden";
                         wrongS.style.visibility = "visible";
-                        console.log(2);
                         break;
                       } else {
                         flag++;
                       }
                     }
-                    console.log(flag);
                   } else {
                     correctS.style.visibility = "hidden";
                     wrongS.style.visibility = "visible";
-                    console.log(3);
                   }
                   if (flag === 6) {
                     correctS.style.visibility = "visible";
