@@ -176,8 +176,12 @@ const SelfInfo = ({ Logout, UserToken }) => {
   const goCheck = () => {
     Refresh("/AdminGrade")
   };
+  const goAboutUs = () =>{
+    Refresh("/Aboutus")
+  }
   return (
     <>
+      <img className="developer" src="./Img/developer.gif" onClick={goAboutUs}/>
       <div className="PasswordChange" id="PasswordChangeDiv">
         <h3 className="PasswordChange_Title">修改密碼</h3>
         <div className="PasswordLine">

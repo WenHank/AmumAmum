@@ -199,7 +199,7 @@ const Kanban = () => {
                       height:
                         index === 7
                           ? "570px"
-                          : `${(column.items.length - 1) * 65 + 120}px`,
+                          : `${column.items.length * 30 + 120}px`,
                       position: "relative",
                       top: `${Treestyle[index]}`,
                       marginLeft: "10px",

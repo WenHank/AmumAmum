@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Error from "./pages/Error";
 import AdminGrades from "./pages/AdminGrades";
+import AboutUs from "./pages/AboutUs";
 import axios from "axios";
 DialogflowSetting();
 
@@ -132,6 +133,7 @@ const Container = () => {
             element={<Profile Logout={SetLogout} UserToken={userData} />}
           />
           <Route path="/Grade" element={<A1 UserToken={userData} />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
           {userAccess === "1" && (
             <Route path="/A1" element={<A1 UserToken={userData} />} />
           )}

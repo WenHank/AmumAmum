@@ -228,66 +228,6 @@ svg {
   position: relative;
   min-height: 80vh;
 }
-/* .home{
-  width: 100%;
-  left: 20%;
-  display: flex;
-  position: relative;
-}
-@media screen and (max-width:1440px) {
-  .home{
-    width: 100%;
-    left: 6%;
-    display: flex;
-    position: relative;
-  }
-}
-h2 {
-  margin-top: 200px;
-  position: relative;
-  font-size: 5rem;
-  color: rgb(115, 165, 172);
-  text-transform: uppercase;
-  width: 80%;
-  text-align: center;
-  -webkit-box-reflect: below -42px linear-gradient(transparent, #0004);
-  display: flex;
-  flex-direction: row;
-}
-h2 span {
-  animation: animate 5s linear infinite;
-}
-h2 span:nth-child(even) {
-  animation-delay: 0.4s;
-}
-@keyframes animate {
-  0%,
-  18%,
-  20%,
-  50.1%,
-  60%,
-  65.1%,
-  80%,
-  90.1%,
-  92% {
-    color: #0e3742;
-    text-shadow: none;
-  }
-  18.1%,
-  20.1%,
-  30%,
-  50%,
-  60.1%,
-  65%,
-  80.1%,
-  90%,
-  92.1%,
-  100% {
-    color: wheat;
-    text-shadow: 0 0 10px #76c8df, 0 0 20px #76c8df, 0 0 40px #76c8df,
-      0 0 80px #76c8df, 0 0 160px #76c8df, 0 0 400px #76c8df;
-  }
-} */
 /****************************************************************/
 /*************************A2_Tree********************************/
 .tree {
@@ -1060,6 +1000,62 @@ h2 span:nth-child(even) {
   margin-top:20px;
 }
 /****************************************************************/
+/*************************AboutUs*********************************/
+.AnoutUscontainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.sgroup{
+  display: flex;
+  flex-direction: row;
+}
+.Card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+.card{
+  margin-bottom: 20px;
+  margin-right: 20px;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;;
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  position: relative;    
+  display: inline-block;
+  width: 20rem;
+}
+.card-text{
+  color: darkgrey;
+}
+.card-img-top{
+  border-radius: 15px;
+}
+.contactImg img{
+  margin-right: 5px;
+}
+.developer{
+  width: 40px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  cursor: pointer;
+}
+.aboutusButton{
+  width: 150px;
+  margin-right: 20px;
+}
+.AboutUsChildContainer{
+  margin-top: 65px;
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  flex-direction: column;
+}
+/****************************************************************/
 /*************************Profile*********************************/
 .ProfileTitle {
   font-size: 5em;
@@ -1137,6 +1133,7 @@ h2 span:nth-child(even) {
   border: 1px solid #424141;
   border-radius: 20px 20px;
 }
+
 .PasswordChange_Title,
 .EmailChange_Title,
 .ChooseClass_Title {
@@ -1169,6 +1166,11 @@ h2 span:nth-child(even) {
   text-align: center;
   font-size: 30px;
   line-height: 400px;
+}
+@media screen and (max-width:1920px) {
+  .ChooseClass{
+    left: 23%;
+  }
 }
 .ChooseClassBox_DIV:hover {
   /* transition-duration: .5s; */
