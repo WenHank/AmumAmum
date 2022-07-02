@@ -1,55 +1,17 @@
 import React from "react";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, ToggleButton } from "react-bootstrap";
 
-function Showpdf() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDoucumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-    setPageNumber(1);
-  }
-  function changePage(offset) {
-    setPageNumber((prePageNumber) => prePageNumber + offset);
-  }
-  function changePageBack() {
-    changePage(-1);
-  }
-  function changePageNext() {
-    changePage(+1);
-  }
-  return (
-    <div className="pdfcontainer">
-      <Document file="/AVL.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
-        <Page height="1000" pageNumber={pageNumber} />
-      </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {pageNumber > 1 && (
-          <Button variant="outline-dark" onClick={changePageBack}>
-            Previous Page
-          </Button>
-        )}
-        {pageNumber < numPages && (
-          <Button variant="outline-dark" onClick={changePageNext}>
-            Next Page
-          </Button>
-        )}
-      </div>
-    </div>
-  );
+let pageArr = [];
+for (let i = 0; i < 13; i++) {
+  pageArr[i] = i;
 }
-
 function AVLdocument() {
-  const [page, setPage] = useState(1);
-
+  const [page, setPage] = useState(0);
+  const [checked, setChecked] = useState(0);
   function Showdocument(params) {
     switch (page) {
-      case 1:
+      case 0:
         return (
           <div>
             <label className="titlePDF">Adelson-Velsky and Landis Tree</label>
@@ -70,7 +32,6 @@ function AVLdocument() {
             <p>
               我們可以先將資料建成 AVL Tree，之後如果需要資料時，即可透透過此
               AVL Tree 快速找到我們想要的資料，
-              <br />
               以降低我們查詢資料的時間，另外可以對他進 行增加和刪除的動作。
             </p>
             <label className="subtitle">操作：</label>
@@ -88,7 +49,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 2:
+      case 1:
         return (
           <div>
             <label className="secSubtitle">搜尋(二)</label>
@@ -106,12 +67,10 @@ function AVLdocument() {
             <p>
               基於搜尋的規則，先找到適合插入的位置，之後再判斷是否要『旋轉』，旋轉是
               為了要達到平衡化，
-              <br />
               <span className="red">
                 平衡的意思是左子樹的高度和右子樹的高度只能差 1
               </span>
-              ， <br />
-              請看下圖所示 <br />
+              ， 請看下圖所示 <br />
               圖中的左子樹高度為 2，右子樹高度為 1，兩著相差為 1，故為 AVL
             </p>
             <div>
@@ -126,7 +85,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 3:
+      case 2:
         return (
           <div>
             <p>
@@ -166,7 +125,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 4:
+      case 3:
         return (
           <div>
             <label className="secSubtitle">插入(RR 旋轉)</label>
@@ -201,7 +160,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 5:
+      case 4:
         return (
           <div>
             <label className="secSubtitle">插入(LR 旋轉)</label>
@@ -235,7 +194,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 6:
+      case 5:
         return (
           <div>
             <label className="secSubtitle">插入(RL 旋轉)</label>
@@ -276,7 +235,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 7:
+      case 6:
         return (
           <div>
             <label className="secSubtitle">移除(規則)</label>
@@ -299,7 +258,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 8:
+      case 7:
         return (
           <div>
             <p>
@@ -319,7 +278,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 9:
+      case 8:
         return (
           <div>
             <label className="secSubtitle">建立一顆自平衡二元搜尋樹</label>
@@ -341,16 +300,14 @@ function AVLdocument() {
               第四步：54 比 35 大，往 35 的右子樹放
               <b />
               第五步：68 比 35 大，68 比 54 大，
-              <br />往 54 的右子樹放，但造成 35 的不平衡
-              <br />
-              &#9;要做 RR 旋轉
+              <br />往 54 的右子樹放，但造成 35 的不平衡，要做 RR 旋轉
             </pre>
             <div className="center">
               <img src="./img/AVL/pic_17.png" alt="" width="60%" />
             </div>
           </div>
         );
-      case 10:
+      case 9:
         return (
           <div>
             <label className="secSubtitle">中序</label>
@@ -390,7 +347,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 11:
+      case 10:
         return (
           <div>
             <label className="secSubtitle">前序</label>
@@ -421,7 +378,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 12:
+      case 11:
         return (
           <div>
             <label className="secSubtitle">後序</label>
@@ -459,7 +416,7 @@ function AVLdocument() {
             </div>
           </div>
         );
-      case 13:
+      case 12:
         return (
           <div>
             <label className="subtitle">實際應用:</label>
@@ -495,22 +452,49 @@ function AVLdocument() {
     <div className="A1">
       <div className="showPDF">
         <Showdocument />
-        <div style={{ display: "flex", flexDuraction: "row" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDuraction: "row",
+            alignItems: "center",
+          }}
+        >
           <Button
             variant="outline-dark"
             onClick={() => {
-              if (page > 1) {
+              if (page > 0) {
                 setPage(page - 1);
+                setChecked(page - 1);
               }
             }}
           >
             Prev
           </Button>
+          {pageArr.map((val, key) => {
+            return (
+              <div key={pageArr[key]}>
+                <ToggleButton
+                  className="pageButton"
+                  variant="outline-dark"
+                  type="checkbox"
+                  checked={checked === key}
+                  onClick={() => {
+                    setChecked(key);
+                    setPage(pageArr[key]);
+                  }}
+                >
+                  {pageArr[key] + 1}
+                </ToggleButton>
+              </div>
+            );
+          })}
           <Button
             variant="outline-dark"
+            style={{ marginLeft: "10px" }}
             onClick={() => {
-              if (page < 13) {
+              if (page < 12) {
                 setPage(page + 1);
+                setChecked(page + 1);
               }
             }}
           >

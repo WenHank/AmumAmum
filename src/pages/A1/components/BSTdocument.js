@@ -1,13 +1,18 @@
 import React from "react";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, ToggleButton } from "react-bootstrap";
+
+let pageArr = [];
+for (let i = 0; i < 8; i++) {
+  pageArr[i] = i;
+}
 
 function BSTdocument() {
-  const [page, setPage] = useState(1);
-
+  const [page, setPage] = useState(0);
+  const [checked, setChecked] = useState(0);
   function Showdocument(params) {
     switch (page) {
-      case 1:
+      case 0:
         return (
           <div>
             <label className="titlePDF">Binary Search Tree</label>
@@ -42,7 +47,7 @@ function BSTdocument() {
             </div>
           </div>
         );
-      case 2:
+      case 1:
         return (
           <div>
             <label className="secSubtitle">搜尋(二)</label>
@@ -72,7 +77,7 @@ function BSTdocument() {
             </div>
           </div>
         );
-      case 3:
+      case 2:
         return (
           <div>
             <label className="secSubtitle">移除</label>
@@ -109,7 +114,7 @@ function BSTdocument() {
             </div>
           </div>
         );
-      case 4:
+      case 3:
         return (
           <div>
             <label className="secSubtitle">建立一顆二元搜尋樹</label>
@@ -135,7 +140,7 @@ function BSTdocument() {
             </div>
           </div>
         );
-      case 5:
+      case 4:
         return (
           <div>
             <label className="secSubtitle">中序</label>
@@ -181,7 +186,7 @@ function BSTdocument() {
             </div>
           </div>
         );
-      case 6:
+      case 5:
         return (
           <div>
             <label className="secSubtitle">前序</label>
@@ -217,7 +222,7 @@ function BSTdocument() {
             </div>
           </div>
         );
-      case 7:
+      case 6:
         return (
           <div>
             <label className="secSubtitle">後序</label>
@@ -264,7 +269,7 @@ function BSTdocument() {
             </p>
           </div>
         );
-      case 8:
+      case 7:
         return (
           <div>
             <label className="subtitle">實際應用:</label>
@@ -304,22 +309,49 @@ function BSTdocument() {
     <div className="A1">
       <div className="showPDF">
         <Showdocument />
-        <div style={{ display: "flex", flexDuraction: "row" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDuraction: "row",
+            alignItems: "center",
+          }}
+        >
           <Button
             variant="outline-dark"
             onClick={() => {
-              if (page > 1) {
+              if (page > 0) {
                 setPage(page - 1);
+                setChecked(page - 1);
               }
             }}
           >
             Prev
           </Button>
+          {pageArr.map((val, key) => {
+            return (
+              <div key={pageArr[key]}>
+                <ToggleButton
+                  className="pageButton"
+                  variant="outline-dark"
+                  type="checkbox"
+                  checked={checked === key}
+                  onClick={() => {
+                    setChecked(key);
+                    setPage(pageArr[key]);
+                  }}
+                >
+                  {pageArr[key] + 1}
+                </ToggleButton>
+              </div>
+            );
+          })}
           <Button
             variant="outline-dark"
+            style={{ marginLeft: "10px" }}
             onClick={() => {
-              if (page < 8) {
+              if (page < 7) {
                 setPage(page + 1);
+                setChecked(page + 1);
               }
             }}
           >

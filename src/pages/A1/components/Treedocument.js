@@ -1,13 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, ToggleButton } from "react-bootstrap";
 
+let pageArr = [0, 1];
 function Treedocument() {
-  const [page, setPage] = useState(1);
-
+  const [page, setPage] = useState(0);
+  const [checked, setChecked] = useState(0);
   function Showdocument(params) {
     switch (page) {
-      case 1:
+      case 0:
         return (
           <div>
             <label className="titlePDF">Tree Introduction</label>
@@ -35,7 +36,9 @@ function Treedocument() {
               <span className="green">綠色節點</span>為這棵樹的leaf) <br />
               五．樹的高度（height): 最大深度到第幾層。(下圖高度為3)．
             </p>
-            <img src="./img/treeintroduction/introduction.png" alt="" />
+            <div className="center">
+              <img src="./img/treeintroduction/introduction.png" alt="" />
+            </div>
             <label className="subtitle">功能：</label>
             <p>
               一． 搜尋：在該Tree找尋該節點 <br />
@@ -47,7 +50,7 @@ function Treedocument() {
             </p>
           </div>
         );
-      case 2:
+      case 1:
         return (
           <div>
             <label className="subtitle">如何運用樹：</label>
@@ -63,21 +66,27 @@ function Treedocument() {
             </label>
             <p>解釋：除了 Leaf 以外，每個節點都有兩個 child</p>
             <p>圖示</p>
-            <img src="./img/treeintroduction/full.png" alt="" />
+            <div className="center">
+              <img src="./img/treeintroduction/full.png" alt="" />
+            </div>
             <br />
             <label className="secSubtitle">
               二．Complete binary tree（完整二元樹）
             </label>
             <p>解釋：也就是各層節點全滿，除了最後一層，最後一層節點全部靠左</p>
             <p>圖示</p>
-            <img src="./img/treeintroduction/complete.png" alt="" />
+            <div className="center">
+              <img src="./img/treeintroduction/complete.png" alt="" />
+            </div>
             <br />
             <label className="secSubtitle">
               三．Perfect binary tree（完美二元樹）
             </label>
             <p>解釋：同時滿足完滿二元樹和完整二元樹的條件</p>
             <p>圖示</p>
-            <img src="./img/treeintroduction/perfect.png" alt="" />
+            <div className="center">
+              <img src="./img/treeintroduction/perfect.png" alt="" />
+            </div>
           </div>
         );
       default:
@@ -92,18 +101,38 @@ function Treedocument() {
           <Button
             variant="outline-dark"
             onClick={() => {
-              if (page > 1) {
+              if (page > 0) {
                 setPage(page - 1);
+                setChecked(page - 1);
               }
             }}
           >
             Prev
           </Button>
+          {pageArr.map((val, key) => {
+            return (
+              <div key={pageArr[key]}>
+                <ToggleButton
+                  className="pageButton"
+                  variant="outline-dark"
+                  type="checkbox"
+                  checked={checked === key}
+                  onClick={() => {
+                    setChecked(key);
+                    setPage(pageArr[key]);
+                  }}
+                >
+                  {pageArr[key] + 1}
+                </ToggleButton>
+              </div>
+            );
+          })}
           <Button
             variant="outline-dark"
             onClick={() => {
-              if (page < 8) {
+              if (page < 1) {
                 setPage(page + 1);
+                setChecked(page + 1);
               }
             }}
           >

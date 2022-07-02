@@ -379,16 +379,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
+                    <div className="recordP">
                       {"Random \n"}
-                      <span
-                        style={{
-                          fontSize: "10px",
-                          color: "rgb(155, 155, 155)",
-                        }}
-                      >
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -396,7 +391,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
               }}
@@ -411,16 +406,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
+                    <div className="recordP">
                       {"Clear \n"}
-                      <span
-                        style={{
-                          fontSize: "10px",
-                          color: "rgb(155, 155, 155)",
-                        }}
-                      >
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -428,7 +418,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
               }}
@@ -451,16 +441,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
-                      {`Search  ${avlsearchValue} \n`}
-                      <span
-                        style={{
-                          fontSize: "10px",
-                          color: "rgb(155, 155, 155)",
-                        }}
-                      >
+                    <div className="recordP">
+                      {`Search ${avlsearchValue} \n`}
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -468,7 +453,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
               }}
@@ -490,16 +475,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
-                      {`Insert  ${avlinsertValue} \n`}
-                      <span
-                        style={{
-                          fontSize: "10px",
-                          color: "rgb(155, 155, 155)",
-                        }}
-                      >
+                    <div className="recordP">
+                      {`Insert ${avlinsertValue} \n`}
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -507,7 +487,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
               }}
@@ -531,16 +511,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
-                      {`Remove  ${avlremoveValue} \n`}
-                      <span
-                        style={{
-                          fontSize: "10px",
-                          color: "rgb(155, 155, 155)",
-                        }}
-                      >
+                    <div className="recordP">
+                      {`Remove ${avlremoveValue} \n`}
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -548,7 +523,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
               }}
@@ -573,11 +548,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
-                      {`Creat \n`}
+                    <div className="recordP">
+                      {"Create \n"}
                       <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -585,7 +560,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
                 let i = 0;
@@ -625,11 +600,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
-                      {`Inorder \n`}
+                    <div className="recordP">
+                      {"Inorder \n"}
                       <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -637,7 +612,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
                 let i = 0;
@@ -691,11 +666,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
-                      {`Preorder \n`}
+                    <div className="recordP">
+                      {"Preorder \n"}
                       <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -703,7 +678,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
                 let i = 0;
@@ -757,11 +732,11 @@ function AVL() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
-                      {`Postorder \n`}
+                    <div className="recordP">
+                      {"Postorder \n"}
                       <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -769,7 +744,7 @@ function AVL() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
                 let i = 0;
@@ -803,31 +778,25 @@ function AVL() {
             <div className="showTraversal">{Traversal(PostorderValue)}</div>
           </div>
         </div>
-        <div className={`record ${open === "show" && "open"} `}>
-          <div className="recordContainer">
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                if (open === "hide") {
-                  setOpen("show");
-                } else {
-                  setOpen("hide");
-                }
-              }}
-            >
-              {open}
-            </Button>
+        <label>
+          <input type="checkbox" className="recordinput" />
+          <div className="toggle">
+            <div className="top-line common"></div>
+            <div className="middle-line common"></div>
+            <div className="bottom-line common"></div>
+          </div>
+          <div className="slide">
+            <h2>Record</h2>
             <MDBContainer>
               <div
                 className="scrollbar body mx-auto"
                 style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
               >
-                <div className="title">Record Table</div>
                 {tmp.reverse()}
               </div>
             </MDBContainer>
           </div>
-        </div>
+        </label>
         <MyVerticallyCenteredModal
           show={modalShow}
           onHide={() => setModalShow(false)}

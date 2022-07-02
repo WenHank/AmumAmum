@@ -1,55 +1,18 @@
 import React from "react";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, ToggleButton } from "react-bootstrap";
 
-function Showpdf() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDoucumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-    setPageNumber(1);
-  }
-  function changePage(offset) {
-    setPageNumber((prePageNumber) => prePageNumber + offset);
-  }
-  function changePageBack() {
-    changePage(-1);
-  }
-  function changePageNext() {
-    changePage(+1);
-  }
-  return (
-    <div className="pdfcontainer">
-      <Document file="/RedBlackTree.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
-        <Page height="1000" pageNumber={pageNumber} />
-      </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {pageNumber > 1 && (
-          <Button variant="outline-dark" onClick={changePageBack}>
-            Previous Page
-          </Button>
-        )}
-        {pageNumber < numPages && (
-          <Button variant="outline-dark" onClick={changePageNext}>
-            Next Page
-          </Button>
-        )}
-      </div>
-    </div>
-  );
+let pageArr = [];
+for (let i = 0; i < 13; i++) {
+  pageArr[i] = i;
 }
 
 function RBTdocument() {
-  const [page, setPage] = useState(1);
-
+  const [page, setPage] = useState(0);
+  const [checked, setChecked] = useState(0);
   function Showdocument(params) {
     switch (page) {
-      case 1:
+      case 0:
         return (
           <div>
             <label className="titlePDF">Red BlackTree</label>
@@ -87,7 +50,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 2:
+      case 1:
         return (
           <div>
             <label className="secSubtitle">搜尋（二）</label>
@@ -100,7 +63,7 @@ function RBTdocument() {
               <br />
               第三步：69 比58⼤，往58的右⼦樹⾛
               <br />
-              第四步：58沒有右⼦數，表示找不到，則回傳null 插
+              第四步：58沒有右⼦數，表示找不到，則回傳null
             </p>
             <div className="center">
               <img src="./img/RBT/pic2.jpg" alt="" />
@@ -138,7 +101,7 @@ function RBTdocument() {
             </p>
           </div>
         );
-      case 3:
+      case 2:
         return (
           <div>
             <label className="secSubtitle">插⼊（color change）</label>
@@ -175,7 +138,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 4:
+      case 3:
         return (
           <div>
             <label className="secSubtitle ">插⼊（LL旋轉）</label>
@@ -207,7 +170,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 5:
+      case 4:
         return (
           <div>
             <label className="secSubtitle ">插⼊（RR 旋轉）</label>
@@ -240,7 +203,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 6:
+      case 5:
         return (
           <div>
             <label className="secSubtitle ">插⼊（LR旋轉）</label>
@@ -272,7 +235,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 7:
+      case 6:
         return (
           <div>
             <label className="secSubtitle ">插⼊（RL旋轉）</label>
@@ -304,7 +267,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 8:
+      case 7:
         return (
           <div>
             <label className="secSubtitle ">移除（規則）</label>
@@ -327,7 +290,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 9:
+      case 8:
         return (
           <div>
             <label className="secSubtitle">建立⼀顆紅⿊數</label>
@@ -342,14 +305,14 @@ function RBTdocument() {
               <br />
               第⼆步：60 比40⼤，往40右⼦樹放標紅
               <br />
-              第三步：55 比40⼤，55比60小，往60的左⼦樹放，但違反『連續兩紅⾊節
-              點』，因此需做RL旋轉
+              第三步：55
+              比40⼤，55比60小，往60的左⼦樹放，但違反『連續兩紅⾊節點』，因此需做RL旋轉
               <br />
               第四步：在15搜尋插⼊點時，發現55的兩節點為紅⾊，需做color change，
               因此40和60改為⿊⾊，但55為root，因此標⿊，再插⼊15標紅
               <br />
-              第五步：20 比55小，20比40小，20比15⼤，往15的右⼦樹放，但違反『連
-              續兩紅⾊節點』，因此需做LR旋轉
+              第五步：20
+              比55小，20比40小，20比15⼤，往15的右⼦樹放，但違反『連續兩紅⾊節點』，因此需做LR旋轉
               <br />
               第六步：在5搜尋插⼊點時，發現20的兩節點為紅⾊，需做color change，
               因此15和40改為⿊⾊，20標紅，再插⼊5標紅
@@ -364,7 +327,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 10:
+      case 9:
         return (
           <div>
             <label className="secSubtitle">中序</label>
@@ -412,7 +375,7 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 11:
+      case 10:
         return (
           <div>
             <label className="secSubtitle">前序</label>
@@ -451,10 +414,10 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 12:
+      case 11:
         return (
           <div>
-            <label className="red">後序</label>
+            <label className="secSubtitle">後序</label>
             <p>
               為⼀種⾛訪的順序，順序為
               <span className="red">
@@ -494,15 +457,13 @@ function RBTdocument() {
             </div>
           </div>
         );
-      case 13:
+      case 12:
         return (
           <div>
             <label className="subtitle">實際應用</label>
             <p>
               假設有筆資料為[12,34,6,25,58]，我們先將它建成紅⿊樹，之後假設我們要找58
-              這筆數據的話，
-              <br />
-              我們只需要三步就可以找到了，分別是
+              這筆數據的話， 我們只需要三步就可以找到了，分別是
               <br />
               第⼀步：58 比12⼤，往12的右⼦樹找
               <br />
@@ -515,9 +476,7 @@ function RBTdocument() {
             </div>
             <p>
               但假設我們的資料改為[6,12,25,34,58]，再依序建成紅⿊樹你覺得還會只需要三
-              步就可找到58嗎？
-              <br />
-              來看看下⽅的結果 答案是會的，因為它會平衡
+              步就可找到58嗎？ 來看看下⽅的結果 答案是會的，因為它會平衡
             </p>
             <div className="center">
               <img src="./img/RBT/pic21.jpg" alt="" />
@@ -532,22 +491,49 @@ function RBTdocument() {
     <div className="A1">
       <div className="showPDF">
         <Showdocument />
-        <div style={{ display: "flex", flexDuraction: "row" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDuraction: "row",
+            alignItems: "center",
+          }}
+        >
           <Button
             variant="outline-dark"
             onClick={() => {
-              if (page > 1) {
+              if (page > 0) {
                 setPage(page - 1);
+                setChecked(page - 1);
               }
             }}
           >
             Prev
           </Button>
+          {pageArr.map((val, key) => {
+            return (
+              <div key={pageArr[key]}>
+                <ToggleButton
+                  className="pageButton"
+                  variant="outline-dark"
+                  type="checkbox"
+                  checked={checked === key}
+                  onClick={() => {
+                    setChecked(key);
+                    setPage(pageArr[key]);
+                  }}
+                >
+                  {pageArr[key] + 1}
+                </ToggleButton>
+              </div>
+            );
+          })}
           <Button
             variant="outline-dark"
+            style={{ marginLeft: "10px" }}
             onClick={() => {
-              if (page < 13) {
+              if (page < 12) {
                 setPage(page + 1);
+                setChecked(page + 1);
               }
             }}
           >

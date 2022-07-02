@@ -336,7 +336,7 @@ function AVLinteractive() {
                     setRecord((prevArray) => [
                       ...record,
                       <div>
-                        <p className="recordP">
+                        <div className="recordP">
                           {"Correct \n"}
                           <span
                             style={{
@@ -345,7 +345,7 @@ function AVLinteractive() {
                             }}
                           >
                             {new Date().toLocaleTimeString() +
-                              "\n" +
+                              "/" +
                               new Date().getFullYear() +
                               "年" +
                               (new Date().getMonth() + 1) +
@@ -353,14 +353,14 @@ function AVLinteractive() {
                               new Date().getDate() +
                               "日"}
                           </span>
-                        </p>
+                        </div>
                       </div>,
                     ]);
                   } else {
                     setRecord((prevArray) => [
                       ...record,
                       <div>
-                        <p className="recordP">
+                        <div className="recordP">
                           {"Wrong \n"}
                           <span
                             style={{
@@ -369,7 +369,7 @@ function AVLinteractive() {
                             }}
                           >
                             {new Date().toLocaleTimeString() +
-                              "\n" +
+                              "/" +
                               new Date().getFullYear() +
                               "年" +
                               (new Date().getMonth() + 1) +
@@ -377,7 +377,7 @@ function AVLinteractive() {
                               new Date().getDate() +
                               "日"}
                           </span>
-                        </p>
+                        </div>
                       </div>,
                     ]);
                   }
@@ -402,31 +402,25 @@ function AVLinteractive() {
             </div>
           </div>
         </div>
-        <div className={`record ${open === "show" && "open"} `}>
-          <div className="recordContainer">
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                if (open === "hide") {
-                  setOpen("show");
-                } else {
-                  setOpen("hide");
-                }
-              }}
-            >
-              {open}
-            </Button>
+        <label>
+          <input type="checkbox" className="recordinput" />
+          <div className="toggle">
+            <div className="top-line common"></div>
+            <div className="middle-line common"></div>
+            <div className="bottom-line common"></div>
+          </div>
+          <div className="slide">
+            <h2>Record</h2>
             <MDBContainer>
               <div
                 className="scrollbar body mx-auto"
                 style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
               >
-                <div className="title">Record Table</div>
                 {tmp.reverse()}
               </div>
             </MDBContainer>
           </div>
-        </div>
+        </label>
         <MyVerticallyCenteredModal
           show={modalShow}
           onHide={() => setModalShow(false)}

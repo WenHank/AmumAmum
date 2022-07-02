@@ -44,7 +44,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 ${grid}px 0 0 `,
-  background: isDragging ? "rgb(155, 155, 155)" : "#fff",
+  background: isDragging ? "#95e5f5" : "#fff",
   ...draggableStyle,
 });
 
@@ -388,16 +388,11 @@ function BSTInteractive() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
+                    <div className="recordP">
                       {"Random \n"}
-                      <span
-                        style={{
-                          fontSize: "10px",
-                          color: "rgb(155, 155, 155)",
-                        }}
-                      >
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -405,7 +400,7 @@ function BSTInteractive() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
               }}
@@ -480,7 +475,7 @@ function BSTInteractive() {
                 setRecord((prevArray) => [
                   ...record,
                   <div>
-                    <p className="recordP">
+                    <div className="recordP">
                       {tmp}
                       <span
                         style={{
@@ -489,7 +484,7 @@ function BSTInteractive() {
                         }}
                       >
                         {new Date().toLocaleTimeString() +
-                          "\n" +
+                          "/" +
                           new Date().getFullYear() +
                           "年" +
                           (new Date().getMonth() + 1) +
@@ -497,7 +492,7 @@ function BSTInteractive() {
                           new Date().getDate() +
                           "日"}
                       </span>
-                    </p>
+                    </div>
                   </div>,
                 ]);
               }}
@@ -506,31 +501,25 @@ function BSTInteractive() {
             </Button>
           </div>
         </div>
-        <div className={`record ${open === "show" && "open"} `}>
-          <div className="recordContainer">
-            <Button
-              variant="outline-dark"
-              onClick={() => {
-                if (open === "hide") {
-                  setOpen("show");
-                } else {
-                  setOpen("hide");
-                }
-              }}
-            >
-              {open}
-            </Button>
+        <label>
+          <input type="checkbox" className="recordinput" />
+          <div className="toggle">
+            <div className="top-line common"></div>
+            <div className="middle-line common"></div>
+            <div className="bottom-line common"></div>
+          </div>
+          <div className="slide">
+            <h2>Record</h2>
             <MDBContainer>
               <div
                 className="scrollbar body mx-auto"
                 style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
               >
-                <div className="title">Record Table</div>
                 {tmp.reverse()}
               </div>
             </MDBContainer>
           </div>
-        </div>
+        </label>
         <MyVerticallyCenteredModal
           show={modalShow}
           onHide={() => setModalShow(false)}

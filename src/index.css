@@ -127,13 +127,27 @@ pre {
 .center {
   /* align-items: center; */
   margin: 0px auto;
+  display: flex;
+  justify-content: center;
 }
 img {
   justify-content: center;
   object-fit: cover;
 }
+.pageButton{
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
 /****************************************************************/
 /**************************  A2  ********************************/
+#react-tree-vis li div {
+  font-size: 30px;
+}
 #header {
   width: 100%;
 }
@@ -185,6 +199,7 @@ svg {
   flex-direction: column;
   justify-content: center;
 }
+
 /****************************************************************/
 /**************************  A2_Header  ********************************/
 .Header {
@@ -420,51 +435,95 @@ svg {
 #react-tree-vis li div.highlight{
   color: black;
 }
-.record {
+.slide{
+  height: 600px;
+  width: 250px;
+  top: 200px;
+  right: 0px;
+  position: absolute;
+  background-color: #fff;
+  transition: 0.5s ease ;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transform: translateX(300px);
   flex-direction: column;
-  font-size: 20px;
-  position: fixed;
-  left: 100%;
-  top: 30%;
-  transition: 0.5s;
 }
-
-.record .title {
-  margin-bottom: 10px;
+.slide h2{
+  display: flex;
+  text-align: left;
 }
-
-.record .body {
+.slide .body {
   width: 200px;
   height: 500px;
-  border-radius: 10px;
-  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;;
   display: flex;
   padding: 10px;
   align-items: center;
   flex-direction: column;
 }
-.record .recordP{
-  border: 3px rgb(200, 200, 200) solid;
-  padding: 5px;
-  border-radius: 10px;
+.recordinput{
+  top: 200px;
+  right: 0px;
+  position: absolute;
+  -webkit-appearance: none;
 }
-.open {
-  left: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.recordP{
+  border-bottom: 0.5px solid #babecc;
 }
-
-.recordContainer button {
-  position: fixed;
-  width: 80px;
-  height: 60px;
-  left: 93%;
-  top: 20%;
+.toggle{
+  width: 40px;
+  height: 40px;
+  top: 220px;
+  right: 20px;
+  position: absolute;
+  background-color: #fff;
+  z-index: 1;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.toggle .common{
+  position: absolute;
+  height: 2px;
+  width: 20px;
+  background-color: #292929;
+  border-radius: 50px;
+  transition: 0.3s ease;
+}
+.toggle .top-line{
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.toggle .middle-line{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.toggle .bottom-line{
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.recordinput:checked ~ .toggle .top-line{
+  left: 2px;
+  top: 20px;
+  width: 35px;
+  transform: rotate(45deg);
+}
+.recordinput:checked ~ .toggle .bottom-line{
+  left: 2px;
+  top: 20px;
+  width: 35px;
+  transform: rotate(-45deg);
+}
+.recordinput:checked ~ .toggle .middle-line{
+  opacity: 0;
+  transform: translateX(100px);
+}
+.recordinput:checked ~ .slide{
+  transform: translateX(0);
 }
 /****************************************************************/
 /*************************A2_RBT*********************************/
@@ -947,10 +1006,13 @@ svg {
   border: 1px dashed black;
   padding: 10px;
   width: 80%;
-  margin-left:10%;
+  margin-left: 10%;
 }
-#memberuploadBtn{
-  width:200px;
+#memberuploadBtn {
+  width: 200px;
+}
+.EditedBtn {
+  width: 130px;
 }
 /****************************************************************/
 /*************************AdminGrade*********************************/
