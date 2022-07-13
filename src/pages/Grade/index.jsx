@@ -4,7 +4,7 @@ import Grade from "./components/Grade";
 const Grades = () => {
   return (
     <div>
-      <Grade/>
+      <Grade />
     </div>
   );
 };

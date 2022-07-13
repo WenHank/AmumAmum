@@ -174,14 +174,18 @@ const SelfInfo = ({ Logout, UserToken }) => {
   };
 
   const goCheck = () => {
-    Refresh("/AdminGrade")
+    Refresh("/AdminGrade");
   };
-  const goAboutUs = () =>{
-    Refresh("/Aboutus")
-  }
+  const goAboutUs = () => {
+    Refresh("/Aboutus");
+  };
   return (
     <>
-      <img className="developer" src="./Img/developer.gif" onClick={goAboutUs}/>
+      <img
+        className="developer"
+        src="./Img/developer.gif"
+        onClick={goAboutUs}
+      />
       <div className="PasswordChange" id="PasswordChangeDiv">
         <h3 className="PasswordChange_Title">修改密碼</h3>
         <div className="PasswordLine">
@@ -482,10 +486,14 @@ const SelfInfo = ({ Logout, UserToken }) => {
           <div className="GoStudy" onClick={goStudy}>
             進入課程
           </div>
-          <div className="GoCheck" style={{
+          <div
+            className="GoCheck"
+            style={{
               display: UserData.Access === "Admin" ? "flex" : "none",
-              justifyContent:"center",
-            }} onClick={goCheck}>
+              justifyContent: "center",
+            }}
+            onClick={goCheck}
+          >
             查看成績
           </div>
         </div>

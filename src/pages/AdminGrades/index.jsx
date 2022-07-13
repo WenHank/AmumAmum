@@ -4,7 +4,7 @@ import AdminGrade from "./components/AdminGrade";
 const AdminGrades = () => {
   return (
     <div>
-      <AdminGrade/>
+      <AdminGrade />
     </div>
   );
 };

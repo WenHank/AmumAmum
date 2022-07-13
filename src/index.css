@@ -79,6 +79,30 @@ iframe{
 } */
 /****************************************************************/
 /**************************  A1  ********************************/
+.searchBar{
+  max-height: 100px;
+  position: absolute;
+  left: 0;
+  min-width: 100%;  
+  padding: 3px;
+}
+
+#autoComplete{
+  position: fixed;
+  right: 150px;
+  top: 35px;
+}
+
+.searchItem{
+  border-bottom: 0.5px solid #babecc;
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 3px;
+}
+.searchItem:hover{
+  background-color: #c5c5c5;
+}
+
 .showPDF{
   display: flex;
   flex-direction: column;
@@ -206,12 +230,6 @@ svg {
   width: 100%;
   height: 100px;
   background-color: #ffffff;
-}
-.container {
-  margin: 20px 20px 10px 10px;
-  border: none;
-  width: 100%;
-  text-align: left;
 }
 .logSystem {
   border-radius: 5px;
