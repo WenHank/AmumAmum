@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Grade from "../../Grade/components/Grade";
 import axios from "axios";
 
+//引用Grade，並且用選取到的id找到該學生的名子
 function AdminGrade() {
   const Refresh = useNavigate("");
   const [Member, setMember] = useState([]);

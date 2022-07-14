@@ -1,10 +1,6 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
-// import CustomAvatar from '../TableComponents/CustomAvatar'
-// import { ReactComponent as RedArrow } from '../../assets/icons/High.svg'
-// import { ReactComponent as YellowArrow } from '../../assets/icons/Medium.svg'
-// import { ReactComponent as BlueArrow } from '../../assets/icons/Low.svg'
 
 const TaskInformation = styled.div`
   display: flex;

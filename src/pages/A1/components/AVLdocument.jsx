@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Button, ToggleButton } from "react-bootstrap";
 
+//總共有幾頁
 let pageArr = [];
 for (let i = 0; i < 13; i++) {
   pageArr[i] = i;
@@ -9,6 +10,7 @@ for (let i = 0; i < 13; i++) {
 function AVLdocument() {
   const [page, setPage] = useState(0);
   const [checked, setChecked] = useState(0);
+  //用按鈕來控制switch
   function Showdocument(params) {
     switch (page) {
       case 0:
@@ -45,7 +47,7 @@ function AVLdocument() {
               第三步：找到 39
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_1.png" alt="" />
+              <img src="./Img/AVL/pic_1.png" alt="" />
             </div>
           </div>
         );
@@ -61,7 +63,7 @@ function AVLdocument() {
               第四步：58 沒有右子數，表示找不到，則回傳 null
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_2.png" alt="" />
+              <img src="./Img/AVL/pic_2.png" alt="" />
             </div>
             <label className="secSubtitle">插入(規則)</label>
             <p>
@@ -74,14 +76,14 @@ function AVLdocument() {
               圖中的左子樹高度為 2，右子樹高度為 1，兩著相差為 1，故為 AVL
             </p>
             <div>
-              <img src="./img/AVL/pic_3.png" alt="" />
+              <img src="./Img/AVL/pic_3.png" alt="" />
             </div>
             <p>
               圖中的左子樹高度為 2，右子樹高度為 0， 兩著相差為 2(大於
               1)，故不為 AVL
             </p>
             <div>
-              <img src="./img/AVL/pic_4.png" alt="" />
+              <img src="./Img/AVL/pic_4.png" alt="" />
             </div>
           </div>
         );
@@ -114,14 +116,14 @@ function AVLdocument() {
               種，所以請依照 BST 的規則排好即可，做到這裡你已經完成 LL 旋轉了!
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_5.png" alt="" />
+              <img src="./Img/AVL/pic_5.png" alt="" />
             </div>
             <div className="center">
-              <img src="./img/AVL/arrow.png" alt="" />
+              <img src="./Img/AVL/arrow.png" alt="" />
             </div>
             <br />
             <div className="center">
-              <img src="./img/AVL/pic_6.png" alt="" />
+              <img src="./Img/AVL/pic_6.png" alt="" />
             </div>
           </div>
         );
@@ -149,14 +151,14 @@ function AVLdocument() {
               所以請依照 BST 的規則排好即可，做到這裡你已經完成 RR 旋轉了!
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_7.png" alt="" />
+              <img src="./Img/AVL/pic_7.png" alt="" />
             </div>
             <div className="center">
-              <img src="./img/AVL/arrow.png" alt="" />
+              <img src="./Img/AVL/arrow.png" alt="" />
             </div>
             <br />
             <div className="center">
-              <img src="./img/AVL/pic_8.png" alt="" />
+              <img src="./Img/AVL/pic_8.png" alt="" />
             </div>
           </div>
         );
@@ -183,14 +185,14 @@ function AVLdocument() {
               所以請依照 BST 的規則排好即可，做到這裡你已經完成 LR 旋轉了!
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_9.png" alt="" />
+              <img src="./Img/AVL/pic_9.png" alt="" />
             </div>
             <div className="center">
-              <img src="./img/AVL/arrow.png" alt="" />
+              <img src="./Img/AVL/arrow.png" alt="" />
             </div>
             <br />
             <div className="center">
-              <img src="./img/AVL/pic_10.png" alt="" />
+              <img src="./Img/AVL/pic_10.png" alt="" />
             </div>
           </div>
         );
@@ -224,14 +226,14 @@ function AVLdocument() {
               <br />
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_11.png" alt="" />
+              <img src="./Img/AVL/pic_11.png" alt="" />
             </div>
             <div className="center">
-              <img src="./img/AVL/arrow.png" alt="" />
+              <img src="./Img/AVL/arrow.png" alt="" />
             </div>
             <br />
             <div className="center">
-              <img src="./img/AVL/pic_12.png" alt="" />
+              <img src="./Img/AVL/pic_12.png" alt="" />
             </div>
           </div>
         );
@@ -247,14 +249,14 @@ function AVLdocument() {
               ，請看下圖移除 10，且以左子樹最大取代
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_13.png" alt="" width="100%" />
+              <img src="./Img/AVL/pic_13.png" alt="" width="100%" />
             </div>
             <p>
               首先直接移除 10，且以左子樹最大 8 取代原本位置，但會造成 8
               的左子樹不平 衡，分別為 5, 3 和 1，因此需做 LL 旋轉
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_14.png" alt="" width="100%" />
+              <img src="./Img/AVL/pic_14.png" alt="" width="100%" />
             </div>
           </div>
         );
@@ -266,7 +268,7 @@ function AVLdocument() {
               的右子數不平衡，因此需 做 RL 旋轉
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_15.png" alt="" width="100%" />
+              <img src="./Img/AVL/pic_15.png" alt="" width="100%" />
             </div>
             <p>
               中間值為 30，因此 30 往上提，8 和 50 放兩旁，
@@ -274,7 +276,7 @@ function AVLdocument() {
               這樣一來他就是一顆完整的 AVL Tree 了
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_16.png" alt="" width="100%" />
+              <img src="./Img/AVL/pic_16.png" alt="" width="100%" />
             </div>
           </div>
         );
@@ -303,7 +305,7 @@ function AVLdocument() {
               <br />往 54 的右子樹放，但造成 35 的不平衡，要做 RR 旋轉
             </pre>
             <div className="center">
-              <img src="./img/AVL/pic_17.png" alt="" width="60%" />
+              <img src="./Img/AVL/pic_17.png" alt="" width="60%" />
             </div>
           </div>
         );
@@ -343,7 +345,7 @@ function AVLdocument() {
               </span>
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_18.png" alt="" width="60%" />
+              <img src="./Img/AVL/pic_18.png" alt="" width="60%" />
             </div>
           </div>
         );
@@ -374,7 +376,7 @@ function AVLdocument() {
               因此這顆 AVL Tree 的前序走訪為『37,11,3,46,38,52』
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_18.png" alt="" width="60%" />
+              <img src="./Img/AVL/pic_18.png" alt="" width="60%" />
             </div>
           </div>
         );
@@ -412,7 +414,7 @@ function AVLdocument() {
               因此這顆 AVL Tree 的後序走訪為『3,11,38,52,46,37』
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_18.png" alt="" width="60%" />
+              <img src="./Img/AVL/pic_18.png" alt="" width="60%" />
             </div>
           </div>
         );
@@ -430,7 +432,7 @@ function AVLdocument() {
               第三步:此值剛好為 58，找到了
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_19.png" alt="" width="100%" />
+              <img src="./Img/AVL/pic_19.png" alt="" width="100%" />
             </div>
             <p>
               但假設我們的資料改為[6,12,25,34,58]，再依序建成 AVL Tree
@@ -440,7 +442,7 @@ function AVLdocument() {
               答案是會的，因為它會自動平衡
             </p>
             <div className="center">
-              <img src="./img/AVL/pic_19.png" alt="" width="100%" />
+              <img src="./Img/AVL/pic_19.png" alt="" width="100%" />
             </div>
           </div>
         );

@@ -59,6 +59,7 @@ let color = [
   "rgb(255 193 7)",
   "rgb(118 200 223)",
 ];
+//計算成績
 function caculate(arr) {
   let sum = 0;
   for (let i = 0; i < arr.length; i++) {
@@ -66,6 +67,7 @@ function caculate(arr) {
   }
   return sum;
 }
+//浮動區塊
 function Tilt(props) {
   const { options, ...rest } = props;
   const tilt = useRef(null);
@@ -94,6 +96,7 @@ const radarData = {
 };
 export default function Grade(props) {
   const Refresh = useNavigate("");
+  //存成績
   const [userBSTgradesEasy, setUserBSTgradesEasy] = useState("");
   const [userAVLgradesEasy, setUserAVLgradesEasy] = useState("");
   const [userRBTgradesEasy, setUserRBTgradesEasy] = useState("");
@@ -159,13 +162,14 @@ export default function Grade(props) {
     userRBTgradesMedium.length,
     userRBTgradesHard.length,
   ];
+  //找出最多的，並產生lable
   maxlength = Math.max(...tmplength);
   labels = [];
   for (let i = 0; i < maxlength; i++) {
     labels[i] = "第" + (i + 1) + "次";
   }
   let sID;
-
+  //瘋狂GET資料
   useEffect(async () => {
     await axios({
       method: "POST",

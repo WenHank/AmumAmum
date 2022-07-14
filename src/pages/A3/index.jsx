@@ -13,6 +13,7 @@ import Note from "./components/Note";
 import Suggestion from "search-suggestion";
 import { MDBContainer } from "mdbreact";
 
+//Google表癲link
 function BSTTEST(params) {
   return (
     <div className="testContainer">
@@ -143,6 +144,7 @@ class A3 extends React.Component {
     return data.filter((item) => re.test(item.toLowerCase()));
   };
 
+  //只要有改input就馬上做此function，並在下方用Suggestion輸出結果，用MDBContainer包起來為了可以滾
   handleChange = (e) => {
     const value = e.target.value;
     let filterData = [];

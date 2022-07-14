@@ -2,10 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { Button, ToggleButton } from "react-bootstrap";
 
+//總共有幾頁
 let pageArr = [0, 1];
 function Treedocument() {
   const [page, setPage] = useState(0);
   const [checked, setChecked] = useState(0);
+  //用按鈕來控制switch
   function Showdocument(params) {
     switch (page) {
       case 0:
@@ -37,7 +39,7 @@ function Treedocument() {
               五．樹的高度（height): 最大深度到第幾層。(下圖高度為3)．
             </p>
             <div className="center">
-              <img src="./img/treeintroduction/introduction.png" alt="" />
+              <img src="./Img/treeintroduction/introduction.png" alt="" />
             </div>
             <label className="subtitle">功能：</label>
             <p>
@@ -67,7 +69,7 @@ function Treedocument() {
             <p>解釋：除了 Leaf 以外，每個節點都有兩個 child</p>
             <p>圖示</p>
             <div className="center">
-              <img src="./img/treeintroduction/full.png" alt="" />
+              <img src="./Img/treeintroduction/full.png" alt="" />
             </div>
             <br />
             <label className="secSubtitle">
@@ -76,7 +78,7 @@ function Treedocument() {
             <p>解釋：也就是各層節點全滿，除了最後一層，最後一層節點全部靠左</p>
             <p>圖示</p>
             <div className="center">
-              <img src="./img/treeintroduction/complete.png" alt="" />
+              <img src="./Img/treeintroduction/complete.png" alt="" />
             </div>
             <br />
             <label className="secSubtitle">
@@ -85,7 +87,7 @@ function Treedocument() {
             <p>解釋：同時滿足完滿二元樹和完整二元樹的條件</p>
             <p>圖示</p>
             <div className="center">
-              <img src="./img/treeintroduction/perfect.png" alt="" />
+              <img src="./Img/treeintroduction/perfect.png" alt="" />
             </div>
           </div>
         );

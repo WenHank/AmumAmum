@@ -7,8 +7,10 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+//產生隨機陣列並排序他
 var arr = [];
 let tmpArr = [];
+//沒按random不能按change
 let disabled = true;
 for (let i = 0; i < getRandom(5, 7); i++) {
   let tmp = getRandom(5, 70);
@@ -20,7 +22,7 @@ for (let i = 0; i < getRandom(5, 7); i++) {
   arr.push(tmp);
   tmpArr = arr;
 }
-
+//dnd的array
 const getItems = (count) =>
   Array.from({ length: count }, (tmpArr, k) => k).map((k) => ({
     id: `item-${k + 1}`,
@@ -55,6 +57,7 @@ const getListStyle = () => ({
   overflow: "auto",
 });
 
+//每個order的拖拉區塊
 class InReactBeautifulDndHorizontal extends React.Component {
   constructor(props) {
     super(props);
@@ -298,6 +301,7 @@ class PostReactBeautifulDndHorizontal extends React.Component {
     );
   }
 }
+//規則
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -345,7 +349,6 @@ function BSTInteractive() {
   const [modalShow, setModalShow] = React.useState(false);
   const [record, setRecord] = useState([]);
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
-  const [open, setOpen] = useState("hide");
 
   let tmp = [...record];
   return (
@@ -416,6 +419,7 @@ function BSTInteractive() {
               variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
+                //對答案
                 let inorderValue = getData("inorder");
                 let preorderValue = getData("preorder");
                 let postorderValue = getData("postorder");

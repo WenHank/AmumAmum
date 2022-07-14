@@ -4,9 +4,12 @@ import { Button, Modal } from "react-bootstrap";
 import { RedBlackTree, useRedBlackTree } from "react-tree-vis";
 import { MDBContainer } from "mdbreact";
 import RBTdocument from "../../A1/components/RBTdocument";
+
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+//隨機產生一個陣列，當樹的初始值
 var arr = [];
 for (let i = 0; i < getRandom(5, 10); i++) {
   let tmp = getRandom(5, 70);
@@ -17,7 +20,7 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   }
   arr.push(tmp);
 }
-
+//AVL的文件用modal表示
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -42,6 +45,7 @@ function MyVerticallyCenteredModal(props) {
     </Modal>
   );
 }
+//Order的文件用modal表示
 function InorderIntroduction(props) {
   return (
     <Modal
@@ -284,6 +288,7 @@ function PostorderIntroduction(props) {
     </Modal>
   );
 }
+//印出Order的function
 function Traversal(orderValue) {
   let print = orderValue[0];
   for (let i = 1; i < orderValue.length; i++) {
@@ -292,6 +297,7 @@ function Traversal(orderValue) {
   }
   return print;
 }
+//在執行order動畫時，關掉一些button，避免干擾
 function buttonDisabledTrue() {
   let Random = document.querySelector(".A2-Random");
   let Clear = document.querySelector(".A2-Clear");
@@ -347,10 +353,11 @@ function RBT() {
   const [postordermodalShow, setpostorderModalShow] = React.useState(false);
   const [record, setRecord] = useState([]);
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
-  const [open, setOpen] = useState("hide");
 
+  //把紀錄反過來
   let tmp = [...record];
 
+  //create的正規化
   const [numVal, setNumVal] = useState("");
   const handleChange = (val) => {
     val = val.replace(/[^0-9,]+/g, "");
@@ -614,6 +621,7 @@ function RBT() {
                     </div>
                   </div>,
                 ]);
+                //用search跟insert的function依序建成一棵樹
                 let i = 0;
                 let Inordertraversal = setInterval(() => {
                   if (i > orderValue.length) {
@@ -682,6 +690,7 @@ function RBT() {
                     </div>
                   </div>,
                 ]);
+                //用search跟insert的function依序建成一棵樹
                 let i = 0;
                 let Preordertraversal = setInterval(() => {
                   if (i > orderValue.length) {
@@ -750,6 +759,7 @@ function RBT() {
                     </div>
                   </div>,
                 ]);
+                //用search跟insert的function依序建成一棵樹
                 let i = 0;
                 let Postordertraversal = setInterval(() => {
                   if (i > orderValue.length) {

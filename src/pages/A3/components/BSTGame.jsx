@@ -14,6 +14,7 @@ function getRandom(min, max) {
 function makeSecond(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min) / 100;
 }
+//教學文件
 function PDFDocument(props) {
   return (
     <Modal
@@ -38,7 +39,7 @@ function PDFDocument(props) {
     </Modal>
   );
 }
-
+//規則
 function Gamerule(props) {
   return (
     <Modal
@@ -69,7 +70,7 @@ function Gamerule(props) {
     </Modal>
   );
 }
-
+//浮動區塊
 function Tilt(props) {
   const { options, ...rest } = props;
   const tilt = useRef(null);
@@ -80,17 +81,27 @@ function Tilt(props) {
 
   return <div ref={tilt} {...rest} />;
 }
+//AI選項
 var AIOP = {};
+//控制只要改一次
 let change = 1;
+//玩家選項
 let playerOP = {};
-let title = {};
+//每題選樣的起始位址
 let opArr = [0, 3, 6, 9, 12, 15, 18, 21, 24];
+//看是誰在玩
 let doing = 0;
+//控制成績的modal
+let gradefunction = 0;
+//初始選項，1代表答對
+let aiAns = [1, 1, 0, 0];
+//玩家該提答的時間
+let playtime = 0;
+//時間字樣
+let title = {};
+//生成樹的arr
 var arr = [];
 let tmpArr = [];
-let gradefunction = 0;
-let aiAns = [1, 1, 0, 0];
-let playtime = 0;
 function makeArr() {
   tmpArr = [];
   for (let i = 0; i < getRandom(5, 8); i++) {
@@ -138,6 +149,7 @@ function BSTGame() {
     });
   }, []);
 
+  //初始內容
   let whowin = playergrade > aigrade ? "You win" : "You lose";
   let second = 10;
   let timer;
@@ -152,6 +164,7 @@ function BSTGame() {
   let fontcolor = {
     color: "#004777",
   };
+  //一難度給不同的內容
   if (type === 4) {
     second = 10;
     aiAns = [1, 1, 0, 0];
@@ -189,12 +202,14 @@ function BSTGame() {
       color: "#f7b801",
     };
   }
+  //title性質
   const options = {
     scale: 1,
     max: 15,
     speed: 250,
   };
 
+  //計時器
   const renderTime = ({ remainingTime }) => {
     playtime = remainingTime;
     let title = "Remaining";
@@ -228,6 +243,7 @@ function BSTGame() {
     );
   };
 
+  //難度moadl
   function Difficulty(props) {
     return (
       <Modal
@@ -346,6 +362,8 @@ function BSTGame() {
       </Modal>
     );
   }
+
+  //生成選項
   function Gameover(props) {
     if (whowin === "You win") {
       return (
@@ -451,6 +469,7 @@ function BSTGame() {
   }
   let playercontainer = document.querySelector(".playtitle");
   let aicontainer = document.querySelector(".aititle");
+  //回合結束
   if (round > type) {
     writegrade();
     gradefunction = 1;
@@ -464,6 +483,8 @@ function BSTGame() {
     playercontainer.classList.remove("myturn");
     aicontainer.classList.remove("myturn");
   }
+
+  //AI答題邏輯，與AI分數計算
   function AIplay() {
     doing = 0;
     for (let i = 0; i < 3; i++) {
@@ -529,6 +550,7 @@ function BSTGame() {
       }
     }
   }
+  //成績寫入資料庫
   async function writegrade(params) {
     let post;
     let major;

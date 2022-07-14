@@ -6,13 +6,14 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
 import TaskCard from "./TaskCard";
+
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+//產生隨機陣列並排序他
 var arr = [];
 let tmpArr = [];
 let dndArr = [];
-let disabled = true;
 while (arr.length < 7) {
   let tmp = getRandom(5, 70);
   for (let j = 0; j < arr.length; j++) {
@@ -25,9 +26,11 @@ while (arr.length < 7) {
     return a - b;
   });
 }
+//dnd的array
 for (let i = 0; i < tmpArr.length; i++) {
   dndArr[i] = { id: (i + 1).toString(), Task: tmpArr[i] };
 }
+//每個item就是存放的位址
 const columnsFromBackend = {
   [uuidv4()]: {
     title: "4",
@@ -98,6 +101,7 @@ let Treestyle = [
   "300px",
   "0px",
 ];
+//規則
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -144,6 +148,7 @@ function MyVerticallyCenteredModal(props) {
     </Modal>
   );
 }
+//將dndarray轉乘一個個拖拉的小格子
 const Kanban = () => {
   const [columns, setColumns] = useState(columnsFromBackend);
   const onDragEnd = (result, columns, setColumns) => {
@@ -225,7 +230,7 @@ function AVLinteractive() {
   const [modalShow, setModalShow] = React.useState(false);
   const [record, setRecord] = useState([]);
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
-  const [open, setOpen] = useState("hide");
+  //反序紀錄
   let tmp = [...record];
 
   return (
@@ -244,48 +249,6 @@ function AVLinteractive() {
           <div className="avltreecontainer">
             <Kanban />
             <div className="avlinteractiveButtons">
-              {/* <Button
-                variant="outline-dark"
-                style={{ marginTop: "220px", position: "static" }}
-                onClick={() => {
-                  // let old;
-                  // for (let i = 0; i < 7; i++) {
-                  //   old = document.getElementById("delete" + i);
-                  //   old.remove();
-                  //   console.log(old);
-                  // }
-                  tmpArr = [];
-                  arr = [];
-                  while (arr.length < 7) {
-                    let tmp = getRandom(5, 70);
-                    for (let j = 0; j < arr.length; j++) {
-                      if (arr[j] === tmp) {
-                        arr.splice(j, 1);
-                      }
-                    }
-                    arr.push(tmp);
-                    tmpArr = arr.sort((a, b) => {
-                      return a - b;
-                    });
-                  }
-                  for (let i = 0; i < tmpArr.length; i++) {
-                    dndArr[i] = { id: (i + 1).toString(), Task: tmpArr[i] };
-                  }
-                  dndArr.splice(tmpArr.length, dndArr.length - 1);
-                  disabled = false;
-                  setRecord((prevArray) => [
-                    ...record,
-                    "-------------------",
-                    new Date().toLocaleTimeString() + "\n",
-                    new Date().getDate() + "日\n",
-                    new Date().getMonth() + 1 + "月 ",
-                    new Date().getFullYear() + " ",
-                    "Random \n",
-                  ]);
-                }}
-              >
-                Random
-              </Button> */}
               <Button
                 variant="outline-dark"
                 style={{

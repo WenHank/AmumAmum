@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Button, ToggleButton } from "react-bootstrap";
 
+//總共有幾頁
 let pageArr = [];
 for (let i = 0; i < 13; i++) {
   pageArr[i] = i;
@@ -10,6 +11,7 @@ for (let i = 0; i < 13; i++) {
 function RBTdocument() {
   const [page, setPage] = useState(0);
   const [checked, setChecked] = useState(0);
+  //用按鈕來控制switch
   function Showdocument(params) {
     switch (page) {
       case 0:
@@ -46,7 +48,7 @@ function RBTdocument() {
               第三步：找到39
             </p>
             <div className="center">
-              <img src="./img/RBT/pic1.jpg" alt="" />
+              <img src="./Img/RBT/pic1.jpg" alt="" />
             </div>
           </div>
         );
@@ -66,7 +68,7 @@ function RBTdocument() {
               第四步：58沒有右⼦數，表示找不到，則回傳null
             </p>
             <div className="center">
-              <img src="./img/RBT/pic2.jpg" alt="" />
+              <img src="./Img/RBT/pic2.jpg" alt="" />
             </div>
             <label className="secSubtitle">插⼊（規則）</label>
             <p>
@@ -122,19 +124,19 @@ function RBTdocument() {
               插⼊完還要檢查是否有違反規則
             </p>
             <div className="center ">
-              <img src="./img/RBT/pic3.jpg " alt=" " />
+              <img src="./Img/RBT/pic3.jpg " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/arrow.png " alt=" " />
+              <img src="./Img/RBT/arrow.png " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/pic4.jpg " alt=" " />
+              <img src="./Img/RBT/pic4.jpg " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/arrow.png " alt=" " />
+              <img src="./Img/RBT/arrow.png " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/pic5.jpg " alt=" " />
+              <img src="./Img/RBT/pic5.jpg " alt=" " />
             </div>
           </div>
         );
@@ -160,13 +162,13 @@ function RBTdocument() {
               若皆無違反的話，恭喜你完成LL旋轉了！
             </p>
             <div className="center ">
-              <img src="./img/RBT/pic6.jpg " alt=" " />
+              <img src="./Img/RBT/pic6.jpg " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/arrow.png " alt=" " />
+              <img src="./Img/RBT/arrow.png " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/pic7.jpg " alt=" " />
+              <img src="./Img/RBT/pic7.jpg " alt=" " />
             </div>
           </div>
         );
@@ -193,13 +195,13 @@ function RBTdocument() {
               若皆無違反 的話，恭喜你完成RR旋轉了！
             </p>
             <div className="center ">
-              <img src="./img/RBT/pic8.jpg " alt=" " />
+              <img src="./Img/RBT/pic8.jpg " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/arrow.png " alt=" " />
+              <img src="./Img/RBT/arrow.png " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/pic9.jpg " alt=" " />
+              <img src="./Img/RBT/pic9.jpg " alt=" " />
             </div>
           </div>
         );
@@ -225,13 +227,13 @@ function RBTdocument() {
               話，恭喜你完成LR旋轉了！
             </p>
             <div className="center ">
-              <img src="./img/RBT/pic10.jpg " alt=" " />
+              <img src="./Img/RBT/pic10.jpg " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/arrow.png " alt=" " />
+              <img src="./Img/RBT/arrow.png " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/pic11.jpg " alt=" " />
+              <img src="./Img/RBT/pic11.jpg " alt=" " />
             </div>
           </div>
         );
@@ -257,13 +259,13 @@ function RBTdocument() {
               若皆無違反的 話，恭喜你完成RL旋轉了！
             </p>
             <div className="center ">
-              <img src="./img/RBT/pic12.jpg " alt=" " />
+              <img src="./Img/RBT/pic12.jpg " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/arrow.png " alt=" " />
+              <img src="./Img/RBT/arrow.png " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/pic13.jpg " alt=" " />
+              <img src="./Img/RBT/pic13.jpg " alt=" " />
             </div>
           </div>
         );
@@ -280,13 +282,13 @@ function RBTdocument() {
               首先直接移除20，並且以25取代原本位置，沒有違反任何規則
             </p>
             <div className="center ">
-              <img src="./img/RBT/pic14.jpg " alt=" " />
+              <img src="./Img/RBT/pic14.jpg " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/arrow.png " alt=" " />
+              <img src="./Img/RBT/arrow.png " alt=" " />
             </div>
             <div className="center ">
-              <img src="./img/RBT/pic15.jpg " alt=" " />
+              <img src="./Img/RBT/pic15.jpg " alt=" " />
             </div>
           </div>
         );
@@ -323,7 +325,7 @@ function RBTdocument() {
               比25⼤，往25的右⼦樹放，但違反『連續兩紅⾊節點』，因此需做LR旋轉
             </p>
             <div className="center">
-              <img src="./img/RBT/pic16.jpg" alt="" />
+              <img src="./Img/RBT/pic16.jpg" alt="" />
             </div>
           </div>
         );
@@ -371,7 +373,7 @@ function RBTdocument() {
               紅⿊樹的中序⾛訪剛好為由小到⼤的順序
             </p>
             <div className="center">
-              <img src="./img/RBT/pic17.jpg" alt="" />
+              <img src="./Img/RBT/pic17.jpg" alt="" />
             </div>
           </div>
         );
@@ -410,7 +412,7 @@ function RBTdocument() {
               因此這顆紅⿊樹的前序⾛訪為『37,11,3,46,38,52』
             </p>
             <div className="center">
-              <img src="./img/RBT/pic18.jpg" alt="" />
+              <img src="./Img/RBT/pic18.jpg" alt="" />
             </div>
           </div>
         );
@@ -453,7 +455,7 @@ function RBTdocument() {
               因此這顆紅⿊樹的後序⾛訪為『3,11,38,52,46,37』
             </p>
             <div className="center">
-              <img src="./img/RBT/pic19.jpg" alt="" />
+              <img src="./Img/RBT/pic19.jpg" alt="" />
             </div>
           </div>
         );
@@ -472,14 +474,14 @@ function RBTdocument() {
               第三步：此值剛好為58，找到了
             </p>
             <div className="center">
-              <img src="./img/RBT/pic20.jpg" alt="" />
+              <img src="./Img/RBT/pic20.jpg" alt="" />
             </div>
             <p>
               但假設我們的資料改為[6,12,25,34,58]，再依序建成紅⿊樹你覺得還會只需要三
               步就可找到58嗎？ 來看看下⽅的結果 答案是會的，因為它會平衡
             </p>
             <div className="center">
-              <img src="./img/RBT/pic21.jpg" alt="" />
+              <img src="./Img/RBT/pic21.jpg" alt="" />
             </div>
           </div>
         );
