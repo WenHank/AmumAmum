@@ -344,7 +344,7 @@ function MyVerticallyCenteredModal(props) {
     </Modal>
   );
 }
-function BSTInteractive() {
+function BSTorder() {
   const { ref, getData, generateRandomTree } = useBinarySearchTree();
   const [modalShow, setModalShow] = React.useState(false);
   const [record, setRecord] = useState([]);
@@ -362,7 +362,7 @@ function BSTInteractive() {
             onClick={() => setModalShow(true)}
           />
         </div>
-        <h1>BST Interactive</h1>
+        <h1>BST Order</h1>
         <div className="treeanddnd">
           <div className="bsttreecontainer">
             <BinarySearchTree data={arr} ref={ref} />
@@ -533,4 +533,4 @@ function BSTInteractive() {
   );
 }
 
-export default BSTInteractive;
+export default BSTorder;

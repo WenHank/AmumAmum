@@ -10,14 +10,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
   const [UserData, setUserData] = useState("");
   const Refresh = useNavigate();
 
-  const Block = document.getElementById("BlockDiv");
-  const PasswordChange = document.getElementById("PasswordChangeDiv");
-  const EmailChange = document.getElementById("EmailChangeDiv");
-  const ChooseClass = document.getElementById("ChooseClassDiv");
-  const Class_A1 = document.getElementById("Class_A1");
-  const Class_A2 = document.getElementById("Class_A2");
-  const Class_A3 = document.getElementById("Class_A3");
-
+  //取得UserToken
   useEffect(() => {
     let GetSid = sessionStorage.getItem("Sid");
     if (UserToken === null) {
@@ -38,8 +31,8 @@ const SelfInfo = ({ Logout, UserToken }) => {
 
   //////////////修改密碼/////////////////////
   const ChangePassword = () => {
-    Block.style.visibility = "visible";
-    PasswordChange.style.visibility = "visible";
+    document.getElementById("PasswordChangeDiv").style.visibility = "visible";
+    document.getElementById("BlockDiv").style.visibility = "visible";
   };
   //密碼修改送出
   const submitPassword = () => {
@@ -70,10 +63,9 @@ const SelfInfo = ({ Logout, UserToken }) => {
         }).then((response) => {
           if (response.data === "success") {
             alert("修改完成");
-            const Block = document.getElementById("BlockDiv");
-            const PasswordChange = document.getElementById("PasswordChangeDiv");
-            Block.style.visibility = "hidden";
-            PasswordChange.style.visibility = "hidden";
+            document.getElementById("BlockDiv").style.visibility = "hidden";
+            document.getElementById("PasswordChangeDiv").style.visibility =
+              "hidden";
           } else {
             alert("修改失敗，舊密碼不一致");
           }
@@ -85,14 +77,14 @@ const SelfInfo = ({ Logout, UserToken }) => {
   };
   //取消變更
   const cancelPassword = () => {
-    Block.style.visibility = "hidden";
-    PasswordChange.style.visibility = "hidden";
+    document.getElementById("BlockDiv").style.visibility = "hidden";
+    document.getElementById("PasswordChangeDiv").style.visibility = "hidden";
   };
   ////////////////////////////////////////////////////////
   ///////////////////////變更Email////////////////////////
   const ChangeEmail = () => {
-    Block.style.visibility = "visible";
-    EmailChange.style.visibility = "visible";
+    document.getElementById("BlockDiv").style.visibility = "visible";
+    document.getElementById("EmailChangeDiv").style.visibility = "visible";
   };
   const submitEmail = () => {
     const getNewEmail = document.getElementById("NewEmail");
@@ -128,30 +120,16 @@ const SelfInfo = ({ Logout, UserToken }) => {
     }
   };
   const cancelEmail = () => {
-    Block.style.visibility = "hidden";
-    PasswordChange.style.visibility = "hidden";
+    document.getElementById("BlockDiv").style.visibility = "hidden";
+    document.getElementById("EmailChangeDiv").style.visibility = "hidden";
   };
   //////////////////Btn goStudy////////////////
   const goStudy = () => {
-    Block.style.visibility = "visible";
-    ChooseClass.style.visibility = "visible";
-    Class_A1.style.visibility = "visible";
-    Class_A2.style.visibility = "visible";
-    Class_A3.style.visibility = "visible";
-    // switch (UserData.Access) {
-    //   case "1":
-    //     Refresh("/A1");
-    //     break;
-    //   case "2":
-    //     Refresh("/A2");
-    //     break;
-    //   case "3":
-    //     Refresh("/A3");
-    //     break;
-    //   default:
-    //     alert("尚未連接學習檔案，請聯絡管理員！");
-    //     break;
-    // }
+    document.getElementById("BlockDiv").style.visibility = "visible";
+    document.getElementById("ChooseClassDiv").style.visibility = "visible";
+    document.getElementById("Class_A1").style.visibility = "visible";
+    document.getElementById("Class_A2").style.visibility = "visible";
+    document.getElementById("Class_A3").style.visibility = "visible";
   };
   const GoStudy_A1 = () => {
     Refresh("/A1");
@@ -166,11 +144,11 @@ const SelfInfo = ({ Logout, UserToken }) => {
     Refresh("/Admin");
   };
   const cancelStudy = () => {
-    Block.style.visibility = "hidden";
-    ChooseClass.style.visibility = "hidden";
-    Class_A1.style.visibility = "hidden";
-    Class_A2.style.visibility = "hidden";
-    Class_A3.style.visibility = "hidden";
+    document.getElementById("BlockDiv").style.visibility = "hidden";
+    document.getElementById("ChooseClassDiv").style.visibility = "hidden";
+    document.getElementById("Class_A1").style.visibility = "hidden";
+    document.getElementById("Class_A2").style.visibility = "hidden";
+    document.getElementById("Class_A3").style.visibility = "hidden";
   };
 
   const goCheck = () => {
@@ -181,11 +159,6 @@ const SelfInfo = ({ Logout, UserToken }) => {
   };
   return (
     <>
-      <img
-        className="developer"
-        src="./Img/developer.gif"
-        onClick={goAboutUs}
-      />
       <div className="PasswordChange" id="PasswordChangeDiv">
         <h3 className="PasswordChange_Title">修改密碼</h3>
         <div className="PasswordLine">
@@ -430,16 +403,35 @@ const SelfInfo = ({ Logout, UserToken }) => {
 
       <div className="Block" id="BlockDiv"></div>
       <h1 className="ProfileTitle" style={{ userSelect: "none" }}>
-        PROFILE
+        Data Structure Visualization
       </h1>
+      <img
+        className="developer"
+        src="./Img/developer.gif"
+        onClick={goAboutUs}
+      />
       <div className="SelfProfile">
         <div className="SelfProfile_Stand">
-          <h3 className="SelfProfile_Title">元智大學 Yzu Ze University</h3>
-          <h3 className="SelfProfile_subTitle">{UserData.StudentId}</h3>
+          <h3 className="SelfProfile_Title">
+            {UserData.Name} {UserData.StudentId}
+          </h3>
+        </div>
+        <div className="Classroom" style={{ userSelect: "none" }}>
+          <div className="GoStudy" onClick={goStudy}>
+            進入課程
+          </div>
+          <div
+            className="GoCheck"
+            style={{
+              display: UserData.Access === "Admin" ? "flex" : "none",
+              justifyContent: "center",
+            }}
+            onClick={goCheck}
+          >
+            查看成績
+          </div>
         </div>
         <div className="SelfProfile_Self">
-          <h3 className="SelfProfile_Text">{UserData.Name}</h3>
-          <h3 className="SelfProfile_Text">{UserData.Email}</h3>
           <Button
             variant="contained"
             style={{
@@ -472,6 +464,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
               marginTop: "1em",
               height: "1.5em",
               fontSize: "1em",
+              width: "10em",
               backgroundColor: "black",
             }}
             onClick={() => {
@@ -481,21 +474,6 @@ const SelfInfo = ({ Logout, UserToken }) => {
           >
             登出
           </Button>
-        </div>
-        <div className="Classroom" style={{ userSelect: "none" }}>
-          <div className="GoStudy" onClick={goStudy}>
-            進入課程
-          </div>
-          <div
-            className="GoCheck"
-            style={{
-              display: UserData.Access === "Admin" ? "flex" : "none",
-              justifyContent: "center",
-            }}
-            onClick={goCheck}
-          >
-            查看成績
-          </div>
         </div>
       </div>
     </>

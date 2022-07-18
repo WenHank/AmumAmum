@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import Home from "./components/Home";
 import Tree from "../A1/components/Treedocument";
 import BST from "./components/BST";
-import BSTInteractive from "./components/BSTInteractive";
 import AVL from "./components/AVL";
-import AVLInteractive from "./components/AVLInteractive";
 import RBT from "./components/RBT";
+import BSTorder from "./components/BSTorder";
+import AVLorder from "./components/AVLorder";
+import RBTorder from "./components/RBTorder";
+import BSTcreate from "./components/BSTcreate";
+import AVLcreate from "./components/AVLcreate";
+import RBTcreate from "./components/RBTcreate";
 import Grade from "../Grade/components/Grade";
 import Suggestion from "search-suggestion";
 import { MDBContainer } from "mdbreact";
@@ -213,14 +217,21 @@ class A2 extends React.Component {
                         this.handle(<BST />);
                       }}
                     >
-                      demonstrate
+                      Demonstration
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       onClick={() => {
-                        this.handle(<BSTInteractive />);
+                        this.handle(<BSTorder />);
                       }}
                     >
-                      Interactive
+                      Order
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        this.handle(<BSTcreate />);
+                      }}
+                    >
+                      Create
                     </NavDropdown.Item>
                   </NavDropdown>
                   <NavDropdown
@@ -232,30 +243,46 @@ class A2 extends React.Component {
                         this.handle(<AVL />);
                       }}
                     >
-                      demonstrate
+                      Demonstration
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       onClick={() => {
-                        this.handle(<AVLInteractive />);
+                        this.handle(<AVLorder />);
                       }}
                     >
-                      Interactive
+                      Order
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        this.handle(<AVLcreate />);
+                      }}
+                    >
+                      Create
                     </NavDropdown.Item>
                   </NavDropdown>
-                  <Button
-                    variant="outline-dark"
-                    onClick={() => {
-                      this.handle(<RBT />);
-                    }}
-                    style={{
-                      textDecoration: "none",
-                      marginRight: "20px",
-                      cursor: "pointer",
-                    }}
-                    id="305"
-                  >
-                    Red Black Tree
-                  </Button>
+                  <NavDropdown title="Red Black Tree" id="basic-nav-dropdown">
+                    <NavDropdown.Item
+                      onClick={() => {
+                        this.handle(<RBT />);
+                      }}
+                    >
+                      Demonstration
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        this.handle(<RBTorder />);
+                      }}
+                    >
+                      Order
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        this.handle(<RBTcreate />);
+                      }}
+                    >
+                      Create
+                    </NavDropdown.Item>
+                  </NavDropdown>
                   <NavDropdown
                     title="Test"
                     id="basic-nav-dropdown"
