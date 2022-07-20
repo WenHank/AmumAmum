@@ -259,20 +259,22 @@ function AVLcreate() {
   return (
     <div className="A3">
       <div className="AVlInteractive">
-        <div className="hintContainer">
-          <div className="loader"></div>
-          <img
-            className="hint"
-            src="/Img/hint.gif"
-            onClick={() => setModalShow(true)}
-          />
+        <div className="rowCss">
+          <h1>AVL Create</h1>
+          <div className="hintContainer">
+            <div className="loader"></div>
+            <img
+              className="hint"
+              src="/Img/hint.gif"
+              onClick={() => setModalShow(true)}
+            />
+          </div>
         </div>
-        <h1>AVL Create</h1>
         <div className="treeanddnd">
           <div className="avltreecontainer">
             <Kanban />
             <div className="avlinteractiveButtons">
-              <div>
+              <div className="rowCss" style={{ alignItems: "baseline" }}>
                 <Button
                   variant="outline-dark"
                   style={{ marginTop: "20px" }}
@@ -407,21 +409,10 @@ function AVLcreate() {
                   Submit
                 </Button>
               </div>
-
-              <img
-                className="correct"
-                src="/Img/correct.png"
-                style={{
-                  marginTop: "110px",
-                }}
-              />
-              <img
-                className="wrong"
-                src="/Img/wrong.png"
-                style={{
-                  marginTop: "110px",
-                }}
-              />
+              <div className="rowCss">
+                <img className="correct" src="/Img/correct.png" />
+                <img className="wrong" src="/Img/wrong.png" />
+              </div>
             </div>
           </div>
         </div>

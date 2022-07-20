@@ -12,7 +12,8 @@ function getRandom(min, max) {
 }
 //產生隨機陣列並排序他
 let tmpArr = [];
-let dndArr = [];
+let dndArrBlack = [];
+let dndArrRed = [];
 while (tmpArr.length < 7) {
   let midNum = getRandom(40, 50);
   tmpArr[0] = midNum;
@@ -57,12 +58,12 @@ while (tmpArr.length < 7) {
 }
 
 //dnd的array
-let j = 0;
-for (let i = 0; i < tmpArr.length * 2; i++) {
-  dndArr[i] = { id: (i + 1).toString(), Task: "黑" + tmpArr[j] };
-  i++;
-  dndArr[i] = { id: (i + 1).toString(), Task: "紅" + tmpArr[j] };
-  j++;
+for (let i = 0; i < tmpArr.length; i++) {
+  dndArrBlack[i] = { id: (i + 1).toString(), Task: "黑" + tmpArr[i] };
+  dndArrRed[i] = {
+    id: (i + tmpArr.length + 1).toString(),
+    Task: "紅" + tmpArr[i],
+  };
 }
 
 function RandomTree() {
@@ -108,14 +109,14 @@ function RandomTree() {
     for (let i = 0; i < botArr.length; i++) {
       tmpArr.push(botArr[i]);
     }
-    //dnd的array
-    for (let i = 0; i < tmpArr.length; i++) {
-      dndArr[i] = { id: (i + 1).toString(), Task: tmpArr[i] };
-    }
   }
   //dnd的array
   for (let i = 0; i < tmpArr.length; i++) {
-    dndArr[i] = { id: (i + 1).toString(), Task: tmpArr[i] };
+    dndArrBlack[i] = { id: (i + 1).toString(), Task: "黑" + tmpArr[i] };
+    dndArrRed[i] = {
+      id: (i + tmpArr.length + 1).toString(),
+      Task: "紅" + tmpArr[i],
+    };
   }
 }
 
@@ -150,8 +151,12 @@ const columnsFromBackend = {
     items: [],
   },
   [uuidv4()]: {
-    title: "table",
-    items: dndArr,
+    title: "Btable",
+    items: dndArrBlack,
+  },
+  [uuidv4()]: {
+    title: "Rtable",
+    items: dndArrRed,
   },
 };
 const Container = styled.div`
@@ -241,15 +246,20 @@ function MyVerticallyCenteredModal(props) {
 //將dndarray轉乘一個個拖拉的小格子
 const Kanban = () => {
   const [columns, setColumns] = useState(columnsFromBackend);
-  const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
     const { source, destination } = result;
     if (
       (source.droppableId !== destination.droppableId &&
         columns[destination.droppableId].items.length === 0) ||
-      (columns[destination.droppableId].title === "table" &&
-        source.droppableId !== destination.droppableId)
+      (columns[destination.droppableId].title === "Btable" &&
+        columns[source.droppableId].title !== "Rtable" &&
+        source.droppableId !== destination.droppableId &&
+        columns[source.droppableId].items[0].Task[0] === "黑") ||
+      (columns[destination.droppableId].title === "Rtable" &&
+        columns[source.droppableId].title !== "Btable" &&
+        source.droppableId !== destination.droppableId &&
+        columns[source.droppableId].items[0].Task[0] === "紅")
     ) {
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
@@ -298,8 +308,8 @@ const Kanban = () => {
                     {...provided.droppableProps}
                     style={{
                       height:
-                        index === 7
-                          ? "1070px"
+                        index === 7 || index === 8
+                          ? "570px"
                           : `${column.items.length * 30 + 120}px`,
                       position: "relative",
                       top: `${Treestyle[index]}`,
@@ -332,20 +342,22 @@ function RBTcreate() {
   return (
     <div className="A3">
       <div className="AVlInteractive">
-        <div className="hintContainer">
-          <div className="loader"></div>
-          <img
-            className="hint"
-            src="/Img/hint.gif"
-            onClick={() => setModalShow(true)}
-          />
+        <div className="rowCss">
+          <h1>RBT Create</h1>
+          <div className="hintContainer">
+            <div className="loader"></div>
+            <img
+              className="hint"
+              src="/Img/hint.gif"
+              onClick={() => setModalShow(true)}
+            />
+          </div>
         </div>
-        <h1>RBT Create</h1>
         <div className="treeanddnd">
           <div className="avltreecontainer">
             <Kanban />
             <div className="avlinteractiveButtons">
-              <div>
+              <div className="rowCss" style={{ alignItems: "baseline" }}>
                 <Button
                   variant="outline-dark"
                   style={{ marginTop: "20px" }}
@@ -394,7 +406,7 @@ function RBTcreate() {
                     let wrongS = document.querySelector(".wrong");
                     async function check() {
                       function catchItems() {
-                        for (let i = 0; i < dndArr.length; i++) {
+                        for (let i = 0; i < dndArrBlack.length; i++) {
                           let b = document
                             .getElementById(i.toString())
                             .getElementsByClassName("theItem");
@@ -410,9 +422,13 @@ function RBTcreate() {
                       catchItems();
                     }
                     check();
-                    if (ans.length === 7) {
+                    if (ans.length === 7 && ans[0][0] === "紅") {
                       for (let i = 0; i < 6; i++) {
-                        if (ans[i] > ans[i + 1]) {
+                        let fS = ans[i][0];
+                        let fN = parseInt(ans[i][1]);
+                        let bS = ans[i + 1][0];
+                        let bN = parseInt(ans[i + 1][1]);
+                        if (fN[i] > bN[i + 1] || fS === bS) {
                           correctS.style.visibility = "hidden";
                           wrongS.style.visibility = "visible";
                           flag = 0;
@@ -481,20 +497,10 @@ function RBTcreate() {
                 </Button>
               </div>
 
-              <img
-                className="correct"
-                src="/Img/correct.png"
-                style={{
-                  marginTop: "110px",
-                }}
-              />
-              <img
-                className="wrong"
-                src="/Img/wrong.png"
-                style={{
-                  marginTop: "110px",
-                }}
-              />
+              <div className="rowCss">
+                <img className="correct" src="/Img/correct.png" />
+                <img className="wrong" src="/Img/wrong.png" />
+              </div>
             </div>
           </div>
         </div>

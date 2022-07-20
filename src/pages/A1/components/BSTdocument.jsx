@@ -45,7 +45,7 @@ function BSTdocument() {
               第三步：找到 39
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_1.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_1.png" alt="" />
             </div>
           </div>
         );
@@ -57,13 +57,13 @@ function BSTdocument() {
               你可能會好奇假如找不到怎麼辦，請看下圖，假設要找 69 <br />
               第一步：69 比 27 大，往 27 的右子樹走
               <br />
-              第二步：69 比 40 大，往 40 的右子樹走
-              第三步：69 比 58 大，往 58 的右子樹走
+              第二步：69 比 40 大，往 40 的右子樹走 第三步：69 比 58 大，往 58
+              的右子樹走
               <br />
               第四步：58 沒有右子數，表示找不到，則回傳 null
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_2.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_2.png" alt="" />
             </div>
             <label className="secSubtitle">插入</label>
             <p>
@@ -74,7 +74,7 @@ function BSTdocument() {
               第二步:8 比 13 小，往 13 的右子樹放
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_3.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_3.png" alt="" />
             </div>
           </div>
         );
@@ -93,7 +93,7 @@ function BSTdocument() {
               ，請看下方圖示移除 12 和 20 為何 因為 12 為 leaf，所以直接移除
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_4.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_4.png" alt="" />
             </div>
             <p>
               但 20 有子節點，所以必須選擇要以
@@ -104,14 +104,14 @@ function BSTdocument() {
               這裡以左子樹最大舉例
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_5.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_5.png" alt="" />
             </div>
             <p>
               所以 19 替換到原本位址，其餘皆按照
               <span className="red">大的放右小的放左</span>的原則排列
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_6.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_6.png" alt="" />
             </div>
           </div>
         );
@@ -137,7 +137,7 @@ function BSTdocument() {
               <br />
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_7.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_7.png" alt="" />
             </div>
           </div>
         );
@@ -183,7 +183,7 @@ function BSTdocument() {
               </span>
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_8.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_8.png" alt="" />
             </div>
           </div>
         );
@@ -219,7 +219,7 @@ function BSTdocument() {
               因此這顆二元搜尋樹的前序走訪為『37,11,3,46,38,52』
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_8.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_8.png" alt="" />
             </div>
           </div>
         );
@@ -259,7 +259,7 @@ function BSTdocument() {
               因此這顆二元搜尋樹的後序走訪為『3,11,38,52,46,37』
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_8.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_8.png" alt="" />
             </div>
             <p>
               總結，二元搜尋樹的中序走訪及為由小到大的順序，而前序的話則為先印再往
@@ -286,7 +286,7 @@ function BSTdocument() {
               第三步:此值剛好為 58，找到了
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_9.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_9.png" alt="" />
             </div>
             <p>
               但假設我們的資料改為[6,12,25,34,58]，再依序建成二元搜尋樹你覺得還會只需{" "}
@@ -298,7 +298,7 @@ function BSTdocument() {
               根本沒有優化我們搜尋的過程。
             </p>
             <div className="center">
-              <img src="./Img/BST/pic_10.png" alt="" />
+              <img className="pdfImg" src="./Img/BST/pic_10.png" alt="" />
             </div>
           </div>
         );
@@ -310,13 +310,7 @@ function BSTdocument() {
     <div className="A1">
       <div className="showPDF">
         <Showdocument />
-        <div
-          style={{
-            display: "flex",
-            flexDuraction: "row",
-            alignItems: "center",
-          }}
-        >
+        <div className="rowCss" style={{ marginBottom: "20px" }}>
           <Button
             variant="outline-dark"
             onClick={() => {
@@ -328,24 +322,26 @@ function BSTdocument() {
           >
             Prev
           </Button>
-          {pageArr.map((val, key) => {
-            return (
-              <div key={pageArr[key]}>
-                <ToggleButton
-                  className="pageButton"
-                  variant="outline-dark"
-                  type="checkbox"
-                  checked={checked === key}
-                  onClick={() => {
-                    setChecked(key);
-                    setPage(pageArr[key]);
-                  }}
-                >
-                  {pageArr[key] + 1}
-                </ToggleButton>
-              </div>
-            );
-          })}
+          <div className="pageNumber">
+            {pageArr.map((val, key) => {
+              return (
+                <div key={pageArr[key]}>
+                  <ToggleButton
+                    className="pageButton"
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === key}
+                    onClick={() => {
+                      setChecked(key);
+                      setPage(pageArr[key]);
+                    }}
+                  >
+                    {pageArr[key] + 1}
+                  </ToggleButton>
+                </div>
+              );
+            })}
+          </div>
           <Button
             variant="outline-dark"
             style={{ marginLeft: "10px" }}
