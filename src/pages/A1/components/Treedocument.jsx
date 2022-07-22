@@ -4,7 +4,7 @@ import { Button, ToggleButton } from "react-bootstrap";
 
 //總共有幾頁
 let pageArr = [0, 1];
-function Treedocument() {
+function Treedocument(props) {
   const [page, setPage] = useState(0);
   const [checked, setChecked] = useState(0);
   //用按鈕來控制switch
@@ -110,9 +110,13 @@ function Treedocument() {
         break;
     }
   }
+  let showPDFname = "showPDF MT";
+  if (props.modal) {
+    showPDFname = "showPDF";
+  }
   return (
     <div className="A1">
-      <div className="showPDF">
+      <div className={showPDFname}>
         <Showdocument />
         <div className="rowCss" style={{ marginBottom: "20px" }}>
           <Button
@@ -126,7 +130,7 @@ function Treedocument() {
           >
             Prev
           </Button>
-          <div className="pageNumber">
+          <div className="pageNumber rowCss">
             {pageArr.map((val, key) => {
               return (
                 <div key={pageArr[key]}>

@@ -83,7 +83,7 @@ class InReactBeautifulDndHorizontal extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="A2orderDND">
         <h3>Inorder</h3>
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
@@ -164,7 +164,7 @@ class PreReactBeautifulDndHorizontal extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="A2orderDND">
         <h3>Preorder</h3>
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
@@ -245,7 +245,7 @@ class PostReactBeautifulDndHorizontal extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="A2orderDND">
         <h3>Postorder</h3>
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
@@ -354,16 +354,18 @@ function RBTorder() {
   return (
     <div className="A3">
       <div className="BSTInteractive">
-        <div className="hintContainer">
-          <div className="loader"></div>
-          <img
-            className="hint"
-            src="/Img/hint.gif"
-            onClick={() => setModalShow(true)}
-          />
+        <div className="rowCss">
+          <h1>RBT Order</h1>
+          <div className="hintContainer">
+            <div className="loader"></div>
+            <img
+              className="hint"
+              src="/Img/hint.gif"
+              onClick={() => setModalShow(true)}
+            />
+          </div>
         </div>
-        <h1>RBT Order</h1>
-        <div className="treeanddnd">
+        <div className="rowCssA2Input">
           <div className="bsttreecontainer">
             <RedBlackTree data={arr} ref={ref} />
             <Button

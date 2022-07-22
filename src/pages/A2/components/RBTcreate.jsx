@@ -309,7 +309,7 @@ const Kanban = () => {
                     style={{
                       height:
                         index === 7 || index === 8
-                          ? "570px"
+                          ? "fit-content"
                           : `${column.items.length * 30 + 120}px`,
                       position: "relative",
                       top: `${Treestyle[index]}`,

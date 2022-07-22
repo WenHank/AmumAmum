@@ -35,7 +35,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AVLdocument />
+        <AVLdocument modal={true} />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -377,7 +377,7 @@ function AVL() {
           </div>
         </div>
         <div className="columnCss">
-          <div className="rowCssA2Input">
+          <div className="rowCssA2Input" style={{ marginTop: "10px" }}>
             <Button
               className="A2-Random"
               variant="outline-dark"
@@ -433,7 +433,7 @@ function AVL() {
               Clear
             </Button>
           </div>
-          <div className="rowCssA2Input">
+          <div className="rowCssA2Input" style={{ marginTop: "10px" }}>
             <div>
               <input
                 type="number"
@@ -544,7 +544,7 @@ function AVL() {
               </Button>
             </div>
           </div>
-          <div className="rowCssA2Input">
+          <div className="rowCssA2Input" style={{ marginTop: "10px" }}>
             <div>
               <input
                 style={{ width: "300px" }}
@@ -594,7 +594,7 @@ function AVL() {
               </Button>
             </div>
           </div>
-          <div className="rowCss">
+          <div className="rowCss" style={{ marginTop: "10px" }}>
             <div className="Inorder">
               <img
                 className="hint"
@@ -661,7 +661,7 @@ function AVL() {
             </Button>
             <div className="showTraversal">{Traversal(InorderValue)}</div>
           </div>
-          <div className="rowCss">
+          <div className="rowCss" style={{ marginTop: "10px" }}>
             <div className=" Preorder">
               <img
                 className="hint"
@@ -728,7 +728,7 @@ function AVL() {
             </Button>
             <div className="showTraversal">{Traversal(PreorderValue)}</div>
           </div>
-          <div className="rowCss">
+          <div className="rowCss" style={{ marginTop: "10px" }}>
             <div className=" Postorder">
               <img
                 className="hint"

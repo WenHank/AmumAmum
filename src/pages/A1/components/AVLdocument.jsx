@@ -7,7 +7,7 @@ let pageArr = [];
 for (let i = 0; i < 13; i++) {
   pageArr[i] = i;
 }
-function AVLdocument() {
+function AVLdocument(props) {
   const [page, setPage] = useState(0);
   const [checked, setChecked] = useState(0);
   //用按鈕來控制switch
@@ -500,9 +500,13 @@ function AVLdocument() {
         break;
     }
   }
+  let showPDFname = "showPDF MT";
+  if (props.modal) {
+    showPDFname = "showPDF";
+  }
   return (
     <div className="A1">
-      <div className="showPDF">
+      <div className={showPDFname}>
         <Showdocument />
         <div className="rowCss" style={{ marginBottom: "20px" }}>
           <Button
@@ -516,7 +520,7 @@ function AVLdocument() {
           >
             Prev
           </Button>
-          <div className="pageNumber">
+          <div className="pageNumber rowCss">
             {pageArr.map((val, key) => {
               return (
                 <div key={pageArr[key]}>

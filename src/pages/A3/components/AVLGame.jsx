@@ -39,7 +39,7 @@ function PDFDocument(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AVLdocument />
+        <AVLdocument modal={true} />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
