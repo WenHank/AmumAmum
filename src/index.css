@@ -987,6 +987,28 @@ svg {
 }
 /****************************************************************/
 /*************************A3 Grade**********************************/
+.lineChartblock{
+  width: 600px;
+  height: 500px;
+}
+
+.UserGradecolumn{
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+}
+
+.UserGraderow{
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;  
+}
+
+.GradeControlButtons{
+  display: flex;
+  flex-direction: row;
+}
+
 .Gradecontainer{
   display: flex;
   justify-content: center;
@@ -995,19 +1017,28 @@ svg {
 }
 .chart{
   margin-bottom: 30px;
-  width: 800px;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 .gradetitle{
+  flex-direction: row;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  padding: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.Usergradetitle{
   flex-direction: column;
   box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
   padding: 50px;
   border-radius: 10px;
   display: flex;
   align-items: flex-start;
-  height: 600px;
   margin-top: 20px;
   justify-content: center;
   align-items: center;
@@ -1567,5 +1598,33 @@ svg {
   }
   .A2orderDND{
     max-width: 350px;
+  }
+  .userCard{
+    flex-direction: column;
+  }
+  .UserGraderow{
+    flex-direction: column;
+  }
+  .Gradecontainer{
+    margin-top: 150px;
+  }
+  .GradeControlButtons{
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+  }
+  .lineRow{
+    margin-top: 10px;
+  }
+  .polar{
+    width: 350px;
+    flex-direction: column;
+  }
+  .gradetitle{
+    flex-direction: column;
+    padding: 10px;
+  }
+  .lineChartblock{
+  width: 350px;
   }
 }
