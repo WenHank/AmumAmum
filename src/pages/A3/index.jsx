@@ -14,12 +14,16 @@ import Suggestion from "search-suggestion";
 import { MDBContainer } from "mdbreact";
 
 //Google表癲link
+let testWIDTH = "640";
+if (window.screen.width < 450) {
+  testWIDTH = "350";
+}
 function BSTTEST(params) {
   return (
     <div className="testContainer">
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLSfQiQz29af9rDxC0XJw65MTlgGa0ARVTRVYK8L6I95IQZv8Hw/viewform?embedded=true"
-        width="640"
+        width={testWIDTH}
         height="4556"
         frameBorder="0"
         marginHeight="0"
@@ -35,7 +39,7 @@ function AVLTEST(params) {
     <div className="testContainer">
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLSeOS0jLLO6VG-Gb9XUJ73rMhr8qBBk5DoCj3XmdSJVxbWA1Yw/viewform?embedded=true"
-        width="640"
+        width={testWIDTH}
         height="4556"
         frameBorder="0"
         marginHeight="0"
@@ -51,7 +55,7 @@ function RBTTEST(params) {
     <div className="testContainer">
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLSd6BogVec0_Fnkit5c-oZOiTzXn8e7480LzbM-cdezgeOMi8g/viewform?embedded=true"
-        width="640"
+        width={testWIDTH}
         height="4556"
         frameBorder="0"
         marginHeight="0"
@@ -67,7 +71,7 @@ function MIXEDTEST(params) {
     <div className="testContainer">
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLSd6e6BWDc7ePfG_5hgO3SzLOq6at3_WawwnGlIjkQdQgu9rtg/viewform?embedded=true"
-        width="640"
+        width={testWIDTH}
         height="4556"
         frameBorder="0"
         marginHeight="0"

@@ -1287,6 +1287,13 @@ svg {
 }
 /****************************************************************/
 /*************************AboutUs*********************************/
+.aboutBackIcon{
+  position: absolute;
+  left: 100px;
+  top: 20px;
+  cursor: pointer;
+}
+
 .AnoutUscontainerThePlan{
   display: flex;
   justify-content: center;
@@ -1347,7 +1354,7 @@ svg {
   display: flex;
   justify-content: center;
   text-align: left;
-  flex-direction: column;
+  flex-direction: row;
 }
 /****************************************************************/
 /*************************Profile*********************************/
@@ -1626,5 +1633,21 @@ svg {
   }
   .lineChartblock{
   width: 350px;
+  }
+  .testContainer{
+    margin-top: 150px;
+    margin-bottom: 50px;
+  }
+  .AboutUsChildContainer{
+    margin-top: 50px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .aboutBackIcon{
+    left: 20px;
+  }
+  .AdminmemberTable{
+    width: 350px;
+    justify-content: center;
   }
 }
