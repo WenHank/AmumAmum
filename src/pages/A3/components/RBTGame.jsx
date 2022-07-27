@@ -7,6 +7,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import axios from "axios";
 import RBTdocument from "../../A1/components/RBTdocument";
 import Confetti from "react-confetti";
+import { MDBContainer } from "mdbreact";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -129,6 +130,10 @@ function RBTGame() {
   const [restart, setRestart] = useState(1);
   let GetSid = sessionStorage.getItem("Sid");
   let DifficultyWord = "Easy";
+  const [record, setRecord] = useState([]);
+  const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
+  //把紀錄反過來
+  let tmp = [...record];
   useEffect(() => {
     axios({
       method: "POST",
@@ -439,6 +444,55 @@ function RBTGame() {
   let aicontainer = document.querySelector(".aititle");
   //回合結束
   if (round > type) {
+    if (playergrade > aigrade) {
+      setRecord((prevArray) => [
+        ...record,
+        <div>
+          <div className="recordP">
+            You win
+            <br />
+            Your grade:{playergrade}
+            <br />
+            AI grade:{aigrade}
+            <br />
+            <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+              {new Date().toLocaleTimeString() +
+                "/" +
+                new Date().getFullYear() +
+                "年" +
+                (new Date().getMonth() + 1) +
+                "月" +
+                new Date().getDate() +
+                "日"}
+            </span>
+          </div>
+        </div>,
+      ]);
+    } else {
+      setRecord((prevArray) => [
+        ...record,
+        <div>
+          <div className="recordP">
+            You lose
+            <br />
+            Your grade:{playergrade}
+            <br />
+            AI grade:{aigrade}
+            <br />
+            <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+              {new Date().toLocaleTimeString() +
+                "/" +
+                new Date().getFullYear() +
+                "年" +
+                (new Date().getMonth() + 1) +
+                "月" +
+                new Date().getDate() +
+                "日"}
+            </span>
+          </div>
+        </div>,
+      ]);
+    }
     writegrade();
     gradefunction = 1;
     setPlaybtn1(1);
@@ -979,6 +1033,25 @@ function RBTGame() {
         </div>
 
         <RedBlackTree data={arr} ref={ref} />
+        <label>
+          <input type="checkbox" className="recordinput" />
+          <div className="toggle">
+            <div className="top-line common"></div>
+            <div className="middle-line common"></div>
+            <div className="bottom-line common"></div>
+          </div>
+          <div className="slide">
+            <h2>Record</h2>
+            <MDBContainer>
+              <div
+                className="scrollbar body mx-auto"
+                style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+              >
+                {tmp.reverse()}
+              </div>
+            </MDBContainer>
+          </div>
+        </label>
         <PDFDocument
           show={documentmodalShow}
           onHide={() => setdocumentModalShow(false)}

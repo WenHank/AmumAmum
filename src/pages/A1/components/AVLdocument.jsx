@@ -92,7 +92,6 @@ function AVLdocument(props) {
           <div>
             <p>
               旋轉又分為『LL 旋轉』,『RR 旋轉』,『LR 旋轉』, 和『RL 旋轉』
-              <br />
               而這些旋轉都圍繞著一個原則，
               <span className="red">『中間值向上提，大的放左小的放右』</span>
             </p>
@@ -100,26 +99,19 @@ function AVLdocument(props) {
             <p>
               請看下方兩張圖 <br />
               因為 Node 5 的新增導致 Node 10 的不平衡，因此從 Node 10
-              開始標記兩個 L
-              <br />
-              因Node5在Node10的左邊，所以在Node10 到 Node8之間標記L <br />
-              因Node5在Node8的左邊，所以在Node8 到 Node6之間標記L <br />
-              標記好之後就可以開始旋轉，目前被選取到的分別是 Node 10, Node 8,
-              Node 6
-              <br />
-              而中間值為 Node 8，所以他向上提，左節點則為 Node 6，右節點則為
-              Node 10
-              <br />
-              你可能會想說啊其他節點像 Node 12 怎麼辦，別忘了 AVL Tree 也是 BST
-              的一
-              <br />
-              種，所以請依照 BST 的規則排好即可，做到這裡你已經完成 LL 旋轉了!
+              開始標記兩個 L ，因Node5在Node10的左邊，所以在Node10 到
+              Node8之間標記L ，因Node5在Node8的左邊，所以在Node8 到
+              Node6之間標記L 標記好之後就可以開始旋轉，目前被選取到的分別是 Node
+              10, Node 8, Node 6 而中間值為 Node 8，所以他向上提，左節點則為
+              Node 6，右節點則為 Node 10 你可能會想說啊其他節點像 Node 12
+              怎麼辦，別忘了 AVL Tree 也是 BST 的一 種，所以請依照 BST
+              的規則排好即可，做到這裡你已經完成 LL 旋轉了!
             </p>
             <div className="center">
               <img className="pdfImg" src="./Img/AVL/pic_5.png" alt="" />
             </div>
             <div className="center">
-              <img className="pdfImg" src="./Img/AVL/arrow.png" alt="" />
+              <img src="./Img/AVL/arrow.png" alt="" />
             </div>
             <br />
             <div className="center">
@@ -134,27 +126,20 @@ function AVLdocument(props) {
             <p>
               請看下方兩張圖 <br />
               因為 Node 15 的新增導致 Node 8 的不平衡，因此從 Node 8
-              開始標記兩個 L
-              <br />
-              因Node15在Node8的右邊，所以在Node8 到 Node10之間標記R <br />
-              因Node15在Node10的左邊，所以在Node10 到 Node12之間標記R <br />
-              標記好之後就可以開始旋轉，目前被選取到的分別是 Node 8, Node 10,
-              Node 12
-              <br />
-              而中間值為 Node 10，所以他向上提，左節點則為 Node 8，右節點則為
-              Node 12
-              <br />
+              開始標記兩個 L， 因Node15在Node8的右邊，所以在Node8 到
+              Node10之間標記R， 因Node15在Node10的左邊，所以在Node10 到
+              Node12之間標記R 標記好之後就可以開始旋轉，目前被選取到的分別是
+              Node 8, Node 10, Node 12 ， 而中間值為 Node
+              10，所以他向上提，左節點則為 Node 8，右節點則為 Node 12 ，
               你可能會想說啊其他節點像 Node 6 或 Node 9 怎麼辦，
-              <br />
-              <span className="red">別忘了 AVL Tree 也是 BST 的一種</span>{" "}
-              <br />
+              <span className="red">別忘了 AVL Tree 也是 BST 的一種</span>
               所以請依照 BST 的規則排好即可，做到這裡你已經完成 RR 旋轉了!
             </p>
             <div className="center">
               <img className="pdfImg" src="./Img/AVL/pic_7.png" alt="" />
             </div>
             <div className="center">
-              <img className="pdfImg" src="./Img/AVL/arrow.png" alt="" />
+              <img src="./Img/AVL/arrow.png" alt="" />
             </div>
             <br />
             <div className="center">
@@ -168,27 +153,21 @@ function AVLdocument(props) {
             <label className="secSubtitle">插入(LR 旋轉)</label>
             <p>
               請看下方兩張圖 <br />
-              因為 Node 13 的新增導致 Node 15 的不平衡
-              <br />
-              因此從 Node 15 開始標記一個 L, 一個 R <br />
-              因Node13在Node15的左邊，所以在Node8 到 Node15之間標記L <br />
-              因Node13在Node8的左邊，所以在Node8 到 Node10之間標記R <br />
-              標記好之後就可以開始旋轉，目前被選取到的分別是 Node 8, Node 10,
-              Node 15
-              <br />
-              而中間值為 Node 10，所以他向上提，左節點則為 Node 8，右節點則為
-              Node 15
-              <br />
+              因為 Node 13 的新增導致 Node 15 的不平衡 ， 因此從 Node 15
+              開始標記一個 L, 一個 R ， 因Node13在Node15的左邊，所以在Node8 到
+              Node15之間標記L ， 因Node13在Node8的左邊，所以在Node8 到
+              Node10之間標記R ， 標記好之後就可以開始旋轉，目前被選取到的分別是
+              Node 8, Node 10, Node 15 ， 而中間值為 Node
+              10，所以他向上提，左節點則為 Node 8，右節點則為 Node 15 ，
               你又可能會想說啊其他節點呢別忘了
-              <span className="red"> AVL Tree 也是 BST 的一種</span>
-              <br />
+              <span className="red"> AVL Tree 也是 BST 的一種</span>，
               所以請依照 BST 的規則排好即可，做到這裡你已經完成 LR 旋轉了!
             </p>
             <div className="center">
               <img className="pdfImg" src="./Img/AVL/pic_9.png" alt="" />
             </div>
             <div className="center">
-              <img className="pdfImg" src="./Img/AVL/arrow.png" alt="" />
+              <img src="./Img/AVL/arrow.png" alt="" />
             </div>
             <br />
             <div className="center">
@@ -203,33 +182,23 @@ function AVLdocument(props) {
             <p>
               請看下方兩張圖
               <br />
-              因為 Node 14 的新增導致 Node 10 的不平衡
-              <br />
-              因此從 Node 10 開始標記一個 R, 一個 L <br />
-              因Node14在Node10的左邊，所以在Node10 到 Node15之間標記R <br />
-              因Node14在Node15的左邊，所以在Node15 到 Node13之間標記L <br />
-              標記好之後就可以開始旋轉，目前被選取到的分別是 Node 10, Node 13,
-              Node 15
-              <br />
-              而中間值為 Node 13，所以他向上提
-              <br />
-              左節點則為 Node 10，右節點則為 Node 15
-              <br />
-              你可能會想說啊其他節點像 Node 8 或 Node 18 怎麼辦
-              <br />
-              Node 8 原本就是 Node 10 的左子點，不需要改動
-              <br />
-              Node 18 也是同樣的道理，他原本就是 Node 15 的因此不需要變 <br />
-              你又可能會想說啊其他節點呢別忘了 AVL Tree 也是 BST 的一種
-              <br />
-              所以請依照 BST 的規則排好即可，做到這裡你已經完成 RL 旋轉了!{" "}
-              <br />
+              因為 Node 14 的新增導致 Node 10 的不平衡 ， 因此從 Node 10
+              開始標記一個 R, 一個 L， 因Node14在Node10的左邊，所以在Node10 到
+              Node15之間標記R ， 因Node14在Node15的左邊，所以在Node15 到
+              Node13之間標記L， 標記好之後就可以開始旋轉，目前被選取到的分別是
+              Node 10, Node 13, Node 15 ， 而中間值為 Node 13，所以他向上提 ，
+              左節點則為 Node 10，右節點則為 Node 15 ， 你可能會想說啊其他節點像
+              Node 8 或 Node 18 怎麼辦 ， Node 8 原本就是 Node 10
+              的左子點，不需要改動 ， Node 18 也是同樣的道理，他原本就是 Node 15
+              的因此不需要變， 你又可能會想說啊其他節點呢別忘了 AVL Tree 也是
+              BST 的一種 ， 所以請依照 BST 的規則排好即可，做到這裡你已經完成 RL
+              旋轉了!
             </p>
             <div className="center">
               <img className="pdfImg" src="./Img/AVL/pic_11.png" alt="" />
             </div>
             <div className="center">
-              <img className="pdfImg" src="./Img/AVL/arrow.png" alt="" />
+              <img src="./Img/AVL/arrow.png" alt="" />
             </div>
             <br />
             <div className="center">
@@ -243,8 +212,7 @@ function AVLdocument(props) {
             <label className="secSubtitle">移除(規則)</label>
             <p>
               動作和 BST 的移除類似，只是多了要檢查
-              <span className="red">是否移除會造成不平衡</span>，若會造成不{" "}
-              <br />
+              <span className="red">是否移除會造成不平衡</span>，若會造成不
               平衡記得旋轉，且可能會<span className="red">多次旋轉</span>
               ，請看下圖移除 10，且以左子樹最大取代
             </p>

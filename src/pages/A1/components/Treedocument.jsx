@@ -61,7 +61,6 @@ function Treedocument(props) {
             <label className="subtitle">如何運用樹：</label>
             <p>
               樹狀結構是資訊領域常用的資料結構之一，例如目前流行的檔案系統就是樹狀結構的一種，
-              <br />
               樹在資料的管理,儲存,搜尋,排序都扮演一個非常重要的角色。
             </p>
             <label className="subtitle">補充</label>

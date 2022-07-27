@@ -133,10 +133,9 @@ to {
 /****************************************************************/
 /**************************LoginPage*****************************/
 .Outline{
-  height:700px;
-  background-image:url(../public/Img/amumamum.PNG);
-  background-position: center;
-  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   animation: fadeIn .5s steps(25,end), flowing 3s steps(25,end) infinite;
 }
 .LoginMain{
@@ -1358,6 +1357,12 @@ svg {
 }
 /****************************************************************/
 /*************************Profile*********************************/
+.profilebtn{
+ margin-left: 1em;
+ font-size: 1em;
+ margin-top: 20px;
+}
+
 .ProfileTitle {
   font-size: 4em;
   width: 12.5em;
@@ -1368,6 +1373,7 @@ svg {
   animation: typingProfile 1.8s steps(150, start),
 }
 .SelfProfile {
+  padding: 20px;
   width: 80%;
   height: 600px;
   overflow: hidden;
@@ -1455,36 +1461,26 @@ svg {
   justify-content: space-between;
 }
 .ChooseClassBox_DIV {
-  /* transition-duration: .5s; */
   border: 1px solid;
-  width: 20%;
-  height: 80%;
-  border-radius: 10px;
-  background-image: url(../public/Img/amumamum.PNG);
-  background-position: top;
-  background-size: 70%;
-  background-repeat: no-repeat;
-  opacity: 0.5;
-  text-align: center;
-  font-size: 30px;
-  line-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  width: 300px;
+  margin-right: 20px;
+  cursor: pointer;
 }
-@media screen and (min-width: 1920px) {
-  .ChooseClass {
-    left: 23%;
-  }
-}
-.ChooseClassBox_DIV:hover {
-  /* transition-duration: .5s; */
-  opacity: 1;
-}
+
 .PasswordLine,
 .EmailLine {
+  flex-direction: column;
   display: flex;
   justify-content: space-between;
-  margin: 30px 100px 10px 100px;
-  border-bottom: 1px dashed #2559bb;
   padding-bottom: 8px;
+}
+.ClassModalContainer{
+  display: flex;
+  flex-direction: row;
 }
 .PasswordLine_Title,
 .EmailLine_Title {
@@ -1521,6 +1517,7 @@ svg {
   line-height: 500px;
   border: 1px solid black;
   border-radius: 20px 20px;
+  margin: 10px;
 }
 
 .GoStudy:hover,
@@ -1649,5 +1646,47 @@ svg {
   .AdminmemberTable{
     width: 350px;
     justify-content: center;
+  }
+  .indexImg{
+    width: 350px;
+    margin-top: 50px;
+  }
+  .LoginMain{
+    width: 350px;
+  }
+  .ProfileTitle{
+    font-size: 1.5rem;
+  }
+  .SelfProfile_Title {
+    font-size: 2rem;
+  }
+  .Classroom{
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    height: auto;
+  }
+  .card{
+    margin-right:0;
+  }
+  .SelfProfile_Self{
+    flex-direction: column;
+  }
+  .SelfProfile{
+    height: auto;
+  }
+  .profilebtn{
+    margin-left: 0;
+  }
+  .ChooseClassBox_DIV{
+    margin-top: 20px;
+    margin-right: 0;
+  }
+  .ClassModalContainer{
+    flex-direction: column;
+    align-items: center;
+  }
+  .GoStudy{
+    margin-bottom: 20px;
   }
 }

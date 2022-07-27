@@ -38,12 +38,11 @@ const Login = ({ User }) => {
     });
   }
   const Refresh = useNavigate();
-  const goAboutUs = () =>{
-    Refresh("/Aboutus")
-  }
+  const goAboutUs = () => {
+    Refresh("/Aboutus");
+  };
   return (
     <div className="LoginMain">
-      <img className="developer" style={{bottom:"30px",right:"30px",top:"auto"}} src="./Img/developer.gif" onClick={goAboutUs}/>
       <h1 className="Login_h1" style={{ userSelect: "none" }}>
         D.S.V PORTAL
       </h1>
