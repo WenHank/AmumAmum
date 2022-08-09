@@ -2,7 +2,7 @@ import React from "react";
 import { BinarySearchTree, useBinarySearchTree } from "react-tree-vis";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { MDBContainer } from "mdbreact";
+import { MDBContainer, scrollbar } from "mdbreact";
 import BSTdocument from "../../A1/components/BSTdocument";
 
 function getRandom(min, max) {
@@ -351,6 +351,7 @@ function BST() {
   const [postordermodalShow, setpostorderModalShow] = React.useState(false);
   const [record, setRecord] = useState([]);
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
+  const TreescrollContainerStyle = { maxWidth: "400px", height: "100%" };
 
   //把紀錄反過來
   let tmp = [...record];
@@ -831,7 +832,16 @@ function BST() {
           show={postordermodalShow}
           onHide={() => setpostorderModalShow(false)}
         />
-        <BinarySearchTree data={arr} ref={ref} />
+        <div className="treeContainer">
+          {/* <MDBContainer>
+            <div
+              className="scrollbar body mx-auto"
+              style={TreescrollContainerStyle}
+            > */}
+          <BinarySearchTree data={arr} ref={ref} />
+          {/* </div>
+          </MDBContainer> */}
+        </div>
       </div>
     </div>
   );

@@ -774,7 +774,7 @@ function RBTGame() {
             />
           </div>
         </div>
-        <div className="rowCssA3Input">
+        <div className="rowCss">
           <div className="roundContainer" style={roundStyle}>
             <h2 style={fontcolor}>{DifficultyWord}</h2>
             <h2>Round {round}</h2>

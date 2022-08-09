@@ -141,6 +141,7 @@ class A2 extends React.Component {
     this.state = {
       Container: <Home />,
       StudentId: "",
+      slidebarOC: "slideHeader",
     };
     this.handle = this.handle.bind(this);
   }
@@ -186,20 +187,17 @@ class A2 extends React.Component {
                 <img
                   className="settingIcon"
                   src="data:image/png;base64,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"
-                />
-                <Button
-                  variant="outline-dark"
                   onClick={() => {
-                    this.handle(<Home />);
+                    if (this.state.slidebarOC === "slideHeader slideHeaderO") {
+                      this.setState({ slidebarOC: "slideHeader" });
+                    } else {
+                      this.setState({ slidebarOC: "slideHeader slideHeaderO" });
+                    }
                   }}
-                  to="/A3/Home"
-                  id="301"
-                >
-                  Index
-                </Button>
+                />
               </div>
             </div>
-            <div className="slideHeader">
+            <div className={this.state.slidebarOC}>
               <div
                 className="block"
                 style={{ marginTop: "150px", width: "100%" }}
@@ -210,6 +208,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<Treedocument />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                     id="302"
                   >
@@ -222,6 +229,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<BST />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Demonstration
@@ -230,6 +246,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<BSTcreate />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Create
@@ -238,6 +263,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<BSTorder />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Order
@@ -249,6 +283,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<AVL />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Demonstration
@@ -257,6 +300,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<AVLcreate />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Create
@@ -265,6 +317,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<AVLorder />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Order
@@ -276,6 +337,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<RBT />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Demonstration
@@ -284,6 +354,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<RBTcreate />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Create
@@ -292,6 +371,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<RBTorder />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     Order
@@ -303,6 +391,15 @@ class A2 extends React.Component {
                     variant="outline-dark"
                     onClick={() => {
                       this.handle(<Grade />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                     id="305"
                   >
@@ -316,6 +413,15 @@ class A2 extends React.Component {
                     id="A3_Test"
                     onClick={() => {
                       this.handle(<BSTTEST />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                   >
                     BST Test
@@ -323,6 +429,15 @@ class A2 extends React.Component {
                   <Button
                     onClick={() => {
                       this.handle(<AVLTEST />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                     variant="outline-dark"
                     id="A3_Test"
@@ -332,6 +447,15 @@ class A2 extends React.Component {
                   <Button
                     onClick={() => {
                       this.handle(<RBTTEST />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                     variant="outline-dark"
                     id="A3_Test"
@@ -341,6 +465,15 @@ class A2 extends React.Component {
                   <Button
                     onClick={() => {
                       this.handle(<MIXEDTEST />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
                     }}
                     variant="outline-dark"
                     id="A3_Test"

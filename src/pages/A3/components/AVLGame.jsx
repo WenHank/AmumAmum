@@ -734,14 +734,10 @@ function AVLGame() {
     ////////////////////////////////
     //////////送出請求///////////////
     if (gradefunction) {
-      await axios.post(post, Writegrade).then((response) => {
-        // console.log(response);
-      });
+      await axios.post(post, Writegrade).then((response) => {});
       await axios
         .post(process.env.REACT_APP_AXIOS_GRADESRANKING, WritegradeRanking)
-        .then((response) => {
-          // console.log(response);
-        });
+        .then((response) => {});
       gradefunction = 0;
     }
   }
@@ -770,7 +766,7 @@ function AVLGame() {
               />
             </div>
           </div>
-          <div className="rowCssA3Input">
+          <div className="rowCss">
             <div className="roundContainer" style={roundStyle}>
               <h2 style={fontcolor}>{DifficultyWord}</h2>
               <h2>Round {round}</h2>

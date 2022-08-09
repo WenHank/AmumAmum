@@ -16,6 +16,9 @@ code {
 iframe{
   height: 1000px;
 }
+input{
+  margin: 5px;
+}
 /****************************************************************/
 /**************************Public*****************************/
 .pdfImg{
@@ -25,6 +28,7 @@ iframe{
 .rowCss{
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 .columnCss{
   display: flex;
@@ -44,6 +48,12 @@ iframe{
 }
 .pageNumber{
   width: 100%;
+}
+.treeContainer{
+  width: 500px;
+  height: 400px;
+  overflow: scroll;
+  white-space: nowrap;
 }
 /****************************************************************/
 /**************************Header*****************************/
@@ -70,6 +80,11 @@ iframe{
   flex-direction: column;
   align-items: center;
   z-index: 1;
+  position: fixed;
+}
+
+.slideHeaderO{
+  transform: translateY(0%);
 }
 
 .sidebarinput{
@@ -79,12 +94,16 @@ iframe{
   -webkit-appearance: none;
 }
 
+.cataItem{
+  -webkit-appearance: none;
+}
+
 .triangleHeader{
   width: 300px;
   height: 300px;
   background-color: orange;
   transform: rotate(45deg);
-  position: absolute;
+  position: fixed;
   left: -150px;
   top: -150px;
   cursor: pointer;
@@ -92,7 +111,7 @@ iframe{
 }
 
 .setting{
-  position: absolute;
+  position: fixed;
   left: 20px;
   top: 20px;
   z-index: 2;
@@ -127,9 +146,10 @@ to {
   z-index: 1;
 }
 
-.sidebarinput:checked ~ .slideHeader {
+/* .sidebarinput:checked ~ .slideHeader {
   transform: translateY(0px);
-}
+} */
+
 /****************************************************************/
 /**************************LoginPage*****************************/
 .Outline{
@@ -913,8 +933,6 @@ svg {
 .timer-wrapper {
   display: flex;
   justify-content: center;
-  margin-left: 100px;
-  margin-right: 100px;
   border-radius: 50%;
 }
 
@@ -964,6 +982,7 @@ svg {
   flex-direction: column;
   padding: 10px;
   border-radius: 10px;
+  margin: 20px;
 }
 .toolate{
   box-shadow: 0 0 15px red;
@@ -1174,24 +1193,32 @@ svg {
   position: absolute;
   top: 15%;
   left: 25%;
-  width: 600px;
-  height: 600px;
+  width: 650px;
+  height: 650px;
   background-image: url(../public/Img/Note/Note_Box_Back.png);
-  background-size: cover;
+  background-size: 95%;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 10px;
-  z-index: 1000000;
+  z-index:101;
 }
+
 #NoteBlock {
-  visibility: hidden;
+  display: none;
   position: absolute;
-  z-index: 100;
+  z-index:100;
   width: 100%;
   height: 100%;
   overflow: hidden;
   background-color: #424141;
   opacity: 0.5;
+}
+
+#ImgToBig{
+  z-index:102;
+}
+.NoteEditBtn{
+  display:flex;
 }
 .Note_Box {
   display: flex;
@@ -1215,6 +1242,10 @@ svg {
   height: 580px;
   width: 75%;
 }
+.NoteContentTime{
+  font-size:10px;
+  text-align:right;
+}
 .AddSubClassify {
   transition-duration: 0.4s;
   height: 100%;
@@ -1229,19 +1260,28 @@ svg {
 }
 .Note_CreateBtn {
   margin-top: 10px;
-  margin-left: 100px;
+  margin-left: 10%;
+}
+.NoteTotalCount{
+  line-height:250%;
+  width:10%;
+  font-size:8px;
+  text-align: center;
+  border-radius:10px;
+  border:0.3px solid rgba(0,0,0,0.3);
 }
 .AddNote {
   transition-duration: 0.4s;
   height: 50px;
+  margin-bottom: 8px;
   text-align: center;
   border: 0.5px solid black;
   border-radius: 20px;
-  background-color: #598eb1;
+  background-color: rgba(89, 142, 177,0.2);
 }
 .AddNote:hover {
   transition-duration: 0.4s;
-  background-color: #74b7e3;
+  background-color: rgba(89, 142, 177,0.8);
 }
 .NoteDroppable {
   transition-duration: 0.4s;
@@ -1281,8 +1321,164 @@ svg {
   color: white;
 }
 .Note_h2 {
+  font-size: 2em;
+  margin-left:5%;
+  margin-top:10%;
+  margin-bottom: 5%;
+}
+.Note_ShowImage{
+  border-radius: 5px;
+  padding:10px;
+  margin-left:5%;
+  width:20%;
+  height:auto;
+}
+.Note_Image_Content{
+  display: flex;
+  height:400px;
+}
+.UploadImgBtn{
+  transition-duration:0.3s;
+  margin-top: 1px;
+  border: 1px solid black;
+  padding: 7px;
+  border-radius: 5px;
+}
+.UploadImgBtn:hover{
+  transition-duration:0.3s;
+  background-color:rgba(0, 0, 0, 0.1)
+}
+.Question_Create{
+  position: absolute;
+  top: 16%;
+  left: 20%;
+  width: 800px;
+  height: 650px;
+  overflow: scroll;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  z-index:101;
   text-align: center;
-  margin-top: 23%;
+}
+#CreateQuestion{
+  top:10%;
+  height:750px;
+}
+.QuestionContainer{
+  margin-top:15px;
+  width:100%;
+  height: 100%;
+  overflow: scroll;
+}
+.QuestionCard{
+  float:left;
+}
+.QuestionTxt{
+  margin:0 auto;
+  margin-bottom: 5px;
+  margin-top:5%;
+  width:95%;
+  border-left: 1px solid rgba(0,0,0,0.3);
+  border-right: 1px solid rgba(0,0,0,0.3);
+  border-radius: 20px;
+  padding:5px;
+}
+.QuestionTitle{
+  width:90%;
+}
+.QuestionSubTitle{
+  font-size:5px;
+}
+.QuestionContent{
+  text-align: left;
+  font-size:20px;
+  margin:0 auto;
+  width:95%;
+  height:auto;
+  border-left:1px solid rgba(0,0,0,0.3);
+  border-right:1px solid rgba(0,0,0,0.3);
+  border-radius: 20px;
+  white-space: pre-line;
+  padding:5px;
+  overflow:auto;
+  margin-bottom:10px;
+}
+.QuestionResponse{
+  width:95%;
+  margin:0 auto;
+  padding:5px;
+  border-left:1px solid rgba(0,0,0,0.8);
+  border-right:1px solid rgba(0,0,0,0.8);
+  border-radius: 20px;
+  margin-bottom:10px;
+}
+.QuestionResponse_sendResponse{
+  margin:5px 5px 5px 5px;
+  padding:5px;
+  background-color:rgba(131, 123, 109, 0.3);
+  height:135px;
+  border-radius: 20px;
+}
+.sendResponseBtn{
+  margin:5px;
+  padding-right:10px;
+  float:right;
+}
+.QuestionResponse_Card{
+  margin:5px 5px 5px 5px;
+  padding:5px;
+  background-color:rgba(131, 123, 109, 0.5);
+  height:auto;
+  border-radius: 20px;
+  text-align: left;
+}
+.Card_Account{
+  display: flex;
+}
+.Card_Id{
+  margin-left:2px;
+  font-size:16px;
+  margin-bottom: 0;
+}
+.Card_Identify{
+  user-select: none;
+  border: 1px solid rgba(0,0,0,0.4);
+  border-radius: 20px;
+  padding:0 10px 0 10px;
+  height:20px;
+  margin-top:1.5%;
+  margin-left:10px;
+  font-size:12px;
+  text-align: center;
+}
+.Card_Time{
+  font-size: 12px;
+  color:rgba(0,0,0,0.5);
+  margin-bottom: 0;
+}
+.Card_Reply , .Card_Cancel{
+  color:rgba(0,0,0,0.8);
+  width:95%;
+  margin-left:3%;
+  font-size:15px;
+  text-align: left;
+  white-space: pre-line;
+  height: auto;
+}
+.Card_Floor{
+  margin-bottom: 0;
+  line-height: 220%;
+  margin-right: 10px;
+}
+#Teacher{
+  background-color:rgba(43, 76, 125, 0.6);
+}
+#Author{
+  background-color:rgba(163, 0, 0, 0.6);
+}
+#Delete{
+  background-color:rgba(255,255,255,0.1);
+  border:1px solid rgba(0,0,0,0.7);
 }
 /****************************************************************/
 /*************************AboutUs*********************************/
@@ -1574,7 +1770,7 @@ svg {
   .bst, .avl, .rbt, .AVlInteractive, .BSTInteractive, .RBTInteractive, .BSTgame, .AVLgame, .RBTgame{
     margin-top: 120px;
   }
-  .rowCssA2Input, .rowCssA3Input, .A3Input{
+  .rowCssA3Input, .A3Input{
     flex-direction: column;
     align-items: center;
   }
@@ -1688,5 +1884,29 @@ svg {
   }
   .GoStudy{
     margin-bottom: 20px;
+  }
+  .slideHeader , .slideHeaderO{
+    width: 100%;
+    height: 100%;
+  }
+  .triangleHeader{
+    top: -200px;
+    left: -200px;
+  }
+  .setting{
+    top: 10px;
+    left: 10px;
+  }
+  .settingIcon{
+    width: 50px;
+  }
+}
+
+@media (max-width: 1050px){
+  .rowCssA2Input{
+    flex-direction: column;
+  }
+  .gradetitle{
+    flex-direction: column;
   }
 }

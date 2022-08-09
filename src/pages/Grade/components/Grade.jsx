@@ -182,7 +182,6 @@ export default function Grade(props) {
       setUserData(response.data);
       sID = response.data.StudentId;
       if (props.StudentId !== undefined) {
-        console.log(props.StudentId);
         sID = props.StudentId;
         axios({
           method: "POST",
@@ -195,413 +194,6 @@ export default function Grade(props) {
           setUserData(response.data);
         });
       }
-    });
-    //Google sheet AnsType
-    await axios({
-      method: "POST",
-      data: {
-        MajorAndType: "BST",
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
-    }).then((response) => {
-      googledataBSTAnsType = response.data.AnsType;
-    });
-    await axios({
-      method: "POST",
-      data: {
-        MajorAndType: "AVL",
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
-    }).then((response) => {
-      googledataAVLAnsType = response.data.AnsType;
-    });
-    await axios({
-      method: "POST",
-      data: {
-        MajorAndType: "RBT",
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
-    }).then((response) => {
-      googledataRBTAnsType = response.data.AnsType;
-    });
-    await axios({
-      method: "POST",
-      data: {
-        MajorAndType: "MIXED",
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
-    }).then((response) => {
-      googledataMIXEDAnsType = response.data.AnsType;
-    });
-    //BST AVL RBT EASYINFO
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOEASY,
-    }).then((response) => {
-      let tmp = [];
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmp[i] = "第" + (i + 1) + "次";
-        tmptable[i] = (
-          <div
-            key={"BSTEASY" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      labels = tmp;
-      setUserBSTgradesEasyTable(tmptable);
-      setUserBSTgradesEasy(response.data.Grades.map(Number));
-    });
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOEASY,
-    }).then((response) => {
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmptable[i] = (
-          <div
-            key={"AVLEASY" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      setUserAVLgradesEasyTable(tmptable);
-      setUserAVLgradesEasy(response.data.Grades.map(Number));
-    });
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOEASY,
-    }).then((response) => {
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmptable[i] = (
-          <div
-            key={"RBTEASY" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      setUserRBTgradesEasyTable(tmptable);
-      setUserRBTgradesEasy(response.data.Grades.map(Number));
-    });
-    //BST AVL RBT MEDIUMINFO
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOMEDIUM,
-    }).then((response) => {
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmptable[i] = (
-          <div
-            key={"BSTMEDIUM" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      setUserBSTgradesMediumTable(tmptable);
-      setUserBSTgradesMedium(response.data.Grades.map(Number));
-    });
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOMEDIUM,
-    }).then((response) => {
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmptable[i] = (
-          <div
-            key={"AVLMEDIUM" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      setUserAVLgradesMediumTable(tmptable);
-      setUserAVLgradesMedium(response.data.Grades.map(Number));
-    });
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOMEDIUM,
-    }).then((response) => {
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmptable[i] = (
-          <div
-            key={"RBTMEDIUM" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      setUserRBTgradesMediumTable(tmptable);
-      setUserRBTgradesMedium(response.data.Grades.map(Number));
-    });
-    //BST AVL RBT HARD
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOHARD,
-    }).then((response) => {
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmptable[i] = (
-          <div
-            key={"BSTHARD" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      setUserBSTgradesHardTable(tmptable);
-      setUserBSTgradesHard(response.data.Grades.map(Number));
-    });
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOHARD,
-    }).then((response) => {
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmptable[i] = (
-          <div
-            key={"AVLHARD" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      setUserAVLgradesHardTable(tmptable);
-      setUserAVLgradesHard(response.data.Grades.map(Number));
-    });
-    await axios({
-      method: "POST",
-      data: {
-        StudentId: sID,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOHARD,
-    }).then((response) => {
-      let tmptable = [];
-      for (let i = 0; i < response.data.Grades.length; i++) {
-        let tmptime = response.data.Time[i].split(" ");
-        let time =
-          tmptime[0] +
-          " " +
-          tmptime[1] +
-          " " +
-          tmptime[2] +
-          " " +
-          tmptime[3] +
-          " " +
-          tmptime[4];
-        tmptable[i] = (
-          <div
-            key={"RBTHARD" + i}
-            className="rankingItem"
-            style={{ display: "flex", flexDirection: "row" }}
-            label={i}
-          >
-            <div style={{ fontSize: "30px" }}>{i + 1} </div>
-            <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
-              {response.data.Grades[i]}分
-            </div>
-            <div style={{ margin: "0 10px 0 0 " }}>/</div>
-            <div style={{ fontSize: "20px" }}>{time}</div>
-          </div>
-        );
-      }
-      setUserRBTgradesHardTable(tmptable);
-      setUserRBTgradesHard(response.data.Grades.map(Number));
     });
     //BST RANKING
     await axios({
@@ -841,6 +433,7 @@ export default function Grade(props) {
       }
       setBsthardranking(tmp);
     });
+
     //AVL RANKING
     await axios({
       method: "POST",
@@ -1079,6 +672,7 @@ export default function Grade(props) {
       }
       setAvlhardranking(tmp);
     });
+
     //RBT RANKING
     await axios({
       method: "POST",
@@ -1317,6 +911,442 @@ export default function Grade(props) {
       }
       setRbthardranking(tmp);
     });
+
+    //BST AVL RBT EASYINFO
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOEASY,
+    }).then((response) => {
+      let tmp = [];
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmp[i] = "第" + (i + 1) + "次";
+          tmptable[i] = (
+            <div
+              key={"BSTEASY" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        labels = tmp;
+        setUserBSTgradesEasyTable(tmptable);
+        setUserBSTgradesEasy(response.data.Grades.map(Number));
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOEASY,
+    }).then((response) => {
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmptable[i] = (
+            <div
+              key={"AVLEASY" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        setUserAVLgradesEasyTable(tmptable);
+        setUserAVLgradesEasy(response.data.Grades.map(Number));
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOEASY,
+    }).then((response) => {
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmptable[i] = (
+            <div
+              key={"RBTEASY" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        setUserRBTgradesEasyTable(tmptable);
+        setUserRBTgradesEasy(response.data.Grades.map(Number));
+      }
+    });
+    //BST AVL RBT MEDIUMINFO
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOMEDIUM,
+    }).then((response) => {
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmptable[i] = (
+            <div
+              key={"BSTMEDIUM" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        setUserBSTgradesMediumTable(tmptable);
+        setUserBSTgradesMedium(response.data.Grades.map(Number));
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOMEDIUM,
+    }).then((response) => {
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmptable[i] = (
+            <div
+              key={"AVLMEDIUM" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        setUserAVLgradesMediumTable(tmptable);
+        setUserAVLgradesMedium(response.data.Grades.map(Number));
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOMEDIUM,
+    }).then((response) => {
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmptable[i] = (
+            <div
+              key={"RBTMEDIUM" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        setUserRBTgradesMediumTable(tmptable);
+        setUserRBTgradesMedium(response.data.Grades.map(Number));
+      }
+    });
+    //BST AVL RBT HARD
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_BSTGRADEINFOHARD,
+    }).then((response) => {
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmptable[i] = (
+            <div
+              key={"BSTHARD" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        setUserBSTgradesHardTable(tmptable);
+        setUserBSTgradesHard(response.data.Grades.map(Number));
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_AVLGRADEINFOHARD,
+    }).then((response) => {
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmptable[i] = (
+            <div
+              key={"AVLHARD" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        setUserAVLgradesHardTable(tmptable);
+        setUserAVLgradesHard(response.data.Grades.map(Number));
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        StudentId: sID,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_RBTGRADEINFOHARD,
+    }).then((response) => {
+      let tmptable = [];
+      if (response.data.length !== 0) {
+        for (let i = 0; i < response.data.Grades.length; i++) {
+          let tmptime = response.data.Time[i].split(" ");
+          let time =
+            tmptime[0] +
+            " " +
+            tmptime[1] +
+            " " +
+            tmptime[2] +
+            " " +
+            tmptime[3] +
+            " " +
+            tmptime[4];
+          tmptable[i] = (
+            <div
+              key={"RBTHARD" + i}
+              className="rankingItem"
+              style={{ display: "flex", flexDirection: "row" }}
+              label={i}
+            >
+              <div style={{ fontSize: "30px" }}>{i + 1} </div>
+              <div style={{ fontSize: "20px", margin: "0 10px 0 0 " }}>
+                {response.data.Grades[i]}分
+              </div>
+              <div style={{ margin: "0 10px 0 0 " }}>/</div>
+              <div style={{ fontSize: "20px" }}>{time}</div>
+            </div>
+          );
+        }
+        setUserRBTgradesHardTable(tmptable);
+        setUserRBTgradesHard(response.data.Grades.map(Number));
+      }
+    });
+
+    //Google sheet AnsType
+    await axios({
+      method: "POST",
+      data: {
+        MajorAndType: "BST",
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
+    }).then((response) => {
+      if (response.data.length !== 0) {
+        googledataBSTAnsType = response.data.AnsType;
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        MajorAndType: "AVL",
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
+    }).then((response) => {
+      if (response.data.length !== 0) {
+        googledataAVLAnsType = response.data.AnsType;
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        MajorAndType: "RBT",
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
+    }).then((response) => {
+      if (response.data.length !== 0) {
+        googledataRBTAnsType = response.data.AnsType;
+      }
+    });
+    await axios({
+      method: "POST",
+      data: {
+        MajorAndType: "MIXED",
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_GOOGLESHEETGRADESINFO,
+    }).then((response) => {
+      if (response.data.length !== 0) {
+        googledataMIXEDAnsType = response.data.AnsType;
+      }
+    });
+
     //Google Sheet
     let tmpgooglesheetdataMixed;
     let tmpgooglesheetdataBST;
