@@ -146,7 +146,7 @@ const columnsFromBackend = {
     items: [],
   },
   [uuidv4()]: {
-    title: "table",
+    title: "",
     items: dndArr,
   },
 };
@@ -176,16 +176,50 @@ const Title = styled.span`
   align-self: flex-start;
 `;
 
-let Treestyle = [
-  "300px",
-  "150px",
-  "300px",
-  "0px",
-  "300px",
-  "150px",
-  "300px",
-  "0px",
+const widthS = document.body.clientWidth / 2 - 50;
+let TreestyleTop = [
+  "520px",
+  "380px",
+  "520px",
+  "250px",
+  "520px",
+  "380px",
+  "520px",
+  "100px",
 ];
+
+let TreestyleLeft = [
+  `${widthS - 180}` + "px",
+  `${widthS - 120}` + "px",
+  `${widthS - 60}` + "px",
+  `${widthS}` + "px",
+  `${widthS + 60}` + "px",
+  `${widthS + 120}` + "px",
+  `${widthS + 180}` + "px",
+  `${widthS - 150}` + "px",
+];
+if (document.body.clientWidth <= 450) {
+  TreestyleTop = [
+    "670px",
+    "530px",
+    "670px",
+    "400px",
+    "670px",
+    "530px",
+    "670px",
+    "250px",
+  ];
+  TreestyleLeft = [
+    `${widthS - 150}` + "px",
+    `${widthS - 100}` + "px",
+    `${widthS - 50}` + "px",
+    `${widthS}` + "px",
+    `${widthS + 50}` + "px",
+    `${widthS + 100}` + "px",
+    `${widthS + 150}` + "px",
+    `${widthS - 150}` + "px",
+  ];
+}
 //規則
 function MyVerticallyCenteredModal(props) {
   return (
@@ -293,11 +327,13 @@ const Kanban = () => {
                     style={{
                       height:
                         index === 7
-                          ? "570px"
+                          ? "100px"
                           : `${column.items.length * 30 + 120}px`,
-                      position: "relative",
-                      top: `${Treestyle[index]}`,
+                      flexDirection: index === 7 ? "row" : "column",
+                      position: "absolute",
+                      top: `${TreestyleTop[index]}`,
                       marginLeft: "10px",
+                      left: `${TreestyleLeft[index]}`,
                     }}
                     id={index.toString()}
                   >
@@ -325,7 +361,7 @@ function BSTcreate() {
 
   return (
     <div className="A3">
-      <div className="AVlInteractive">
+      <div className="BSTInteractive">
         <div className="rowCss">
           <h1>BST Create</h1>
           <div className="hintContainer">
@@ -341,25 +377,92 @@ function BSTcreate() {
           <div className="avltreecontainer">
             <Kanban />
             <div className="avlinteractiveButtons">
-              <div className="rowCss" style={{ alignItems: "baseline" }}>
-                <Button
-                  variant="outline-dark"
-                  style={{ marginTop: "20px" }}
-                  onClick={() => {
-                    async function newTree(params) {
-                      RandomTree();
+              <Button
+                variant="outline-dark"
+                onClick={() => {
+                  async function newTree(params) {
+                    RandomTree();
+                  }
+                  newTree();
+                  let correctS = document.querySelectorAll(".correct");
+                  let wrongS = document.querySelectorAll(".wrong");
+                  correctS[0].style.visibility = "hidden";
+                  wrongS[0].style.visibility = "hidden";
+                  setRecord((prevArray) => [
+                    ...record,
+                    <div>
+                      <div className="recordP">
+                        {"Random \n"}
+                        <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+                          {new Date().toLocaleTimeString() +
+                            "/" +
+                            new Date().getFullYear() +
+                            "年" +
+                            (new Date().getMonth() + 1) +
+                            "月" +
+                            new Date().getDate() +
+                            "日"}
+                        </span>
+                      </div>
+                    </div>,
+                  ]);
+                }}
+              >
+                Random
+              </Button>
+              <Button
+                variant="outline-dark"
+                onClick={() => {
+                  let ans = [];
+                  let flag = 0;
+                  let correctS = document.querySelector(".correct");
+                  let wrongS = document.querySelector(".wrong");
+                  async function check() {
+                    function catchItems() {
+                      for (let i = 0; i < dndArr.length; i++) {
+                        let b = document
+                          .getElementById(i.toString())
+                          .getElementsByClassName("theItem");
+                        if (b.length > 1 || b.length === 0) {
+                          correctS.style.visibility = "hidden";
+                          wrongS.style.visibility = "visible";
+                          break;
+                        } else {
+                          ans.push(b[0].innerText);
+                        }
+                      }
                     }
-                    newTree();
-                    let correctS = document.querySelectorAll(".correct");
-                    let wrongS = document.querySelectorAll(".wrong");
-                    correctS[0].style.visibility = "hidden";
-                    wrongS[0].style.visibility = "hidden";
+                    catchItems();
+                  }
+                  check();
+                  if (ans.length === 7) {
+                    for (let i = 0; i < 6; i++) {
+                      if (ans[i] > ans[i + 1]) {
+                        correctS.style.visibility = "hidden";
+                        wrongS.style.visibility = "visible";
+                        flag = 0;
+                        break;
+                      }
+                      flag = 1;
+                    }
+                  } else {
+                    correctS.style.visibility = "hidden";
+                    wrongS.style.visibility = "visible";
+                  }
+                  if (flag === 1) {
+                    correctS.style.visibility = "visible";
+                    wrongS.style.visibility = "hidden";
                     setRecord((prevArray) => [
                       ...record,
                       <div>
                         <div className="recordP">
-                          {"Random \n"}
-                          <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+                          {"Correct \n"}
+                          <span
+                            style={{
+                              fontSize: "10px",
+                              color: "rgb(155, 155, 155)",
+                            }}
+                          >
                             {new Date().toLocaleTimeString() +
                               "/" +
                               new Date().getFullYear() +
@@ -372,114 +475,37 @@ function BSTcreate() {
                         </div>
                       </div>,
                     ]);
-                  }}
-                >
-                  Random
-                </Button>
-                <Button
-                  variant="outline-dark"
-                  style={{
-                    marginLeft: "50px",
-                    marginTop: "220px",
-                    position: "static",
-                  }}
-                  onClick={() => {
-                    let ans = [];
-                    let flag = 0;
-                    let correctS = document.querySelector(".correct");
-                    let wrongS = document.querySelector(".wrong");
-                    async function check() {
-                      function catchItems() {
-                        for (let i = 0; i < dndArr.length; i++) {
-                          let b = document
-                            .getElementById(i.toString())
-                            .getElementsByClassName("theItem");
-                          if (b.length > 1 || b.length === 0) {
-                            correctS.style.visibility = "hidden";
-                            wrongS.style.visibility = "visible";
-                            break;
-                          } else {
-                            ans.push(b[0].innerText);
-                          }
-                        }
-                      }
-                      catchItems();
-                    }
-                    check();
-                    if (ans.length === 7) {
-                      for (let i = 0; i < 6; i++) {
-                        if (ans[i] > ans[i + 1]) {
-                          correctS.style.visibility = "hidden";
-                          wrongS.style.visibility = "visible";
-                          flag = 0;
-                          break;
-                        }
-                        flag = 1;
-                      }
-                    } else {
-                      correctS.style.visibility = "hidden";
-                      wrongS.style.visibility = "visible";
-                    }
-                    if (flag === 1) {
-                      correctS.style.visibility = "visible";
-                      wrongS.style.visibility = "hidden";
-                      setRecord((prevArray) => [
-                        ...record,
-                        <div>
-                          <div className="recordP">
-                            {"Correct \n"}
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                color: "rgb(155, 155, 155)",
-                              }}
-                            >
-                              {new Date().toLocaleTimeString() +
-                                "/" +
-                                new Date().getFullYear() +
-                                "年" +
-                                (new Date().getMonth() + 1) +
-                                "月" +
-                                new Date().getDate() +
-                                "日"}
-                            </span>
-                          </div>
-                        </div>,
-                      ]);
-                    } else {
-                      setRecord((prevArray) => [
-                        ...record,
-                        <div>
-                          <div className="recordP">
-                            {"Wrong \n"}
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                color: "rgb(155, 155, 155)",
-                              }}
-                            >
-                              {new Date().toLocaleTimeString() +
-                                "/" +
-                                new Date().getFullYear() +
-                                "年" +
-                                (new Date().getMonth() + 1) +
-                                "月" +
-                                new Date().getDate() +
-                                "日"}
-                            </span>
-                          </div>
-                        </div>,
-                      ]);
-                    }
-                  }}
-                >
-                  Submit
-                </Button>
-              </div>
-              <div className="rowCss">
-                <img className="correct" src="/Img/correct.png" />
-                <img className="wrong" src="/Img/wrong.png" />
-              </div>
+                  } else {
+                    setRecord((prevArray) => [
+                      ...record,
+                      <div>
+                        <div className="recordP">
+                          {"Wrong \n"}
+                          <span
+                            style={{
+                              fontSize: "10px",
+                              color: "rgb(155, 155, 155)",
+                            }}
+                          >
+                            {new Date().toLocaleTimeString() +
+                              "/" +
+                              new Date().getFullYear() +
+                              "年" +
+                              (new Date().getMonth() + 1) +
+                              "月" +
+                              new Date().getDate() +
+                              "日"}
+                          </span>
+                        </div>
+                      </div>,
+                    ]);
+                  }
+                }}
+              >
+                Submit
+              </Button>
+              <img className="correct" src="/Img/correct.png" />
+              <img className="wrong" src="/Img/wrong.png" />
             </div>
           </div>
         </div>

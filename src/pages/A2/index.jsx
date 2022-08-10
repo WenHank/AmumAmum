@@ -200,8 +200,35 @@ class A2 extends React.Component {
             <div className={this.state.slidebarOC}>
               <div
                 className="block"
-                style={{ marginTop: "150px", width: "100%" }}
+                style={{
+                  marginTop: "150px",
+                  width: "100%",
+                  overflow: "scroll",
+                }}
               >
+                <div className="columnCss" style={{ width: "100%" }}>
+                  <h4 className="catablock">Index</h4>
+                  <Button
+                    className="cataItem"
+                    variant="outline-dark"
+                    onClick={() => {
+                      this.handle(<Home />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
+                    }}
+                    to="/A3/Home"
+                    id="301"
+                  >
+                    Index
+                  </Button>
+                </div>
                 <div className="columnCss" style={{ width: "100%" }}>
                   <h4 className="catablock">Introduction</h4>
                   <Button

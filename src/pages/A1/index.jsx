@@ -201,6 +201,29 @@ class A1 extends React.Component {
                 style={{ marginTop: "150px", width: "100%" }}
               >
                 <div className="columnCss" style={{ width: "100%" }}>
+                  <h4 className="catablock">Index</h4>
+                  <Button
+                    className="cataItem"
+                    variant="outline-dark"
+                    onClick={() => {
+                      this.handle(<Home />);
+                      if (
+                        this.state.slidebarOC === "slideHeader slideHeaderO"
+                      ) {
+                        this.setState({ slidebarOC: "slideHeader" });
+                      } else {
+                        this.setState({
+                          slidebarOC: "slideHeader slideHeaderO",
+                        });
+                      }
+                    }}
+                    to="/A3/Home"
+                    id="301"
+                  >
+                    Index
+                  </Button>
+                </div>
+                <div className="columnCss" style={{ width: "100%" }}>
                   <h4 className="catablock">Introduction</h4>
                   <Button
                     variant="outline-dark"

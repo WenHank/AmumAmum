@@ -50,10 +50,6 @@ input{
   width: 100%;
 }
 .treeContainer{
-  width: 500px;
-  height: 400px;
-  overflow: scroll;
-  white-space: nowrap;
 }
 /****************************************************************/
 /**************************Header*****************************/
@@ -79,7 +75,7 @@ input{
   transform: translateY(-150%);
   flex-direction: column;
   align-items: center;
-  z-index: 1;
+  z-index: 2;
   position: fixed;
 }
 
@@ -107,14 +103,14 @@ input{
   left: -150px;
   top: -150px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 3;
 }
 
 .setting{
   position: fixed;
-  left: 20px;
+  left: 50px;
   top: 20px;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -143,7 +139,7 @@ to {
 }
 
 .toggleHeader{
-  z-index: 1;
+  z-index: 3;
 }
 
 /* .sidebarinput:checked ~ .slideHeader {
@@ -713,15 +709,8 @@ svg {
   width: 48px;
   height: 48px;
   visibility: hidden;
-  margin-left: 100px;
-  margin-bottom: 10px;
 }
-.correct{
-  position: absolute;
-}
-.wrong{
-  position: absolute;
-}
+
 .Dndcontainer{
   display: flex;
   flex-direction: row;
@@ -756,9 +745,11 @@ svg {
 }
 .avlinteractiveButtons{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  top: 680px;
 }
 /****************************************************************/
 /*************************A3_RBT*********************************/
@@ -1753,6 +1744,15 @@ svg {
   }
 }
 
+@media (max-width: 450px){
+  .BSTInteractive , .AVlInteractive , .RBTInteractive{
+    margin: 150px 0 0 0;
+  }
+  .avlinteractiveButtons{
+    top: 800px;
+  }
+}
+
 @media (max-width: 768px){
   .pdfImg{
       width: 300px;
@@ -1767,7 +1767,7 @@ svg {
   .pageNumber{
     display: none;
   }
-  .bst, .avl, .rbt, .AVlInteractive, .BSTInteractive, .RBTInteractive, .BSTgame, .AVLgame, .RBTgame{
+  .bst, .avl, .rbt, .BSTgame, .AVLgame, .RBTgame{
     margin-top: 120px;
   }
   .rowCssA3Input, .A3Input{
@@ -1776,18 +1776,6 @@ svg {
   }
   #react-tree-vis li div {
     font-size: 10px;
-  }
-  .css-10awta4{
-    display: flex;
-    justify-content: center;
-    width: 20px;
-  }
-  .css-18svngf{
-    width: 20px;
-    align-items: center;
-  }
-  .css-p90pbm {
-    width: 40px;
   }
   .toggle{
     top: 200px;
